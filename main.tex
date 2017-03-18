@@ -1,9 +1,12 @@
 \documentclass{article}
+
 \usepackage[utf8]{inputenc}
 \usepackage[margin=2cm]{geometry}
 \usepackage{multicol}
+\usepackage{graphicx}
+\graphicspath{{images/navigation/}{images/app/}}
 
-\title{Report}
+\title{Software Design Study Report}
 \author{A-Team}
 
 \begin{document}
@@ -13,36 +16,131 @@
 \section{Overall system design}
 \subsection{Overview}
 \subsubsection{Algorithms}
-\begin{itemize}
-	\item Bidirectional A* Algorithm
-    	\begin{itemize}
-        	\item Heuristics
+  \begin{itemize}
+      \item Bidirectional A* Algorithm
+          \begin{itemize}
+              \item Heuristics
+          \end{itemize}
+      \item K means algorithm --- grouping convoys
+      \item Learning algorithm --- user preferences, Contextually Aware Routing etc
+      % FIND A LEARNING ALGORITHM
+      \item Safety Detection algorithms
+        \begin{itemize}
+            \item Head pose algorithm
+            \item Tesla radar system?
+            \item Recognising bikes -- trained from training images which are bikes
+            % This is if we are detecting bikes using this method of detecting bikes
         \end{itemize}
-	\item K means algorithm -- grouping convoys
-\end{itemize}
-\subsubsection{Data Structures}
-\begin{itemize}
-	\item Graph -- Representing streets and junctions
-    \item Database -- SQLite for app storage    
-\end{itemize}
-\subsubsection{Storage}
-\begin{itemize}
-	\item Cloud storage
-\end{itemize}
-\subsubsection{Communications}
-\subsubsection{Security
-\subsubsection{Interaction Design}
-\subsubsection{Aesthetics/Graphical Design}
+      
+  \end{itemize}
 
+\subsubsection{Data Structures}
+For our navigation algorithm we decided to model the map as a set of nodes and edges where junctions, the start and the destination are nodes and the edges are the roads between these nodes.
+  \begin{itemize}
+      \item Graph --- Representing streets and junctions as edges and nodes
+    	
+      \item Database --- SQLite for app storage    
+  \end{itemize}
+
+\subsubsection{Storage}
+  \begin{itemize}
+      \item Cloud storage - Oracle Database
+          \begin{itemize}
+          	  \item Updated from the car and app
+              \item User Profiles
+              % What is stored here, Car Loc, Settings, Routes (synced with phone), Privileges, seat preferences, driver stats 
+              \item Convoy Groups
+              % Data on member locations, group messages, routes, route changes etc
+              \item Software updates
+          \end{itemize}
+      \item Car SSD Storage
+      \begin{itemize}
+      		\item Cached data from the cloud
+            \item Cached data from applications such as Spotify
+            \item Local music files
+            \item Synchronised contacts from phone
+            \item Dash cam footage
+      \end{itemize}
+  \end{itemize}
+
+\subsubsection{Communications}
+  \begin{itemize}
+      \item Communications between car and phone
+      \begin{itemize}     
+        	\item NFC pairing for Bluetooth and Wi-Fi
+            \item Navigation history shared between app and car to improve destination suggestions
+            \item Remote Control
+            \item Media Control -- Song requests etc.
+	  \end{itemize}
+	  \item Communications between car and cloud (Over in-car LTE and external Wi-Fi if available)     	
+        \begin{itemize}
+          \item Synchronisation with user profiles
+          \item System updates
+          \item Map updates
+          \item Streaming camera feeds
+          \item API calls to the cloud
+          \item Real time event data, for example someone is breaking into your car, car stats (warning lights)
+        \end{itemize}
+      \item Communications between phone and cloud      
+        \begin{itemize}
+        	\item Hashes and timestamps are compared on the server to decide what to synchronise
+            \item API calls to the cloud
+            \item Car camera feeds can be streamed to the phone on-demand over RTSP
+            \item Information regarding convoy setup on phone
+            \item Car software updates from cloud (Gives ability to update car with phone)
+            \item Real time event data from cloud eg someone breaking into your car, car stats (warning lights)
+        \end{itemize}
+	  \item Communications between car and external APIs (API links and mappings provided from cloud)
+        % Talk about how it connects to the cloud which provides a link to the APIs       
+        \begin{itemize}
+        	\item Roadworks
+            \item Traffic
+            \item Weather
+            \item Public Transport
+            \item Note: All API calls are relative to the country the car is located in.
+        \end{itemize}
+	\end{itemize}
+
+\subsubsection{Security}
+	\begin{itemize}
+		\item Database encryption in the cloud
+        \item HTTPS for all internet communications
+        \item WPA2-PSK with AES for Wi-Fi hotspot login
+        \item X509 certificate for the car
+
+	\end{itemize}
+
+\subsubsection{Interaction Design}
+	
+	\begin{itemize}
+		\item Centre console
+        \item Mobile phone
+        \item Rear side door device
+        % Justifications of why we have chosen these interfaces
+	\end{itemize}
+\subsubsection{Aesthetics/Graphical Design}
+	% User Interfaces of the above devices
+    An effort was made to follow current styling standards used in industry to give the user a familiar 	experience, therefore flat designs were used where possible. Also characterising our design are 		large icons and avoidance of large swathes of text.  
+    \begin{itemize}
+		\item Centre console
+        \item Smaller navigation console above centre console
+        \item Mobile phone
+        \item Rear side door device
+        % Justifications of why we have chosen these designs
+	\end{itemize}
 \section{Feature 1: Navigation}
 \subsection{Research}
-Questionnaires
+\begin{itemize}
+	\item Questionnaires
+    \item Researching latest technology
+\end{itemize}
 \subsection{Brainstorming}
 \subsection{Tech background}
 \subsection{Design choices \& argumentation}
 \subsection{Prototypes \& user testing}
 \subsection{Final design}
 \subsection{Evaluation \& how it fits into whole system}
+
 \section{Feature 2: App}
 \subsection{Research}
 \subsection{Brainstorming}
@@ -52,5 +150,7 @@ Questionnaires
 \subsection{Final design}
 \subsection{Evaluation \& how it fits into whole system}
 \section{Other areas}
+
+\section{References}
 %\end{multicols}
 \end{document}
