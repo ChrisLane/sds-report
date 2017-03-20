@@ -14,10 +14,12 @@
 \maketitle
 
 %\begin{multicols}{2}
-\section{Introduction}
-\section{Overall system design}
-\subsection{Overview}
-\subsubsection{Algorithms}
+\begin{abstract}
+Suck my tiny little PENUS no
+\end{abstract}
+
+\section{Overall system design} \label{sec:system-design}
+\subsection{Algorithms} \label{ssec:algorithms}
   \begin{itemize}
       \item Bidirectional A* Algorithm
           \begin{itemize}
@@ -33,10 +35,9 @@
             \item Recognising bikes -- trained from training images which are bikes with riders
             % This is if we are detecting bikes using this method of detecting bikes (we mentioned using the 360 degree vision from the cameras for seeing bikes)
         \end{itemize}
-      
   \end{itemize}
 
-\subsubsection{Data Structures}
+\subsection{Data Structures} \label{ssec:data-structures}
 For our navigation algorithm we decided to model the map as a set of nodes and edges where junctions, the start and the destination are nodes and the edges are the roads between these nodes.
 
     %%%%%%%%%%%%%%%%%%%%%
@@ -50,9 +51,9 @@ For our navigation algorithm we decided to model the map as a set of nodes and e
       \item Database --- SQLite for app storage    
   \end{itemize}
 
-\subsubsection{Storage}
+\subsection{Storage} \label{ssec:storage}
   \begin{itemize}
-      \item Cloud storage - Oracle Database
+      \item Cloud storage% - Oracle Database
           \begin{itemize}
           	  \item Updated from the car and app
               \item User Profiles
@@ -70,9 +71,15 @@ For our navigation algorithm we decided to model the map as a set of nodes and e
             \item Dash cam footage
       \end{itemize}
   \end{itemize}
-
-\subsubsection{Communications}
-Within our whole system we have communications between the Mobile App, the Car and our Cloud. 
+  
+\subsection{User Accounts} \label{ssec:user-accounts} \label{ssec:user-accounts}
+  \begin{itemize}
+  
+  
+\subsection{Communications \& Data Flows} \label{ssec:communications-data}
+Within our system we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
+\newline
+Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the car for communications over Bluetooth and Wi-Fi.
   \begin{itemize}
       \item Communications between car and phone
       \begin{itemize}     
@@ -110,7 +117,7 @@ Within our whole system we have communications between the Mobile App, the Car a
         \end{itemize}
 	\end{itemize}
 
-\subsubsection{Security}
+\subsection{Information Security} \la
 	\begin{itemize}
 		\item Database encryption in the cloud
         \item HTTPS for all internet communications
@@ -130,7 +137,7 @@ The interaction designs used on our product's interfaces were designed loosely b
       \item Rear side door device
       % Justifications of why we have chosen these interfaces
     \end{itemize}
-\subsubsection{Aesthetics/Graphical Design}
+\subsection{Aesthetics/Graphical Design}
 % User Interfaces of the above devices
 An effort was made to follow current styling standards used in industry to give the user a familiar experience, therefore flat designs were used where possible. Also characterising our design are large icons and avoidance of large swathes of text.  
     
@@ -151,18 +158,27 @@ An effort was made to follow current styling standards used in industry to give 
     \item Researching latest technology
   \end{itemize}
 \subsection{Brainstorming}
+% Should we cite our initial ideas document?
+Our first stage of brainstorming was to create a Google Drive document, in which we started writing down our ideas while discussing them and generating further ideas through our discussions. During this initial stage, all ideas discussed were noted down and not removed, to keep the design space open and to 
 	\begin{itemize}
 		\item Collectively worked together to put down all of our ideas into a google doc
 		\item No ruling out of ideas
-		\item Finally moved everything into a final document. Discussed in a group on each point on whether it should be added or not
+		\item Finally moved everything into a final document. Discussed each point as a group to decide what was worth expanding
         \item Things specific to the nav brainstorm i.e. the ideas to come out of it
 	\end{itemize}
 \subsection{Tech background}
-(Most of this seems like it would be algorithms again, so we plan to expand on the algorithms further than was detailed in section 2.1.1)
+(Most of this seems like it would be algorithms again, so we plan to expand on the algorithms further than was detailed in section 2.1)
   \begin{itemize}
     \item Bidirectional A* search
     \item K-means clustering
   \end{itemize}
+  
+\subsection{Convoy}
+	\begin{itemize}
+    	\item Convoy interface
+        \item Features
+        \item App
+    \end{itemize}
   % Include limitations of the above and how we combat them
 \subsection{Design choices \& argumentation}
   \begin{itemize}
@@ -184,7 +200,7 @@ An effort was made to follow current styling standards used in industry to give 
 \section{Feature 2: App}
 \subsection{Research}
 Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar, BMW and Tesla already offer multi-platform mobile apps that compliment their automobiles. Each of the the above boasts at least one of the features that we intended to integrate in our system such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features. 
-The research methods we used include a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and several searches on search engines.
+The research methods we used include a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines. 
 	\begin{itemize}
 		\item Existing apps that accompany a car
         \item Current technology
@@ -196,14 +212,14 @@ The research methods we used include a questionnaire, installing and using manuf
     	% First 3 points are same as section 3.2
 		\item Collectively worked together to put down all of our ideas into a google doc
 		\item No ruling out of ideas
-		\item Finally moved everything into a final document. Discussed in a group on each point on whether it should be added or not
+		\item Finally moved everything into a final document. Discussed each point as a group to decide what was worth expanding
         \item Things specific to the app brainstorm i.e. the ideas to come out of it
 	\end{itemize}
 \subsection{Tech background}
 	\begin{itemize}
 		\item Communication
         \begin{itemize}
-        	\item (See section 2.1.4?)
+        	\item (See section 2.4?)
         	\item To and from car
             \begin{itemize}
             	\item Initial connection with the car (Bluetooth/Wifi/RFID)
@@ -220,7 +236,7 @@ The research methods we used include a questionnaire, installing and using manuf
         \end{itemize}
         \item 
 	\end{itemize}
-    % Repeating what is said in communication (2.1.4) ^^
+    % Repeating what is said in communication (2.4) ^^
     
 \subsection{Design choices \& argumentation}
   \begin{itemize}
@@ -234,9 +250,14 @@ The research methods we used include a questionnaire, installing and using manuf
     \label{main-menu}
   \end{figure}
 \subsection{Final design}
+
 \subsection{Evaluation \& how it fits into whole system}
+
 \section{Other areas}
+
 Annotate slides on changes we would make going forwards
 \section{References}
+
 %\end{multicols}
+
 \end{document}
