@@ -15,8 +15,13 @@
 
 %\begin{multicols}{2}
 \begin{abstract}
-Suck my tiny little PENUS no
+Cars are ubiquitous in our modern lifestyles, unfortunately, the software systems in them do not keep up with other computing systems that we use. In this report, we aim to show how we tackled the problems and areas for improvement that we found in current car systems. Five areas of a modern car's feature set were focused on weekly, these being; the dashboard, media, navigation, safety and an accompanying smartphone app.
 \end{abstract}
+
+\section*{Introduction}
+For years car companies have invested relatively little into their car's information systems and technological abilities. Inbuilt Sat Nav systems are often hard to use, update and are counter-intuitive. Since car companies are slow to adopt new technologies, even features that would have been possible many many years ago have not been widely used yet. For example, we still use the physical dials in the instrument cluster that we have used for years.
+
+We have created an attractive and modern solution for digital technology in a car that we hope to see in future modern cars in production. In section~\ref{sec:system-design} we will give explain the technical elements of our system design that can be found ranging from navigation to safety features. In section~\ref{sec:nav} we will go into detail on the design process of our navigation system. In section~\ref{sec:app} we will go into detail on the design process of our accompanying smartphone app.
 
 \section{Overall system design} \label{sec:system-design}
 \subsection{Algorithms} \label{ssec:algorithms}
@@ -35,6 +40,7 @@ Suck my tiny little PENUS no
             \item Recognising bikes -- trained from training images which are bikes with riders
             % This is if we are detecting bikes using this method of detecting bikes (we mentioned using the 360 degree vision from the cameras for seeing bikes)
         \end{itemize}
+      \item Something for tiredness detection
   \end{itemize}
 
 \subsection{Data Structures} \label{ssec:data-structures}
@@ -73,14 +79,13 @@ For our navigation algorithm we decided to model the map as a set of nodes and e
   \end{itemize}
   
 \subsection{User Accounts} \label{ssec:user-accounts}
+
   \begin{itemize}
-  	\item
- \end{itemize} 
+   	\item
+ \end{itemize}
   
 \subsection{Communications \& Data Flows} \label{ssec:communications-data}
-Within our system we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
-\newline
-Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the car for communications over Bluetooth and Wi-Fi.
+Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs. Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the car for communications over Bluetooth and Wi-Fi.
   	\begin{itemize}
       \item Communications between car and phone
       \begin{itemize}     
@@ -152,7 +157,15 @@ An effort was made to follow current styling standards used in industry to give 
         \item Rear side door device
         % Justifications of why we have chosen these designs
 	\end{itemize}
-    
+
+
+
+
+%%%%%%%%%%%%%%
+%
+%	NAV
+%
+%%%%%%%%%%%%%%
 \section{Feature 1: Navigation} \label{sec:nav}
 
 \subsection{Research} \label{ssec:nav-research}
@@ -163,7 +176,9 @@ An effort was made to follow current styling standards used in industry to give 
   
 \subsection{Brainstorming} \label{ssec:nav-brainstorming}
 % Should we cite our initial ideas document?
-Our first stage of brainstorming was to create a Google Drive document, in which we started writing down our ideas while discussing them and generating further ideas through our discussions. During this initial stage, all ideas discussed were noted down and not removed, to keep the design space open and to encourage further discussion of it in a later iteration.
+Our first stage of brainstorming was to create a Google Drive document, in which we started writing down our ideas while discussing them and generating further ideas through our discussions. During this initial stage, all ideas discussed were noted down and not removed, to keep the design space open and to encourage further discussion of it in a later iteration. After this initial stage, and an iteration of research, we went through this document and discussed as a group what is
+
+An aid we found very useful was personas, a list of made-up personalities with realistic interests, jobs and attributes. During the brainstorming each of us tried to empathise with the different personas and think about their habits, things they enjoy, their mental states throughout different times of the day and from there, think of their needs, features they would enjoy and why.
 	\begin{itemize}
 		\item Collectively worked together to put down all of our ideas into a google doc
 		\item No ruling out of ideas
@@ -206,17 +221,27 @@ Our first stage of brainstorming was to create a Google Drive document, in which
 
 \subsection{Evaluation \& how it fits into whole system} \label{ssec:nav-evaluation}
 
+
+
+
+%%%%%%%%%%%%%%
+%
+%	APP
+%
+%%%%%%%%%%%%%%
 \section{Feature 2: App} \label{sec:app}
-\subsection{Research} \label{}
-Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar, BMW and Tesla already offer multi-platform mobile apps that compliment their automobiles. Each of the the above boasts at least one of the features that we intended to integrate in our system such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features. 
-The research methods we used include a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines. Another research aid we found very useful was making use of personas, a list of made-up users with realistic interests, jobs and attributes. During the brainstorming each of us tried to empathise with the different personas and think of features they would like and those they wouldn't, 
+
+\subsection{Research} \label{ssec:app-research}
+Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar, BMW and Tesla already offer multi-platform mobile apps that compliment their automobiles. Each of the above boasts at least one of the features that we intended to integrate into our systems such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features. 
+The research methods we used included a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines.
 	\begin{itemize}
 		\item Existing apps that accompany a car
         \item Current technology
 		\item How personas might want to interact with an app
         % Link to a persona document in the appendix
 	\end{itemize}
-\subsection{Brainstorming}
+\subsection{Brainstorming} \label{ssec:app-brainstorming}
+
 	\begin{itemize}
     	% First 3 points are same as section 3.2
 		\item Collectively worked together to put down all of our ideas into a google doc
@@ -224,14 +249,14 @@ The research methods we used include a questionnaire, installing and using manuf
 		\item Finally moved everything into a final document. Discussed each point as a group to decide what was worth expanding
         \item Things specific to the app brainstorm i.e. the ideas to come out of it
 	\end{itemize}
-\subsection{Tech background}
+\subsection{Tech background} \label{ssec:app-tech}
 	\begin{itemize}
 		\item Communication
         \begin{itemize}
         	\item (See section 2.4?)
         	\item To and from car
             \begin{itemize}
-            	\item Initial connection with the car (Bluetooth/Wifi/RFID)
+            	\item Initial connection with the car (Bluetooth/Wi-Fi/RFID)
                 \item Communicating remote control instructions
                 \item Other instructions (Media control, Controlling hardware)
             \end{itemize}
@@ -247,25 +272,27 @@ The research methods we used include a questionnaire, installing and using manuf
 	\end{itemize}
     % Repeating what is said in communication (2.4) ^^
     
-\subsection{Design choices \& argumentation}
+\subsection{Design choices \& argumentation} \label{ssec:app-design}
   \begin{itemize}
     \item QOC (to be made)
   \end{itemize}
-\subsection{Prototypes \& user testing}
+  
+\subsection{Prototypes \& user testing} \label{ssec:app-prototypes-testing}
   \begin{figure}[H]
     \centering
     \includegraphics[scale=0.25]{main-menu}
     \caption{Hi-Fi prototype of app main menu.}
     \label{main-menu}
   \end{figure}
-\subsection{Final design}
+  
+\subsection{Final design} \label{ssec:app-final-design}
 
-\subsection{Evaluation \& how it fits into whole system}
+\subsection{Evaluation \& how it fits into whole system} \label{ssec:app-evaluation}
 
-\section{Other areas}
+\section{Other areas} \label{sec:other}
 
 Annotate slides on changes we would make going forwards
-\section{References}
+\section{References} \label{sec:references}
 
 %\end{multicols}
 
