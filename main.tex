@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[margin=2cm]{geometry}
 \usepackage{multicol}
+\usepackage{float}
 \usepackage{graphicx}
 \graphicspath{{images/navigation/}{images/app/}}
 
@@ -13,6 +14,7 @@
 \maketitle
 
 %\begin{multicols}{2}
+\section{Introduction}
 \section{Overall system design}
 \subsection{Overview}
 \subsubsection{Algorithms}
@@ -28,7 +30,7 @@
         \begin{itemize}
             \item Head pose algorithm
             \item Tesla radar system?
-            \item Recognising bikes -- trained from training images which are bikes
+            \item Recognising bikes -- trained from training images which are bikes with riders
             % This is if we are detecting bikes using this method of detecting bikes
         \end{itemize}
       
@@ -36,9 +38,15 @@
 
 \subsubsection{Data Structures}
 For our navigation algorithm we decided to model the map as a set of nodes and edges where junctions, the start and the destination are nodes and the edges are the roads between these nodes.
+
+    %%%%%%%%%%%%%%%%%%%%%
+	%	PLAN
+    %%%%%%%%%%%%%%%%%%%%%
   \begin{itemize}
-      \item Graph --- Representing streets and junctions as edges and nodes
-    	
+      \item Navigation: Graph --- Representing streets and junctions as edges and nodes
+      \item Navigation: Route
+	  \item Profile Data
+      \item Dashboard layout?
       \item Database --- SQLite for app storage    
   \end{itemize}
 
@@ -64,6 +72,7 @@ For our navigation algorithm we decided to model the map as a set of nodes and e
   \end{itemize}
 
 \subsubsection{Communications}
+Within our whole system we have communications 
   \begin{itemize}
       \item Communications between car and phone
       \begin{itemize}     
@@ -106,21 +115,28 @@ For our navigation algorithm we decided to model the map as a set of nodes and e
 		\item Database encryption in the cloud
         \item HTTPS for all internet communications
         \item WPA2-PSK with AES for Wi-Fi hotspot login
-        \item X509 certificate for the car
-
+        \item X.509 certificate for the car
 	\end{itemize}
 
 \subsubsection{Interaction Design}
-	
-	\begin{itemize}
-		\item Centre console
-        \item Mobile phone
-        \item Rear side door device
-        % Justifications of why we have chosen these interfaces
-	\end{itemize}
+The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses.
+
+    %%%%%%%%%%%%%%%%%%%%%
+	%	PLAN
+    %%%%%%%%%%%%%%%%%%%%%
+    \begin{itemize}
+      \item Centre console
+      \item Mobile phone
+      \item Rear side door device
+      % Justifications of why we have chosen these interfaces
+    \end{itemize}
 \subsubsection{Aesthetics/Graphical Design}
-	% User Interfaces of the above devices
-    An effort was made to follow current styling standards used in industry to give the user a familiar 	experience, therefore flat designs were used where possible. Also characterising our design are 		large icons and avoidance of large swathes of text.  
+% User Interfaces of the above devices
+An effort was made to follow current styling standards used in industry to give the user a familiar experience, therefore flat designs were used where possible. Also characterising our design are large icons and avoidance of large swathes of text.  
+    
+    %%%%%%%%%%%%%%%%%%%%%
+	%	PLAN
+    %%%%%%%%%%%%%%%%%%%%%
     \begin{itemize}
 		\item Centre console
         \item Smaller navigation console above centre console
@@ -130,27 +146,97 @@ For our navigation algorithm we decided to model the map as a set of nodes and e
 	\end{itemize}
 \section{Feature 1: Navigation}
 \subsection{Research}
-\begin{itemize}
-	\item Questionnaires
+  \begin{itemize}
+    \item Questionnaires
     \item Researching latest technology
-\end{itemize}
+  \end{itemize}
 \subsection{Brainstorming}
+	\begin{itemize}
+		\item Collectively worked together to put down all of our ideas into a google doc
+		\item No ruling out of ideas
+		\item Finally moved everything into a final document. Discussed in a group on each point on whether it should be added or not
+        \item Things specific to the nav brainstorm i.e. the ideas to come out of it
+	\end{itemize}
 \subsection{Tech background}
+(Most of this seems like it would be algorithms again, so we plan to expand on the algorithms further than was detailed in section 2.1.1)
+  \begin{itemize}
+    \item Bidirectional A* search
+    \item K-means clustering
+  \end{itemize}
+  % Include limitations of the above and how we combat them
 \subsection{Design choices \& argumentation}
+  \begin{itemize}
+    \item QOC
+    \item Justification for algorithms
+    % Would this be better placed in the previous section?
+      \begin{itemize}
+        \item Routing
+        \item Clustering
+      \end{itemize}
+  \end{itemize}
 \subsection{Prototypes \& user testing}
+\begin{itemize}
+	\item Lo-Fi and Hi-Fi prototypes of Navigation
+\end{itemize}
 \subsection{Final design}
 \subsection{Evaluation \& how it fits into whole system}
 
 \section{Feature 2: App}
 \subsection{Research}
+Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar, BMW and Tesla already offer multi-platform mobile apps that compliment their automobiles. Each of the the above boasts at least one of the features that we intended to integrate in our system such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features. 
+The research methods we used include a questionnaire, installing and browsing manufacturers apps on our mobile device
+	\begin{itemize}
+		\item Existing apps that accompany a car
+        \item Current technology
+		\item How personas might want to interact with an app
+        % Link to a persona document in the appendix
+	\end{itemize}
 \subsection{Brainstorming}
+	\begin{itemize}
+    	% First 3 points are same as section 3.2
+		\item Collectively worked together to put down all of our ideas into a google doc
+		\item No ruling out of ideas
+		\item Finally moved everything into a final document. Discussed in a group on each point on whether it should be added or not
+        \item Things specific to the app brainstorm i.e. the ideas to come out of it
+	\end{itemize}
 \subsection{Tech background}
+	\begin{itemize}
+		\item Communication
+        \begin{itemize}
+        	\item (See section 2.1.4?)
+        	\item To and from car
+            \begin{itemize}
+            	\item Initial connection with the car (Bluetooth/Wifi/RFID)
+                \item Communicating remote control instructions
+                \item Other instructions (Media control, Controlling hardware)
+            \end{itemize}
+            \item To and from Cloud
+            \begin{itemize}
+            	\item Authenticating User profiles
+                \item Syncing data
+                \item Feeds which are streamed (Camera feeds, )
+                \item Information such as Car location
+            \end{itemize}
+        \end{itemize}
+        \item 
+	\end{itemize}
+    % Repeating what is said in communication (2.1.4) ^^
+    
 \subsection{Design choices \& argumentation}
+  \begin{itemize}
+    \item QOC (to be made)
+  \end{itemize}
 \subsection{Prototypes \& user testing}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{main-menu}
+    \caption{Hi-Fi prototype of app main menu.}
+    \label{main-menu}
+  \end{figure}
 \subsection{Final design}
 \subsection{Evaluation \& how it fits into whole system}
 \section{Other areas}
-
+Annotate slides on changes we would make going forwards
 \section{References}
 %\end{multicols}
 \end{document}
