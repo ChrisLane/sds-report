@@ -23,8 +23,8 @@ For years car companies have invested relatively little into their car's informa
 
 We have created an attractive and modern solution for digital technology in a car that we hope to see in future modern cars in production. In section~\ref{sec:system-design} we will give explain the technical elements of our system design that can be found ranging from navigation to safety features. In section~\ref{sec:nav} we will go into detail on the design process of our navigation system. In section~\ref{sec:app} we will go into detail on the design process of our accompanying smartphone app.
 
-\section{Overall system design} \label{sec:system-design}
-\subsection{Algorithms} \label{ssec:algorithms}
+\section{Overall system design}\label{sec:system-design}
+\subsection{Algorithms}\label{ssec:algorithms}
   \begin{itemize}
       \item Bidirectional A* Algorithm
           \begin{itemize}
@@ -43,7 +43,7 @@ We have created an attractive and modern solution for digital technology in a ca
       \item Something for tiredness detection
   \end{itemize}
 
-\subsection{Data Structures} \label{ssec:data-structures}
+\subsection{Data Structures}\label{ssec:data-structures}
 For our navigation algorithm we decided to model the map as a set of nodes and edges where junctions, the start and the destination are nodes and the edges are the roads between these nodes.
 
     %%%%%%%%%%%%%%%%%%%%%
@@ -52,39 +52,39 @@ For our navigation algorithm we decided to model the map as a set of nodes and e
   \begin{itemize}
       \item Navigation: Graph --- Representing streets and junctions as edges and nodes
       \item Navigation: Route
-	  \item Profile Data
+      \item Profile Data
       \item Dashboard layout?
-      \item Database --- SQLite for app storage    
+      \item Database --- SQLite for app storage
   \end{itemize}
 
-\subsection{Storage} \label{ssec:storage}
+\subsection{Storage}\label{ssec:storage}
   \begin{itemize}
       \item Cloud storage% - Oracle Database
           \begin{itemize}
-          	  \item Updated from the car and app
-              \item User Profiles
-              % What is stored here, Car Loc, Settings, Routes (synced with phone), Privileges, seat preferences, driver stats 
-              \item Convoy Groups
-              % Data on member locations, group messages, routes, route changes etc
-              \item Software updates
+            \item Updated from the car and app
+            \item User Profiles
+            % What is stored here, Car Loc, Settings, Routes (synced with phone), Privileges, seat preferences, driver stats 
+            \item Convoy Groups
+            % Data on member locations, group messages, routes, route changes etc
+            \item Software updates
           \end{itemize}
       \item Car SSD Storage
       \begin{itemize}
-      		\item Cached data from the cloud
-            \item Cached data from applications such as Spotify
-            \item Local music files
-            \item Synchronised contacts from phone
-            \item Dash cam footage
+        \item Cached data from the cloud
+        \item Cached data from applications such as Spotify
+        \item Local music files
+        \item Synchronised contacts from phone
+        \item Dash cam footage
       \end{itemize}
   \end{itemize}
   
-\subsection{User Accounts} \label{ssec:user-accounts}
+\subsection{User Accounts}\label{ssec:user-accounts}
 
   \begin{itemize}
    	\item
  \end{itemize}
   
-\subsection{Communications \& Data Flows} \label{ssec:communications-data}
+\subsection{Communications \& Data Flows}\label{ssec:communications-data}
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs. Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the car for communications over Bluetooth and Wi-Fi.
   	\begin{itemize}
       \item Communications between car and phone
@@ -123,7 +123,7 @@ Within our system, we have communications between the Mobile App, the Car and ou
         \end{itemize}
 	\end{itemize}
 
-\subsection{Information Security} \label{ssec:information-security}
+\subsection{Information Security}\label{ssec:information-security}
 	\begin{itemize}
 		\item Database encryption in the cloud
         \item HTTPS for all internet communications
@@ -131,7 +131,7 @@ Within our system, we have communications between the Mobile App, the Car and ou
         \item X.509 certificate for the car
 	\end{itemize}
 
-\subsubsection{Interaction Design} \label{sssec:interaction-design}
+\subsubsection{Interaction Design}\label{sssec:interaction-design}
 The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses.
 
     %%%%%%%%%%%%%%%%%%%%%
@@ -143,7 +143,7 @@ The interaction designs used on our product's interfaces were designed loosely b
       \item Rear side door device
       % Justifications of why we have chosen these interfaces
     \end{itemize}
-\subsection{Aesthetics/Graphical Design} \label{ssec:aesthetics}
+\subsection{Aesthetics/Graphical Design}\label{ssec:aesthetics}
 % User Interfaces of the above devices
 An effort was made to follow current styling standards used in industry to give the user a familiar experience, therefore flat designs were used where possible. Also characterising our design are large icons and avoidance of large swathes of text.  
     
@@ -166,15 +166,15 @@ An effort was made to follow current styling standards used in industry to give 
 %	NAV
 %
 %%%%%%%%%%%%%%
-\section{Feature 1: Navigation} \label{sec:nav}
+\section{Feature 1: Navigation}\label{sec:nav}
 
-\subsection{Research} \label{ssec:nav-research}
+\subsection{Research}\label{ssec:nav-research}
   \begin{itemize}
     \item Questionnaires
     \item Researching latest technology
   \end{itemize}
   
-\subsection{Brainstorming} \label{ssec:nav-brainstorming}
+\subsection{Brainstorming}\label{ssec:nav-brainstorming}
 % Should we cite our initial ideas document?
 Our first stage of brainstorming was to create a Google Drive document, in which we started writing down our ideas while discussing them and generating further ideas through our discussions. During this initial stage, all ideas discussed were noted down and not removed, to keep the design space open and to encourage further discussion of it in a later iteration. After this initial stage, and an iteration of research, we went through this document and discussed as a group what is
 
@@ -183,17 +183,17 @@ An aid we found very useful was personas, a list of made-up personalities with r
 		\item Collectively worked together to put down all of our ideas into a google doc
 		\item No ruling out of ideas
 		\item Finally moved everything into a final document. Discussed each point as a group to decide what was worth expanding
-        \item Things specific to the nav brainstorm i.e. the ideas to come out of it
+        \item Things specific to the nav brainstorm i.e.\ the ideas to come out of it
 	\end{itemize}
     
-\subsection{Tech background} \label{ssec:nav-tech}
+\subsection{Tech background}\label{ssec:nav-tech}
 (Most of this seems like it would be algorithms again, so we plan to expand on the algorithms further than was detailed in section 2.1)
   \begin{itemize}
     \item Bidirectional A* search
     \item K-means clustering
   \end{itemize}
   
-\subsection{Convoy} \label{ssec:nav-convoy}
+\subsection{Convoy}\label{ssec:nav-convoy}
 	\begin{itemize}
     	\item Convoy interface
         \item Features
@@ -201,7 +201,7 @@ An aid we found very useful was personas, a list of made-up personalities with r
     \end{itemize}
   % Include limitations of the above and how we combat them
   
-\subsection{Design choices \& argumentation} \label{ssec:nav-design}
+\subsection{Design choices \& argumentation}\label{ssec:nav-design}
   \begin{itemize}
     \item QOC
     \item Justification for algorithms
@@ -212,14 +212,14 @@ An aid we found very useful was personas, a list of made-up personalities with r
       \end{itemize}
   \end{itemize}
   
-\subsection{Prototypes \& user testing} \label{ssec:nav-prototypes-testing}
+\subsection{Prototypes \& user testing}\label{ssec:nav-prototypes-testing}
 \begin{itemize}
 	\item Lo-Fi and Hi-Fi prototypes of Navigation
 \end{itemize}
 
-\subsection{Final design} \label{ssec:nav-final-design}
+\subsection{Final design}\label{ssec:nav-final-design}
 
-\subsection{Evaluation \& how it fits into whole system} \label{ssec:nav-evaluation}
+\subsection{Evaluation \& how it fits into whole system}\label{ssec:nav-evaluation}
 
 
 
@@ -229,9 +229,9 @@ An aid we found very useful was personas, a list of made-up personalities with r
 %	APP
 %
 %%%%%%%%%%%%%%
-\section{Feature 2: App} \label{sec:app}
+\section{Feature 2: App}\label{sec:app}
 
-\subsection{Research} \label{ssec:app-research}
+\subsection{Research}\label{ssec:app-research}
 Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar, BMW and Tesla already offer multi-platform mobile apps that compliment their automobiles. Each of the above boasts at least one of the features that we intended to integrate into our systems such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features. 
 The research methods we used included a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines.
 	\begin{itemize}
@@ -240,16 +240,16 @@ The research methods we used included a questionnaire, installing and using manu
 		\item How personas might want to interact with an app
         % Link to a persona document in the appendix
 	\end{itemize}
-\subsection{Brainstorming} \label{ssec:app-brainstorming}
+\subsection{Brainstorming}\label{ssec:app-brainstorming}
 
 	\begin{itemize}
     	% First 3 points are same as section 3.2
 		\item Collectively worked together to put down all of our ideas into a google doc
 		\item No ruling out of ideas
 		\item Finally moved everything into a final document. Discussed each point as a group to decide what was worth expanding
-        \item Things specific to the app brainstorm i.e. the ideas to come out of it
+        \item Things specific to the app brainstorm i.e.\ the ideas to come out of it
 	\end{itemize}
-\subsection{Tech background} \label{ssec:app-tech}
+\subsection{Tech background}\label{ssec:app-tech}
 	\begin{itemize}
 		\item Communication
         \begin{itemize}
@@ -272,12 +272,12 @@ The research methods we used included a questionnaire, installing and using manu
 	\end{itemize}
     % Repeating what is said in communication (2.4) ^^
     
-\subsection{Design choices \& argumentation} \label{ssec:app-design}
+\subsection{Design choices \& argumentation}\label{ssec:app-design}
   \begin{itemize}
     \item QOC (to be made)
   \end{itemize}
   
-\subsection{Prototypes \& user testing} \label{ssec:app-prototypes-testing}
+\subsection{Prototypes \& user testing}\label{ssec:app-prototypes-testing}
   \begin{figure}[H]
     \centering
     \includegraphics[scale=0.25]{main-menu}
@@ -285,14 +285,14 @@ The research methods we used included a questionnaire, installing and using manu
     \label{main-menu}
   \end{figure}
   
-\subsection{Final design} \label{ssec:app-final-design}
+\subsection{Final design}\label{ssec:app-final-design}
 
-\subsection{Evaluation \& how it fits into whole system} \label{ssec:app-evaluation}
+\subsection{Evaluation \& how it fits into whole system}\label{ssec:app-evaluation}
 
-\section{Other areas} \label{sec:other}
+\section{Other areas}\label{sec:other}
 
 Annotate slides on changes we would make going forwards
-\section{References} \label{sec:references}
+\section{References}\label{sec:references}
 
 %\end{multicols}
 
