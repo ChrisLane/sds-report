@@ -104,25 +104,15 @@ Firstly, instructions such as turn the heating on or toggling headlights will be
 
 Secondly, instruction-critical tasks such as remote controlling the car with the phone app, rapidly send instructions to the car to ensure the car is performing actions safely and as the user expects. For example, if a user is holding the steering wheel at a 45 degree angle, the associated instruction will be sent constantly and processed by the central computing unit until the user changes the rotation. If the phone would happen to lose connection and the instructions stop being received by the car, the car is stopped.
 
-Features for controlling music within the car are communicated over Wi-Fi and Bluetooth. The local music library of the car is synced with the phone, and also the spotify account linked to the drivers user profile is logged in on the centre console.
+Features for controlling music within the car are communicated over Wi-Fi and Bluetooth. The local music library of the car is synced with the phone, and also there is a spotify account linked to the drivers user profile. Which is logged in on the centre console.
 
 All messages regarding the control of music with the app, are encapsulated within a JSON object. These messages will hold instructions such as play, pause and song requests. Song requests will contain music file names and the library they are stored in.
-If music is from spotify, then associated actions for controlling the spotify account logged in on the centre console are embedded within the message.
+If music is from spotify, then associated actions for controlling the spotify account, which is logged in on the centre console are embedded within the message.
 
--- Spotify: 
--- Centre console can be controlled over wifi by multiple different user spotify accounts using SPOTIFY APP
--- Done with spotify connect sdk
--- Our APP
--- Local music synced with the car
--- Our app shows the library of local music, which songs can be added/skipped etc
--- Also have access to the spotify account on centre console for doing actions THROUGH that account
+There is also the option to control the centre console spotify account using spotify's "spotify connect" service. This allows you to control other spotify devices on the same network. The Wi-Fi network of the car in this case.
 
-\begin{itemize}
-  \item NFC pairing for Bluetooth and Wi-Fi
-  \item Remote Control
-  \item Media Control --- Song requests etc.
-\end{itemize}
 \subsubsection{Communication between phone and cloud}
+
 \begin{itemize}
   \item Hashes and timestamps are compared on the server to decide what to synchronise
   \item API calls to the cloud
@@ -178,13 +168,14 @@ A major focus for any internet connected technology is security, and with our ca
 
 \subsection{Interaction Design - Matt}\label{ssec:interaction-design}
 The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses. Our product requires three main interactive interfaces for users to effectively communicate with the in-car system:
-\subsubsection{Centre console}\label{sssec:centr-console}
+
+\subsubsection{Centre console}\label{sssec:centre-console}
 This is a 10" screen located in the middle section of the dashboard. Its purpose is that of displaying most of the information that flows through the car that may be of interest to the user and for the user to interact with it. For instance, destination input for the navigation system, joining and managing convoys, customising the instrument cluster, querying the system for detailed engine data and many more interactions will be performed on this device. 
 
 We found that in the recent years the integration of touch screens on dashboards has become a recurrent trend amongst major manufacturers and believe that it is an essential feature for the cars of the future due to how visible, versatile and aesthetically pleasing they are. 
 
 \subsubsection{Mobile app}\label{sssec:mobile-app}
-As usage of mobile apps is constantly increasing, more and more industry leading companies are adopting this as a new mean of interaction with their automobiles. We firmly believe that this will become and essential feature to all cars within a few year and therefore have designed and prototyped one. More detail can be found in \ref{sec:app}.
+As usage of mobile apps is constantly increasing, more and more industry leading companies are adopting this as a new mean of interaction with their automobiles. We firmly believe that this will become and essential feature to all cars within a few year and therefore have designed and prototyped one. More detail can be found in Section~\ref{sec:app}.
 
 \subsubsection{Device on rear doors}\label{sssec:device-rear-doors}
 Each of the rear door cards will be fitted with a 5" touch screen device that enables passengers in the rear of the car to search and add songs to the cars' shared music queue from different streaming services or a local library. 
