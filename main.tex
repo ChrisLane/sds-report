@@ -68,7 +68,7 @@ An SQLite database will exist in the local storage of the car, this database wil
 
 The smartphone app for the car system will use the same data structure for maps as the car uses. Cache data from the cloud and car will be stored in an SQLite database.
 
-\subsection{User Accounts - Matt}\label{ssec:user-accounts}
+\subsection{User Accounts --- Matt}\label{ssec:user-accounts}
 Something that we found is lacking across intelligent car systems in the market is the use of portable user profiles. By this we mean profiles that can be used across several cars, applying user settings and preferences where applicable.
 There are several ways in which such data can be encapsulated and moved from car to car, including serving a database from a server to the car, transport via Bluetooth directly from a smartphone, use of NFC tags and many others.
 \subsubsection{Storage and transport}
@@ -82,7 +82,7 @@ Each user will have one account that will be able to contain multiple car profil
 \end{figure}
 
 
-\subsection{Communications \& Data Flows - Tyler}\label{ssec:communications-data}
+\subsection{Communications \& Data Flows --- Tyler}\label{ssec:communications-data}
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
 
 \subsubsection{Communication between car and cloud}
@@ -109,7 +109,7 @@ Features for controlling music within the car are communicated over Wi-Fi and Bl
 All messages regarding the control of music with the app, are encapsulated within a JSON object. These messages will hold instructions such as play, pause and song requests. Song requests will contain music file names and the library they are stored in.
 If music is from spotify, then associated actions for controlling the spotify account, which is logged in on the centre console are embedded within the message.
 
-There is also the option to control the centre console spotify account using spotify's "spotify connect" service. This allows you to control other spotify devices on the same network. The Wi-Fi network of the car in this case.
+There is also the option to control the centre console spotify account using spotify's ``spotify connect'' service. This allows you to control other spotify devices on the same network. The Wi-Fi network of the car in this case.
 
 \subsubsection{Communication between phone and cloud}
 
@@ -141,7 +141,7 @@ There is also the option to control the centre console spotify account using spo
   \item Communications between car and external APIs (API links and mappings provided from cloud)
 \end{itemize}
 
-\subsection{Information Security - Joe}\label{ssec:information-security}
+\subsection{Information Security --- Joe}\label{ssec:information-security}
 A major focus for any internet connected technology is security, and with our car systems it is no different- the last thing a customer would want is to have their car stolen by it being driven into the distance by a remote thief. Security is a primary focus in every aspect of the car system, the following non-exhaustive list are some of our main focuses
 
 \subsubsection{Data communication}
@@ -166,11 +166,11 @@ A major focus for any internet connected technology is security, and with our ca
   \item X.509 certificate for the car
 \end{itemize}
 
-\subsection{Interaction Design - Matt}\label{ssec:interaction-design}
+\subsection{Interaction Design --- Matt}\label{ssec:interaction-design}
 The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses. Our product requires three main interactive interfaces for users to effectively communicate with the in-car system:
 
 \subsubsection{Centre console}\label{sssec:centre-console}
-This is a 10" screen located in the middle section of the dashboard. Its purpose is that of displaying most of the information that flows through the car that may be of interest to the user and for the user to interact with it. For instance, destination input for the navigation system, joining and managing convoys, customising the instrument cluster, querying the system for detailed engine data and many more interactions will be performed on this device.
+This is a 10 inch screen located in the middle section of the dashboard. Its purpose is that of displaying most of the information that flows through the car that may be of interest to the user and for the user to interact with it. For instance, destination input for the navigation system, joining and managing convoys, customising the instrument cluster, querying the system for detailed engine data and many more interactions will be performed on this device.
 
 We found that in the recent years the integration of touch screens on dashboards has become a recurrent trend amongst major manufacturers and believe that it is an essential feature for the cars of the future due to how visible, versatile and aesthetically pleasing they are.
 
@@ -178,11 +178,12 @@ We found that in the recent years the integration of touch screens on dashboards
 As usage of mobile apps is constantly increasing, more and more industry leading companies are adopting this as a new mean of interaction with their automobiles. We firmly believe that this will become and essential feature to all cars within a few year and therefore have designed and prototyped one. More detail can be found in Section~\ref{sec:app}.
 
 \subsubsection{Device on rear doors}\label{sssec:device-rear-doors}
-Each of the rear door cards will be fitted with a 5" touch screen device that enables passengers in the rear of the car to search and add songs to the cars' shared music queue from different streaming services or a local library.
+Each of the rear door cards will be fitted with a 5 inch touch screen device that enables passengers in the rear of the car to search and add songs to the cars' shared music queue from different streaming services or a local library.
 
-\subsection{Aesthetics/Graphical Design - Matt}\label{ssec:aesthetics}
+\subsection{Aesthetics/Graphical Design --- Matt}\label{ssec:aesthetics}
 % User Interfaces of the above devices
 An effort was made to follow current styling standards used in industry to give the user a familiar experience, therefore flat designs were used where possible. Also characterising our design are large icons and avoidance of large swathes of text.
+
 \subsubsection{Dashboard cluster screen}\label{1.8.1}
 A screen will be replacing the usual instrument cluster behind the steering wheel. This will display information relative to speed, engine revolutions, fuel levels as it has been doing for the past decades but with the twist
 
@@ -207,13 +208,13 @@ A screen will be replacing the usual instrument cluster behind the steering whee
 %%%%%%%%%%%%%%
 \section{Feature 1: Navigation}\label{sec:nav}
 
-\subsection{Research - Lewis}\label{ssec:nav-research}
+\subsection{Research --- Lewis}\label{ssec:nav-research}
 \begin{itemize}
   \item Questionnaires
   \item Researching latest technology
 \end{itemize}
 
-\subsection{Brainstorming - Matt}\label{ssec:nav-brainstorming}
+\subsection{Brainstorming --- Matt}\label{ssec:nav-brainstorming}
 % Should we cite our initial ideas document?
 In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down all the ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible, during this stage, all ideas were noted down and considered, no matter how far fetched. Following the initial stage, and an iteration of research, we went through the document and filtered as a group the concepts that we wanted to take forward in our design. During the second stage of brainstorming we created a new document, containing only the chosen ideas to expand and research them in more depth.
 
@@ -221,14 +222,14 @@ An aid we found very useful was personas, a list of made-up personalities with r
 
 Some of the ideas that came from our brainstorm are: Convoy tracking using K-Means clustering, public transport integration (including park and ride suggestions), route scheduling via either mobile app or in-car interfaces.
 
-\subsection{Tech background - Lewis}\label{ssec:nav-tech}
+\subsection{Tech background --- Lewis}\label{ssec:nav-tech}
 (Most of this seems like it would be algorithms again, so we plan to expand on the algorithms further than was detailed in section 2.1)
 \begin{itemize}
   \item Bidirectional A* search
   \item K-means clustering
 \end{itemize}
 
-\subsection{Convoy - Chris}\label{ssec:nav-convoy}
+\subsection{Convoy --- Chris}\label{ssec:nav-convoy}
 \begin{itemize}
   \item Convoy interface
   \item Features
@@ -236,7 +237,7 @@ Some of the ideas that came from our brainstorm are: Convoy tracking using K-Mea
 \end{itemize}
 % Include limitations of the above and how we combat them
 
-\subsection{Design choices \& argumentation - Lewis}\label{ssec:nav-design}
+\subsection{Design choices \& argumentation --- Lewis}\label{ssec:nav-design}
 \begin{itemize}
   \item QOC
   \item Justification for algorithms
@@ -266,7 +267,7 @@ Some of the ideas that came from our brainstorm are: Convoy tracking using K-Mea
 %%%%%%%%%%%%%%
 \section{Feature 2: App}\label{sec:app}
 
-\subsection{Research - Matt}\label{ssec:app-research}
+\subsection{Research --- Matt}\label{ssec:app-research}
 Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar, BMW and Tesla already offer multi-platform mobile apps that compliment their automobiles. Each of the above boasts at least one of the features that we intended to integrate into our systems such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features.
 The research methods we used included a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines.
 \begin{itemize}
@@ -275,7 +276,7 @@ The research methods we used included a questionnaire, installing and using manu
   \item How personas might want to interact with an app
     % Link to a persona document in the appendix
 \end{itemize}
-\subsection{Brainstorming - Chris}\label{ssec:app-brainstorming}
+\subsection{Brainstorming --- Chris}\label{ssec:app-brainstorming}
 
 \begin{itemize}
   % First 3 points are same as section 3.2
@@ -284,7 +285,7 @@ The research methods we used included a questionnaire, installing and using manu
   \item Finally moved everything into a final document. Discussed each point as a group to decide what was worth expanding
   \item Things specific to the app brainstorm i.e.\ the ideas to come out of it
 \end{itemize}
-\subsection{Tech background - Tyler}\label{ssec:app-tech}
+\subsection{Tech background --- Tyler}\label{ssec:app-tech}
 \begin{itemize}
   \item Communication
     \begin{itemize}
@@ -306,7 +307,7 @@ The research methods we used included a questionnaire, installing and using manu
 \end{itemize}
 % Repeating what is said in communication (2.4) ^^
 
-\subsection{Design choices \& argumentation - Lewis (maybe)}\label{ssec:app-design}
+\subsection{Design choices \& argumentation --- Lewis (maybe)}\label{ssec:app-design}
 \begin{itemize}
   \item QOC (to be made)
 \end{itemize}
