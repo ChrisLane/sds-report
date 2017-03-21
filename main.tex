@@ -5,7 +5,7 @@
 \usepackage{multicol}
 \usepackage{float}
 \usepackage{graphicx}
-\graphicspath{{images/navigation/}{images/app/}}
+\graphicspath{{images/navigation/}{images/app/}{images/overview/}}
 
 \title{Software Design Study Report}
 \author{A-Team}
@@ -81,14 +81,18 @@ The smartphone app for the car system will use the same data structure for maps 
 \end{itemize}
 
 \subsection{User Accounts - Matt}\label{ssec:user-accounts} 
-Something that we found is lacking across intelligent car systems in the market is the use of portable user profiles. By this we mean profiles that can be applied used across several cars, applying user settings and preferences where applicable. 
-There are several ways in which such data can be encapsulated and moved from car to car, including 
-\begin{itemize}
-  \item Accounts in the cloud
-  \item One account per user
-  \item Multiple cars per user(account)
-  \item Preferences etc. saved and carried with account 
-\end{itemize}
+Something that we found is lacking across intelligent car systems in the market is the use of portable user profiles. By this we mean profiles that can be used across several cars, applying user settings and preferences where applicable. 
+There are several ways in which such data can be encapsulated and moved from car to car, including serving a database from a server to the car, transport via Bluetooth directly from a smartphone, use of NFC tags and many others.
+\subsubsection{Storage and transport}
+The method we found most suitable for doing this works by storing the data relative to each user profile online in an SQLite database and then serving it either directly to the car when a user logs in from in-car interfaces or to a smartphone application. Following this, the user is able to transfer the data to the car via Bluetooth with the press of a button. The data is cached on the phone and car, as applicable, to allow access even when internet access is limited or not available.   
+\subsubsection{Cardinality of accounts, vehicles and shared data}
+Each user will have one account that will be able to contain multiple car profiles. Car profiles can share generic information, such as preferences regarding routing, music, favourite temperatures, speed dial contacts, etcetera if the user specifies so. Information specific to the car make and model, such as steering rack height, seat adjustments, wing mirror adjustments shall stay bonded to each car profile.
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.7]{profile-cardinality}
+  \caption{Visualisation of cardinality of user profiles}\label{cardinality}
+\end{figure}
+
 
 \subsection{Communications \& Data Flows - Tyler}\label{ssec:communications-data}
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
@@ -114,7 +118,7 @@ Secondly, instruction-critical tasks such as remote controlling the car with the
 
 Features for controlling music within the car are communicated over Wi-Fi and Bluetooth. The local music library of the car is synced with the phone, and also the spotify account linked to the drivers user profile is logged in on the centre console.
 
-All messages regarding the control of music is encapsulated within a JSON object 
+All messages regarding the control of music is encapsulated within a JSON object, this object will hol
 
 -- Spotify: 
 	-- Centre console can be controlled over wifi by multiple different user spotify accounts using SPOTIFY APP
@@ -184,8 +188,8 @@ A major focus for any internet connected technology is security, and with our ca
 \end{itemize}
 
 \subsection{Interaction Design - Matt}\label{sssec:interaction-design}
-The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses.
-
+The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses. 
+\subsubsection{Centre console}\label{1.7.1}
 %%%%%%%%%%%%%%%%%%%%%
 %	PLAN
 %%%%%%%%%%%%%%%%%%%%%
@@ -198,6 +202,8 @@ The interaction designs used on our product's interfaces were designed loosely b
 \subsection{Aesthetics/Graphical Design - Matt}\label{ssec:aesthetics}
 % User Interfaces of the above devices
 An effort was made to follow current styling standards used in industry to give the user a familiar experience, therefore flat designs were used where possible. Also characterising our design are large icons and avoidance of large swathes of text.
+\subsubsection{Dashboard cluster screen}\label{1.8.1}
+A screen will be replacing the usual instrument cluster behind the steering wheel. This will display information relative to speed, engine revolutions, fuel levels as it has been doing for the past decades but with the twist
 
 %%%%%%%%%%%%%%%%%%%%%
 %	PLAN
