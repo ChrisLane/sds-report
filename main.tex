@@ -15,7 +15,7 @@
 
 %\begin{multicols}{2}
 \begin{abstract}
-  Cars are ubiquitous in our modern lifestyles, unfortunately, the software systems in them do not keep up with other computing systems that we use. In this report, we aim to show how we tackled the problems and areas for improvement that we found in current car systems. Five areas of a modern car's feature set were focused on weekly, these being; the dashboard, media, navigation, safety and an accompanying smartphone app.
+Cars are ubiquitous in our modern lifestyles, unfortunately, the software systems in them do not keep up with other computing systems that we use. In this report, we aim to show how we tackled the problems and areas for improvement that we found in current car systems. Five areas of a modern car's feature set were focused on weekly, these being; the dashboard, media, navigation, safety and an accompanying smartphone app.
 \end{abstract}
 
 \section*{Introduction}
@@ -29,6 +29,7 @@ We have created an attractive and modern solution for digital technology in a ca
   \item Bidirectional A* Algorithm
     \begin{itemize}
       \item Heuristics
+      % Talk about 
     \end{itemize}
   \item K means algorithm --- grouping convoys
   \item Learning algorithm --- user preferences, Contextually Aware Routing etc
@@ -62,6 +63,7 @@ The customisable dashboard layout will also be stored in a JSON format with widg
   \item Profile Data --- Including preferred routes etc.
   \item Database --- Local files such as music
   \item Database --- SQLite for app storage
+  \item Car database -- talk about local music files
 \end{itemize}
 
 \subsection{Storage - Chris}\label{ssec:storage}
@@ -108,15 +110,28 @@ Within our system, we have communications between the Mobile App, the Car and ou
 \end{itemize}
 \subsubsection{Communication between car and phone}
 Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password. 
+-- typical bluetooth things like sharing contacts/music over bluetooth/taking calls etc
 
-Many features of the mobile app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. One type of feature, which is sending instructions to the car to control the car's hardware have two different types of communication. 
+Many features of the mobile app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication. 
 
 Firstly, instructions such as turn the heating on or toggling headlights will be a be on an on/off basis. For example setting the temperature to 20 degrees will keep it at that until it has changed.
 
 Secondly, instruction-critical tasks such as remote controlling the car with the phone app, rapidly send instructions to the car to ensure the car is performing actions safely and as the user expects. For example, if a user is holding the steering wheel at a 45 degree angle, the associated instruction will be sent constantly and processed by the central computing unit until the user changes the rotation. If the phone would happen to lose connection and the instructions stop being received by the car, the car is stopped.
+
+Features for controlling music within the car are communicated over Wi-Fi and Bluetooth. The local music library of the car is synced with the phone, and also the spotify account linked to the drivers user profile is logged in on the centre console.
+
+All messages regarding the control of music is encapsulated within a JSON object 
+
+-- Spotify: 
+	-- Centre console can be controlled over wifi by multiple different user spotify accounts using SPOTIFY APP
+    -- Done with spotify connect sdk
+-- Our APP
+	-- Local music synced with the car
+		-- Our app shows the library of local music, which songs can be added/skipped etc
+        -- Also have access to the spotify account on centre console for doing actions THROUGH that account
+
 \begin{itemize}
   \item NFC pairing for Bluetooth and Wi-Fi
-  \item Navigation history shared between app and car to improve destination suggestions
   \item Remote Control
   \item Media Control --- Song requests etc.
 \end{itemize}
@@ -150,8 +165,25 @@ Secondly, instruction-critical tasks such as remote controlling the car with the
 \end{itemize}
 
 \subsection{Information Security - Joe}\label{ssec:information-security}
+A major focus for any internet connected technology is security, and with our car systems it is no different- the last thing a customer would want is to have their car stolen by it being driven into the distance by a remote thief. Security is a primary focus in every aspect of the car system, the following non-exhaustive list are some of our main focuses
+
+\subsubsection{Data communication}
+\subsubsection{Data storage \& encryption}
+\subsubsection{User authentication}
+\subsubsection{???}
+\subsubsection{Profit}
+
+
+
 \begin{itemize}
   \item Database encryption in the cloud
+% * <frebib@gmail.com> 2017-03-20T22:31:12.891Z:
+% 
+% Is this a thing?
+% Maybe the data can use end-to-end encryption, only unlockable with a key from the user account?
+% ^ That however means the user is fleeced if they forget their password
+% 
+% ^.
   \item HTTPS for all internet communications
   \item WPA2-PSK with AES for Wi-Fi hotspot login
   \item X.509 certificate for the car
@@ -270,7 +302,7 @@ The research methods we used included a questionnaire, installing and using manu
 
 \begin{itemize}
   % First 3 points are same as section 3.2
-  \item Collectively worked together to put down all of our ideas into a google doc
+  \item Collectively worked together to put down all of our ideas into a Google doc
   \item No ruling out of ideas
   \item Finally moved everything into a final document. Discussed each point as a group to decide what was worth expanding
   \item Things specific to the app brainstorm i.e.\ the ideas to come out of it
