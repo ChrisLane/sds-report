@@ -45,7 +45,7 @@ We have created an attractive and modern solution for digital technology in a ca
   \item Something for tiredness detection
 \end{itemize}
 
-\subsection{Storage --- Chris}\label{ssec:storage}
+\subsection{Storage}\label{ssec:storage} % Chris
 Our design has three places that data will be stored, some data being temporary and some persistent. We will store information in the cloud, in the car's local SSD storage and on users of the app's smartphones.
 
 The cloud will be used for the majority of storage, it is where persistent data will be synchronised to from the phone app and car. Storage for most data such as user profiles will be kept in an encrypted Oracle database. The cloud will store user profiles that contain details such as saved routes, priveleges, seat preferences, dashboard layout, contacts and driver stats. The cloud will also store details about convoy groups, containing data on members, member locations, group messages, routes etc. Since the cloud hosts the API used by the car and app, other miscellaneous data will also be stored here such as software updates.
@@ -54,7 +54,7 @@ The car's internal SSD storage will be used for fast reading and writing of sync
 
 The accompanying car smartphone app does not require much storage at all since it must be connected to the internet or car to make any changes. Data from the cloud, car and app will be cached so that it may still be accessible for short connectivity outages.
 
-\subsection{Data Structures --- Chris}\label{ssec:data-structures}
+\subsection{Data Structures}\label{ssec:data-structures} % Chris
 In the system that we have designed, we require a few different data structures in order make our system efficient and easy to work with.
 
 For our navigation algorithm we decided to model the street map as a graph. Road junctions, route starting point and route destination are all represented as nodes in the graph, with roads being the edges that connect the nodes of the graph. This graph structure is most appropriate for us to use in our bidirectional A* search algorithm.
@@ -161,6 +161,7 @@ Another advantage of using TLS is `Perfect Forward Secrecy' of data when the app
 {\Large\color{red} Decide data storage encryption}
 
 \subsubsection{User authentication}
+
 \subsubsection{???}
 \subsubsection{Profit}
 
@@ -223,7 +224,7 @@ A screen will be replacing the usual instrument cluster behind the steering whee
 \section{Feature 1: Navigation}\label{sec:nav}
 
 \subsection{Research --- Lewis}\label{ssec:nav-research}
-As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various
+As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various people. The first part of this research takes the form of a questionnaire we created to gain opinions on both current technology and some of our ideas.
 \begin{itemize}
   \item Questionnaires
   \item Researching latest technology
@@ -244,7 +245,7 @@ Some of the ideas that came from our brainstorm are: Convoy tracking using K-Mea
   \item K-means clustering
 \end{itemize}
 
-\subsection{Convoy --- Chris}\label{ssec:nav-convoy}
+\subsection{Convoy}\label{ssec:nav-convoy} % Chris
 Convoys are a feature in our system, designed to allow a party to all route to the same destination, tracking members and having functionality for scheduled stops, rerouting and group calls. From the navigation menu, the user can select to either set up or join a convoy. The user that chooses to setup a convoy is given a six digit code that they can then share via social media or any other way. Users that choose to join the convoy must enter the six digit code they were given by the convoy creator. The convoy creator is able to set the route destination, any stop off points and optionally give the convoy a name.
 
 Once a convoy is set up, members of the convoy are able to see the shared route and coloured icons for members on the map. In the case that convoy members are starting their journey from different places, members will be grouped, with groups having different routes to a point of convergence. Like the normal navigation mode in our system, the route for an individual can be adjusted to re-route them back to the convoy in the case that they go the wrong way. Another feature of the convoy system is that it provides the ability to make group VoIP calls so that users can communicate hands-free, this is done using peer-to-peer technology over the car's internet connection (provided it has one).
@@ -253,7 +254,7 @@ Users may want to use convoys despite being far apart from each other, in this c
 
 A convoy member can leave the convoy at any time, however there are points at which the system will prompt them to leave the convoy. The first occasion for a prompt is when the current driver of the car changes, the new driver might be wanting to travel to somewhere else. The driver can of course cancel the prompt, this is useful for a situation where for example people share the responsibility of the driving for a long journey. Another time that a prompt to leave a convoy may occur is in the event that all convoy members have arrived at the destination, at this point there will typically be no further use for the convoy. The final situation for a prompt to leave a convoy is if the car is inactive for 24 hours, users typically will not be resuming a group journey after such a long time.
 
-Convoy data is collected and distrobuted to all convoy members from the cloud. The cars will download routes via the cloud API and send GPS location updates to the cloud every few seconds, these location updates will then be pinged to all other convoy members to keep the location of cars synchronised on all screens. Once the cloud receives a new location for a member, it immediately deletes the old, redundant location.
+Convoy data is collected and distributed to all convoy members from the cloud. The cars will download routes via the cloud API and send GPS location updates to the cloud every few seconds, these location updates will then be pinged to all other convoy members to keep the location of cars synchronised on all screens. Once the cloud receives a new location for a member, it immediately deletes the old, redundant location.
 
 Limited functionality of the convoys feature is available through the app. Users with the app are able to set up or join a convoy, this data is synchronised to the cloud and then used by the car.
 
