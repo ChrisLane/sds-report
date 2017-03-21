@@ -29,7 +29,7 @@ We have created an attractive and modern solution for digital technology in a ca
   \item Bidirectional A* Algorithm
     \begin{itemize}
       \item Heuristics
-        % Talk about 
+        % Talk about
     \end{itemize}
   \item K means algorithm --- grouping convoys
   \item Learning algorithm --- user preferences, Contextually Aware Routing etc
@@ -66,13 +66,13 @@ User profile data such as username, route preferences etc.\ will all be kept in 
 
 An SQLite database will exist in the local storage of the car, this database will contain details of local music files that are also stored in the car's local storage. Music files that have been added to the car will have their song, album and artist names looked up and stored in the database. The SQLite database provides access to song details to the centre console and car app.
 
-The smartphone app for the car system will use the same data structure for maps as the car uses. Cache data from the cloud and car will be stored in an SQLite database. 
+The smartphone app for the car system will use the same data structure for maps as the car uses. Cache data from the cloud and car will be stored in an SQLite database.
 
-\subsection{User Accounts - Matt}\label{ssec:user-accounts} 
-Something that we found is lacking across intelligent car systems in the market is the use of portable user profiles. By this we mean profiles that can be used across several cars, applying user settings and preferences where applicable. 
+\subsection{User Accounts - Matt}\label{ssec:user-accounts}
+Something that we found is lacking across intelligent car systems in the market is the use of portable user profiles. By this we mean profiles that can be used across several cars, applying user settings and preferences where applicable.
 There are several ways in which such data can be encapsulated and moved from car to car, including serving a database from a server to the car, transport via Bluetooth directly from a smartphone, use of NFC tags and many others.
 \subsubsection{Storage and transport}
-The method we found most suitable for doing this works by storing the data relative to each user profile online in an SQLite database and then serving it either directly to the car when a user logs in from in-car interfaces or to a smartphone application. Following this, the user is able to transfer the data to the car via Bluetooth with the press of a button. The data is cached on the phone and car, as applicable, to allow access even when internet access is limited or not available.   
+The method we found most suitable for doing this works by storing the data relative to each user profile online in an SQLite database and then serving it either directly to the car when a user logs in from in-car interfaces or to a smartphone application. Following this, the user is able to transfer the data to the car via Bluetooth with the press of a button. The data is cached on the phone and car, as applicable, to allow access even when internet access is limited or not available.
 \subsubsection{Cardinality of accounts, vehicles and shared data}
 Each user will have one account that will be able to contain multiple car profiles. Car profiles can share generic information, such as preferences regarding routing, music, favourite temperatures, speed dial contacts, etcetera if the user specifies so. Information specific to the car make and model, such as steering rack height, seat adjustments, wing mirror adjustments shall stay bonded to each car profile.
 \begin{figure}[H]
@@ -95,10 +95,10 @@ Within our system, we have communications between the Mobile App, the Car and ou
   \item Real time event data, for example someone is breaking into your car, car stats (warning lights)
 \end{itemize}
 \subsubsection{Communication between car and phone}
-Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password. 
+Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password.
 -- typical bluetooth things like sharing contacts/music over bluetooth/taking calls etc
 
-Many features of the mobile app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication. 
+Many features of the mobile app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication.
 
 Firstly, instructions such as turn the heating on or toggling headlights will be a be on an on/off basis. For example setting the temperature to 20 degrees will keep it at that until it has changed.
 
@@ -155,11 +155,11 @@ A major focus for any internet connected technology is security, and with our ca
 \begin{itemize}
   \item Database encryption in the cloud
     % * <frebib@gmail.com> 2017-03-20T22:31:12.891Z:
-    % 
+    %
     % Is this a thing?
     % Maybe the data can use end-to-end encryption, only unlockable with a key from the user account?
     % ^ That however means the user is fleeced if they forget their password
-    % 
+    %
     % ^.
   \item HTTPS for all internet communications
   \item WPA2-PSK with AES for Wi-Fi hotspot login
@@ -170,15 +170,15 @@ A major focus for any internet connected technology is security, and with our ca
 The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses. Our product requires three main interactive interfaces for users to effectively communicate with the in-car system:
 
 \subsubsection{Centre console}\label{sssec:centre-console}
-This is a 10" screen located in the middle section of the dashboard. Its purpose is that of displaying most of the information that flows through the car that may be of interest to the user and for the user to interact with it. For instance, destination input for the navigation system, joining and managing convoys, customising the instrument cluster, querying the system for detailed engine data and many more interactions will be performed on this device. 
+This is a 10" screen located in the middle section of the dashboard. Its purpose is that of displaying most of the information that flows through the car that may be of interest to the user and for the user to interact with it. For instance, destination input for the navigation system, joining and managing convoys, customising the instrument cluster, querying the system for detailed engine data and many more interactions will be performed on this device.
 
-We found that in the recent years the integration of touch screens on dashboards has become a recurrent trend amongst major manufacturers and believe that it is an essential feature for the cars of the future due to how visible, versatile and aesthetically pleasing they are. 
+We found that in the recent years the integration of touch screens on dashboards has become a recurrent trend amongst major manufacturers and believe that it is an essential feature for the cars of the future due to how visible, versatile and aesthetically pleasing they are.
 
 \subsubsection{Mobile app}\label{sssec:mobile-app}
 As usage of mobile apps is constantly increasing, more and more industry leading companies are adopting this as a new mean of interaction with their automobiles. We firmly believe that this will become and essential feature to all cars within a few year and therefore have designed and prototyped one. More detail can be found in Section~\ref{sec:app}.
 
 \subsubsection{Device on rear doors}\label{sssec:device-rear-doors}
-Each of the rear door cards will be fitted with a 5" touch screen device that enables passengers in the rear of the car to search and add songs to the cars' shared music queue from different streaming services or a local library. 
+Each of the rear door cards will be fitted with a 5" touch screen device that enables passengers in the rear of the car to search and add songs to the cars' shared music queue from different streaming services or a local library.
 
 \subsection{Aesthetics/Graphical Design - Matt}\label{ssec:aesthetics}
 % User Interfaces of the above devices
@@ -215,11 +215,11 @@ A screen will be replacing the usual instrument cluster behind the steering whee
 
 \subsection{Brainstorming - Matt}\label{ssec:nav-brainstorming}
 % Should we cite our initial ideas document?
-In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down all the ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible, during this stage, all ideas were noted down and considered, no matter how far fetched. Following the initial stage, and an iteration of research, we went through the document and filtered as a group the concepts that we wanted to take forward in our design. During the second stage of brainstorming we created a new document, containing only the chosen ideas to expand and research them in more depth.  
+In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down all the ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible, during this stage, all ideas were noted down and considered, no matter how far fetched. Following the initial stage, and an iteration of research, we went through the document and filtered as a group the concepts that we wanted to take forward in our design. During the second stage of brainstorming we created a new document, containing only the chosen ideas to expand and research them in more depth.
 
 An aid we found very useful was personas, a list of made-up personalities with realistic interests, jobs and attributes. During the brainstorming each of us tried to empathise with the different personas and think about their habits, things they enjoy, their mental states throughout different times of the day and from there, think of their needs, features they would enjoy and why.
 
-Some of the ideas that came from our brainstorm are: Convoy tracking using K-Means clustering, public transport integration (including park and ride suggestions), route scheduling via either mobile app or in-car interfaces.    
+Some of the ideas that came from our brainstorm are: Convoy tracking using K-Means clustering, public transport integration (including park and ride suggestions), route scheduling via either mobile app or in-car interfaces.
 
 \subsection{Tech background - Lewis}\label{ssec:nav-tech}
 (Most of this seems like it would be algorithms again, so we plan to expand on the algorithms further than was detailed in section 2.1)
