@@ -106,7 +106,7 @@ Secondly, instruction-critical tasks such as remote controlling the car with the
 
 Features for controlling music within the car are communicated over Wi-Fi and Bluetooth. The local music library of the car is synced with the phone, and also the spotify account linked to the drivers user profile is logged in on the centre console.
 
-All messages regarding the control of music is encapsulated within a JSON object, this object will hol
+All messages regarding the control of music with the app is encapsulated within a JSON object. These messages will hold instruction such as play, pause and song requests will contain file names or 
 
 -- Spotify: 
 	-- Centre console can be controlled over wifi by multiple different user spotify accounts using SPOTIFY APP
@@ -175,18 +175,19 @@ A major focus for any internet connected technology is security, and with our ca
   \item X.509 certificate for the car
 \end{itemize}
 
-\subsection{Interaction Design - Matt}\label{sssec:interaction-design}
-The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses. There are three main interfaces that we wanted to optimise user interaction on:
-\subsubsection{Centre console}\label{1.7.1}
-%%%%%%%%%%%%%%%%%%%%%
-%	PLAN
-%%%%%%%%%%%%%%%%%%%%%
-\begin{itemize}
-  \item Centre console
-  \item Mobile phone
-  \item Rear side door device
-    % Justifications of why we have chosen these interfaces
-\end{itemize}
+\subsection{Interaction Design - Matt}\label{ssec:interaction-design}
+The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses. Our product requires three main interactive interfaces for users to effectively communicate with the in-car system:
+\subsubsection{Centre console}\label{sssec:centr-console}
+This is a 10" screen located in the middle section of the dashboard. Its purpose is that of displaying most of the information that flows through the car that may be of interest to the user and for the user to interact with it. For instance, destination input for the navigation system, joining and managing convoys, customising the instrument cluster, querying the system for detailed engine data and many more interactions will be performed on this device. 
+
+We found that in the recent years the integration of touch screens on dashboards has become a recurrent trend amongst major manufacturers and believe that it is an essential feature for the cars of the future due to how visible, versatile and aesthetically pleasing they are. 
+
+\subsubsection{Mobile app}\label{sssec:mobile-app}
+As usage of mobile apps is constantly increasing, more and more industry leading companies are adopting this as a new mean of interaction with their automobiles. We firmly believe that this will become and essential feature to all cars within a few year and therefore have designed and prototyped one. More detail can be found in \ref{sec:app}.
+
+\subsubsection{Device on rear doors}\label{sssec:device-rear-doors}
+Each of the rear door cards will be fitted with a 5" touch screen device that enables passengers in the rear of the car to search and add songs to the cars' shared music queue from different streaming services or a local library. 
+
 \subsection{Aesthetics/Graphical Design - Matt}\label{ssec:aesthetics}
 % User Interfaces of the above devices
 An effort was made to follow current styling standards used in industry to give the user a familiar experience, therefore flat designs were used where possible. Also characterising our design are large icons and avoidance of large swathes of text.
@@ -222,15 +223,11 @@ A screen will be replacing the usual instrument cluster behind the steering whee
 
 \subsection{Brainstorming - Matt}\label{ssec:nav-brainstorming}
 % Should we cite our initial ideas document?
-Our first stage of brainstorming was to create a Google Drive document, in which we started writing down our ideas while discussing them and generating further ideas through our discussions. During this initial stage, all ideas discussed were noted down and not removed, to keep the design space open and to encourage further discussion of it in a later iteration. After this initial stage, and an iteration of research, we went through this document and discussed as a group what was worth expanding upon and taking forward to our final design.
+In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down all the ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible, during this stage, all ideas were noted down and considered, no matter how far fetched. Following the initial stage, and an iteration of research, we went through the document and filtered as a group the concepts that we wanted to take forward in our design. During the second stage of brainstorming we created a new document, containing only the chosen ideas to expand and research them in more depth.  
 
 An aid we found very useful was personas, a list of made-up personalities with realistic interests, jobs and attributes. During the brainstorming each of us tried to empathise with the different personas and think about their habits, things they enjoy, their mental states throughout different times of the day and from there, think of their needs, features they would enjoy and why.
-\begin{itemize}
-  \item Collectively worked together to put down all of our ideas into a google doc
-  \item No ruling out of ideas
-  \item Finally moved everything into a final document. Discussed each point as a group to decide what was worth expanding
-  \item Things specific to the nav brainstorm i.e.\ the ideas to come out of it
-\end{itemize}
+
+Some of the ideas that came from our brainstorm are: Convoy tracking using K-Means clustering, public transport integration (including park and ride suggestions), route scheduling via either mobile app or in-car interfaces.    
 
 \subsection{Tech background - Lewis}\label{ssec:nav-tech}
 (Most of this seems like it would be algorithms again, so we plan to expand on the algorithms further than was detailed in section 2.1)
@@ -258,7 +255,7 @@ An aid we found very useful was personas, a list of made-up personalities with r
     \end{itemize}
 \end{itemize}
 
-\subsection{Prototypes \& user testing - Matt}\label{ssec:nav-prototypes-testing}
+\subsection{Prototypes \& user testing}\label{ssec:nav-prototypes-testing}
 \begin{itemize}
   \item Lo-Fi and Hi-Fi prototypes of Navigation
 \end{itemize}
