@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[margin=2cm]{geometry}
 \usepackage{multicol}
+\usepackage{color}
 \usepackage{float}
 \usepackage{graphicx}
 \graphicspath{{images/navigation/}{images/app/}{images/overview/}}
@@ -86,7 +87,10 @@ Each user will have one account that will be able to contain multiple car profil
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
 
 \subsubsection{Communication between car and cloud}
+The car and the cloud communicate with each other mainly to synchronise information. The car sends hashes and timestamps of its files to the server which compares them with the latest versions on the server. The files which are different are sent back to the car for synchronisation.
+
 \begin{itemize}
+  \item Hashes and timestamps are compared on the server to decide what to synchronise
   \item Synchronisation with user profiles
   \item System updates
   \item Map updates
@@ -96,20 +100,20 @@ Within our system, we have communications between the Mobile App, the Car and ou
 \end{itemize}
 \subsubsection{Communication between car and phone}
 Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password.
--- typical bluetooth things like sharing contacts/music over bluetooth/taking calls etc
+-- standard Bluetooth usages such as sharing contacts/music over Bluetooth/taking calls etc.
 
-Many features of the mobile app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication.
+Many features of the app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication.
 
 Firstly, instructions such as turn the heating on or toggling headlights will be a be on an on/off basis. For example setting the temperature to 20 degrees will keep it at that until it has changed.
 
 Secondly, instruction-critical tasks such as remote controlling the car with the phone app, rapidly send instructions to the car to ensure the car is performing actions safely and as the user expects. For example, if a user is holding the steering wheel at a 45 degree angle, the associated instruction will be sent constantly and processed by the central computing unit until the user changes the rotation. If the phone would happen to lose connection and the instructions stop being received by the car, the car is stopped.
 
-Features for controlling music within the car are communicated over Wi-Fi and Bluetooth. The local music library of the car is synced with the phone, and also there is a spotify account linked to the drivers user profile. Which is logged in on the centre console.
+Features for controlling music within the car are communicated over Wi-Fi and Bluetooth. The local music library of the car is synced with the phone, and also there is a Spotify account linked to the drivers user profile. Which is logged in on the centre console.
 
 All messages regarding the control of music with the app, are encapsulated within a JSON object. These messages will hold instructions such as play, pause and song requests. Song requests will contain music file names and the library they are stored in.
-If music is from spotify, then associated actions for controlling the spotify account, which is logged in on the centre console are embedded within the message.
+If music is from Spotify, then associated actions for controlling the Spotify account, which is logged in on the centre console are embedded within the message.
 
-There is also the option to control the centre console spotify account using spotify's ``spotify connect'' service. This allows you to control other spotify devices on the same network. The Wi-Fi network of the car in this case.
+There is also the option to control the centre console Spotify account using Spotify's ``Spotify connect'' service. This allows you to control other Spotify devices on the same network. The Wi-Fi network of the car in this case.
 
 \subsubsection{Communication between phone and cloud}
 
@@ -142,10 +146,20 @@ There is also the option to control the centre console spotify account using spo
 \end{itemize}
 
 \subsection{Information Security --- Joe}\label{ssec:information-security}
-A major focus for any internet connected technology is security, and with our car systems it is no different- the last thing a customer would want is to have their car stolen by it being driven into the distance by a remote thief. Security is a primary focus in every aspect of the car system, the following non-exhaustive list are some of our main focuses
+A major focus for any internet connected technology is security, and with our car systems it is no different- the last thing a customer would want is to have their car stolen by it being driven into the distance by a remote thief. We employ a model of `encryption everywhere' to ensure maximum data security. Security is a primary focus in every aspect of the car system, the following non-exhaustive list are some of our main focuses
 
 \subsubsection{Data communication}
+Every connection that is made in our ecosystem leverages the flexibility and security of TLS for both encryption and authentication. TLS provides a strong suite of ciphers cross-compatible with any device. Industry standard hardening techniques are employed at both client and server end to ensure the strongest connection possible such as only using strong mutually-agreed cipher suites and key exchanges.
+
+This widespread usage of full transport encryption is viable due to the hardware-accelerated AES-NI and similar instruction sets built into most modern CPUs by manufacturers like Intel, AMD and ARM* (dependent on model and chip manufacturer). Without hardware support, encryption would be very expensive in terms of computation for every device: servers, cars and most importantly mobile devices such as smartphones and embedded devices.
+
+Performing AES or similar encryption purely in software is very slow and consumes a significant amount of CPU cycles and battery power resulting in a poor experience and making encryption on lower power and mobile devices not at all feasible.
+
+Another advantage of using TLS is `Perfect Forward Secrecy' of data when the appropriate key-exchange protocol is used such as a Diffe-Hellman based exchange method. This provides the guarantee that any data that is intercepted in transport by a 3rd party cannot decrypt the data with a previously apprehended pre-shared key or certificate as the short-lived session token has been lost.
+
 \subsubsection{Data storage \& encryption}
+{\Large\color{red} Decide data storage encryption}
+
 \subsubsection{User authentication}
 \subsubsection{???}
 \subsubsection{Profit}
@@ -209,6 +223,7 @@ A screen will be replacing the usual instrument cluster behind the steering whee
 \section{Feature 1: Navigation}\label{sec:nav}
 
 \subsection{Research --- Lewis}\label{ssec:nav-research}
+As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various 
 \begin{itemize}
   \item Questionnaires
   \item Researching latest technology
@@ -216,7 +231,7 @@ A screen will be replacing the usual instrument cluster behind the steering whee
 
 \subsection{Brainstorming --- Matt}\label{ssec:nav-brainstorming}
 % Should we cite our initial ideas document?
-In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down all the ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible, during this stage, all ideas were noted down and considered, no matter how far fetched. Following the initial stage, and an iteration of research, we went through the document and filtered as a group the concepts that we wanted to take forward in our design. During the second stage of brainstorming we created a new document, containing only the chosen ideas to expand and research them in more depth.
+In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down all the ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible, during this stage, all ideas were noted down and considered, no matter how far fetched. Following the initial stage, and an iteration of research, we went through the document and filtered it, as a group, for the concepts that we wanted to take forward in our design. During the second stage of brainstorming we created a new document, containing only the chosen ideas to expand and research them in more depth.
 
 An aid we found very useful was personas, a list of made-up personalities with realistic interests, jobs and attributes. During the brainstorming each of us tried to empathise with the different personas and think about their habits, things they enjoy, their mental states throughout different times of the day and from there, think of their needs, features they would enjoy and why.
 
