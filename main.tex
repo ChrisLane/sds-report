@@ -44,6 +44,15 @@ We have created an attractive and modern solution for digital technology in a ca
   \item Something for tiredness detection
 \end{itemize}
 
+\subsection{Storage --- Chris}\label{ssec:storage}
+Our design has three places that data will be stored, some data being temporary and some persistent. We will store information in the cloud, in the car's local SSD storage and on users of the app's smartphones.
+
+The cloud will be used for the majority of storage, it is where persistent data will be synchronised to from the phone app and car. Storage for most data such as user profiles will be kept in an encrypted Oracle database. The cloud will store user profiles that contain details such as saved routes, priveleges, seat preferences, dashboard layout, contacts and driver stats. The cloud will also store details about convoy groups, containing data on members, member locations, group messages, routes etc. Since the cloud hosts the API used by the car and app, other miscellaneous data will also be stored here such as software updates.
+
+The car's internal SSD storage will be used for fast reading and writing of synchronised files and cached data primarily. Data queried from the cloud will be cached to grant a more seemless experience even when the car is not connected to the internet. Examples of cached data from the cloud include favourite routes, dashboard layout and seat positions. Since the centre console system is built around the Android platform, we have been able to easily allow certain apps from the Play Store. One example of an app that we would allow on the system is Spotify, for music playback. The Spotify app will be able to store all of its settings, cached data and offline playlists in the car's internal storage as well. Local music files synchronised from a home network will be stored in the car's internal storage. The dashcams will also record their video to the internal storage of the car, this will be limited to a default percentage of the drive's capacity (SSD can be upgraded) and recordings will overwrite old footage in order to reuse the assigned storage space. The basic version of the system will likely have a 120GB SSD however this could easily be upgraded by swapping out the drive from the glove box.
+
+The accompanying car smartphone app does not require much storage at all since it must be connected to the internet or car to make any changes. Data from the cloud, car and app will be cached so that it may still be accessible for short connectivity outages.
+
 \subsection{Data Structures --- Chris}\label{ssec:data-structures}
 In the system that we have designed, we require a few different data structures in order make our system efficient and easy to work with.
 
@@ -57,16 +66,7 @@ User profile data such as username, route preferences etc.\ will all be kept in 
 
 An SQLite database will exist in the local storage of the car, this database will contain details of local music files that are also stored in the car's local storage. Music files that have been added to the car will have their song, album and artist names looked up and stored in the database. The SQLite database provides access to song details to the centre console and car app.
 
-The smartphone app for the car system will use the same data structure for maps as the car uses. The smartphone app will also use an SQLite database to cache data from the cloud and car such as profile usernames, schedule data etc.\ This is to allow the app to still be functional while data is updating from permanent storage locations.
-
-\subsection{Storage --- Chris}\label{ssec:storage}
-Our design has three places that data will be stored, some data being temporary and some persistent. We will store information in the cloud, in the car's local SSD storage and on users of the app's smartphones.
-
-The cloud will be used for the majority of storage, it is where persistent data will be synchronised to from the phone app and car. The cloud will store user profiles that contain details such as saved routes, priveleges, seat preferences, dashboard layout, contacts and driver stats. The cloud will also store details about convoy groups, containing data on members, member locations, group messages, routes etc. Since the cloud hosts the API used by the car and app, other miscellaneous data will also be stored here such as software updates.
-
-The car's internal SSD storage will be used for fast reading and writing of synchronised files and cached data primarily. Data queried from the cloud will be cached to grant a more seemless experience even when the car is not connected to the internet. Examples of cached data from the cloud include favourite routes, dashboard layout and seat positions. Since the centre console system is built around the Android platform, we have been able to easily allow certain apps from the Play Store. One example of an app that we would allow on the system is Spotify, for music playback. The Spotify app will be able to store all of its settings, cached data and offline playlists in the car's internal storage as well. Local music files synchronised from a home network will be stored in the car's internal storage. The dashcams will also record their video to the internal storage of the car, this will be limited to a default percentage of the drive's capacity (SSD can be upgraded) and recordings will overwrite old footage in order to reuse the assigned storage space. The basic version of the system will likely have a 120GB SSD however this could easily be upgraded by swapping out the drive from the glove box.
-
-The accompanying car smartphone app does not require much storage at all since it must be connected to the internet or car to make any changes. Data from the cloud, car and app will be cached so that it may still be accessible for short connectivity outages.
+The smartphone app for the car system will use the same data structure for maps as the car uses. Cache data from the cloud and car will be stored in an SQLite database. 
 
 \subsection{User Accounts - Matt}\label{ssec:user-accounts} 
 Something that we found is lacking across intelligent car systems in the market is the use of portable user profiles. By this we mean profiles that can be used across several cars, applying user settings and preferences where applicable. 
