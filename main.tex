@@ -230,12 +230,19 @@ Some of the ideas that came from our brainstorm are: Convoy tracking using K-Mea
 \end{itemize}
 
 \subsection{Convoy --- Chris}\label{ssec:nav-convoy}
-\begin{itemize}
-  \item Convoy interface
-  \item Features
-  \item App
-\end{itemize}
-% Include limitations of the above and how we combat them
+Convoys are a feature in our system, designed to allow a party to all route to the same destination, tracking members and having functionality for scheduled stops, rerouting and group calls. From the navigation menu, the user can select to either set up or join a convoy. The user that chooses to setup a convoy is given a six digit code that they can then share via social media or any other way. Users that choose to join the convoy must enter the six digit code they were given by the convoy creator. The convoy creator is able to set the route destination, any stop off points and optionally give the convoy a name.
+
+Once a convoy is set up, members of the convoy are able to see the shared route and coloured icons for members on the map. In the case that convoy members are starting their journey from different places, members will be grouped, with groups having different routes to a point of convergence. Like the normal navigation mode in our system, the route for an individual can be adjusted to re-route them back to the convoy in the case that they go the wrong way. Another feature of the convoy system is that it provides the ability to make group VoIP calls so that users can communicate hands-free, this is done using peer-to-peer technology over the car's internet connection (provided it has one).
+
+Users may want to use convoys despite being far apart from each other, in this case users may not be likely to arrive at similar times and so routes are individually calculated on each car's system and uploaded to the cloud. Each user follows their own route and can see the expected time of arrival for other members in a sidebar. Should two routes converge at any point, members will be moved onto a shared route when they reach that point, making meeting up more likely and reducing the number of routes to be stored in the cloud.
+
+A convoy member can leave the convoy at any time, however there are points at which the system will prompt them to leave the convoy. The first occasion for a prompt is when the current driver of the car changes, the new driver might be wanting to travel to somewhere else. The driver can of course cancel the prompt, this is useful for a situation where for example people share the responsibility of the driving for a long journey. Another time that a prompt to leave a convoy may occur is in the event that all convoy members have arrived at the destination, at this point there will typically be no further use for the convoy. The final situation for a prompt to leave a convoy is if the car is inactive for 24 hours, users typically will not be resuming a group journey after such a long time.
+
+Convoy data is collected and distrobuted to all convoy members from the cloud. The cars will download routes via the cloud API and send GPS location updates to the cloud every few seconds, these location updates will then be pinged to all other convoy members to keep the location of cars synchronised on all screens. Once the cloud receives a new location for a member, it immediately deletes the old, redundant location.
+
+Limited functionality of the convoys feature is available through the app. Users with the app are able to set up or join a convoy, this data is synchronised to the cloud and then used by the car.
+
+There are of course limitations to this feature. Convoys require an internet connection to update member locations. If any member fails to update their location, their icon will stay in place and fade away until a connection is regained and the location is updated once again. 
 
 \subsection{Design choices \& argumentation --- Lewis}\label{ssec:nav-design}
 \begin{itemize}
@@ -250,7 +257,7 @@ Some of the ideas that came from our brainstorm are: Convoy tracking using K-Mea
 
 \subsection{Prototypes \& user testing}\label{ssec:nav-prototypes-testing}
 \begin{itemize}
-  \item Lo-Fi and Hi-Fi prototypes of Navigation
+  \item Lo-Fi and Hi-Fi prototypes of Navigation and Convoy
 \end{itemize}
 
 \subsection{Final design}\label{ssec:nav-final-design}
