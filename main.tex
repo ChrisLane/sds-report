@@ -87,20 +87,32 @@ Each user will have one account that will be able to contain multiple car profil
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
 
 \subsubsection{Communication between car and cloud}
-The car and the cloud communicate with each other mainly to synchronise information. The car sends hashes and timestamps of its files to the server which compares them with the latest versions on the server. The files which are different are sent back to the car for synchronisation.
+The car and the cloud communicate with each other mainly to synchronise information. The car sends hashes and timestamps of its files to the server, which compares them with the latest versions. The files which are different are sent back to the car for synchronisation.
+
+There will be multiple streams of live data going between the cloud and the car continuously. This will consist of navigation updates, API calls and streaming of the cars camera feeds.
+During navigation in convoys, the cars location is sent to the cloud and the associated group member's locations are pulled down from the cloud. This is so the location of other group members is regularly updated on the navigation display.
+%Live streaming footage of the cars camera feeds are sent to the cloud over RTSP -- is this through the cloud or straight to phone?
+
+Since the car and the mobile app can both change user profile settings, this will 
+
+All the system updates for the car's software will be downloaded through the cloud. 
+
+The cloud will always be listening for real time event data. For example if 
 
 \begin{itemize}
   \item Hashes and timestamps are compared on the server to decide what to synchronise
   \item Synchronisation with user profiles
   \item System updates
   \item Map updates
+  \begin{itemize}
+    \item Convoy information
+  \end{itemize}
   \item Streaming camera feeds
   \item API calls to the cloud
   \item Real time event data, for example someone is breaking into your car, car stats (warning lights)
 \end{itemize}
 \subsubsection{Communication between car and phone}
-Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password.
--- standard Bluetooth usages such as sharing contacts/music over Bluetooth/taking calls etc.
+Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password. There will also be the standard Bluetooth communication between the phone and the car such as sharing contacts and taking calls.
 
 Many features of the app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication.
 
@@ -133,16 +145,6 @@ There is also the option to control the centre console Spotify account using Spo
   \item Weather
   \item Public Transport
   \item Note: All API calls are relative to the country the car is located in.
-\end{itemize}
-
-\begin{itemize}
-  \item Communications between car and phone
-
-  \item Communications between car and cloud (Over in-car LTE and external Wi-Fi if available)
-
-  \item Communications between phone and cloud
-
-  \item Communications between car and external APIs (API links and mappings provided from cloud)
 \end{itemize}
 
 \subsection{Information Security --- Joe}\label{ssec:information-security}
@@ -225,7 +227,10 @@ A screen will be replacing the usual instrument cluster behind the steering whee
 \section{Feature 1: Navigation}\label{sec:nav}
 
 \subsection{Research --- Lewis}\label{ssec:nav-research}
-As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various people. The first part of this research takes the form of a questionnaire we created to gain opinions on both current technology and some of our ideas.
+As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various people. The first part of this research takes the form of a questionnaire we created to gain opinions on both current technology and some of our ideas. From this, we confirmed our beliefs that most people use their phone as their SatNav device; and are generally happy with current methods of controlling a SatNav, being touch screen and voice control. We also gained some insight into some design decisions to take, with a majority of survey participants being interested in seeing friends travelling with them; speed cameras; traffic; and road obstacles such as roadworks, accidents and breakdowns, on the map - while there was less interest in tracking emergency vehicles and breakdown recovery vehicles. There is also a high amount of interest in having various destination suggestions available to the driver. The survey  indicated to us that some features are already being executed well; most people find the directions given by their SatNav to be quite clear.
+% Link to survey responses?
+
+We also 
 \begin{itemize}
   \item Questionnaires
   \item Researching latest technology
