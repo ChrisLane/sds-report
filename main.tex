@@ -6,6 +6,7 @@
 \usepackage{color}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{natbib}
 \graphicspath{{images/navigation/}{images/app/}{images/overview/}}
 
 \title{Software Design Study Report}
@@ -26,10 +27,12 @@ We have created an attractive and modern solution for digital technology in a ca
 
 \section{Overall system design}\label{sec:system-design}
 \subsection{General}
+
+
 \begin{itemize}
   \item Operating system
   \item How the system updates -- dual system architecture
-  \item separate auxillary system
+  \item separate auxiliary system
  
 \end{itemize}
 \subsection{Algorithms}\label{ssec:algorithms}
@@ -98,12 +101,12 @@ Each user will have one account that will be able to contain multiple car profil
 \subsection{Communications \& Data Flows --- Tyler}\label{ssec:communications-data}
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
 
-\subsubsection{Communication between car and cloud}\label{sssec:car-cloud}
-The car and the cloud communicate with each other mainly to synchronise information. The car sends hashes and timestamps of its files to the server, which compares them with the latest versions. The files which are different are sent back to the car for synchronisation.
+\subsubsection{Communication between devices and cloud}\label{sssec:car-cloud}
+The car and mobile app communicate with the cloud mainly to synchronise information. The device sends hashes and timestamps of their files to the server, which compares them with the latest versions. The files which are different are sent back to the devices for synchronisation.
 
 Since the car and the mobile app can both change user profile settings, there will be continuous syncs when user settings or preferences are changed. This is so the user can change their settings away from their car with their phone, and have them set up automatically the next time they enter their car.
 
-There will be multiple streams of live data going between the cloud and the car continuously. This will consist of navigation updates and API calls. The software within our car has standard API requests that will always have a response from our cloud, We decided that the cloud would have a general API request which would provide a link to the external APIs that we use. This is so that if the external APIs are unavailable we can always just update the cloud to provide a new link to a different external API. These services are mentioned in more detail in section \ref{sssec:devices-APIs}.
+The software within our car has standard API requests that will always have a response from our cloud, we decided that the cloud would have a general API service, which would provide a link to the external APIs that we use. This is so we can provide the best API for a given location, and there is no unnecessary traffic going through our cloud. Also if external APIs are unavailable unexpectedly, we can always just update the cloud to provide a new link to a different external API. These services are mentioned in more detail in section \ref{sssec:devices-APIs}.
 
 During navigation in convoys, the cars location is sent to the cloud and the associated group member's locations are pulled down from the cloud. This is so the location of other group members can be regularly updated on the navigation display. Other information such as group messages or navigation reroutes are also communicated between group members and the cloud.
 
@@ -131,23 +134,13 @@ Users can also livestream the car cameras feed to their phones through our app. 
 %Live streaming footage of the cars camera feeds are sent to the cloud over RTSP -- is this through the cloud or straight to phone?
 %I think we briefly touched on it being dynamically encoded by the car to make best use of the connection
 
-\subsubsection{Communication between phone and cloud}
-Files on the phone are synchronised with the cloud in the same way files on the car are synchronised. Which is mentioned above in section \ref{sssec:car-cloud}.
-
-
-
-\begin{itemize}
-  \item Hashes and timestamps are compared on the server to decide what to synchronise
-  \item API calls to the cloud
-  \item Car camera feeds can be streamed to the phone on-demand over RTSP
-  \item Information regarding convoy setup on phone
-  \item Car software updates from cloud (Gives ability to update car with phone)
-  \item Real time event data from cloud eg someone breaking into your car, car stats (warning lights)
-\end{itemize}
 \subsubsection{Communication between devices and external APIs} \label{sssec:devices-APIs}
-The car system and the mobile app gather alot of information from external APIs. This information ranges from data required for navigation such as roadwork information to getting the latest weather forecasts.
+Many sections of our system gather a lot of information from external APIs. This information ranges from data required for navigation to getting the latest weather forecasts.
 
-Many sections of the ov
+While using navigation, the car will automatically get the latest information on roadworks, current traffic conditions and information on public transport. This information will be based on the location of the car and is used to add displays to the map. For example showing roadworks in locations where roadwork is occurring.
+
+Our dashboard can contain widgets to display simple information like weather which would be updated regularly.
+
 % Talk about how it connects to the cloud which provides a link to the APIs
 \begin{itemize}
   \item Roadworks
@@ -240,8 +233,14 @@ A screen will be replacing the usual instrument cluster behind the steering whee
 As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various people. The first part of this research takes the form of a questionnaire we created to gain opinions on both current technology and some of our ideas. From this, we confirmed our beliefs that most people use their phone as their SatNav device; and are generally happy with current methods of controlling a SatNav, being touch screen and voice control. We also gained some insight into some design decisions to take, with a majority of survey participants being interested in seeing friends travelling with them; speed cameras; traffic; and road obstacles such as roadworks, accidents and breakdowns, on the map - while there was less interest in tracking emergency vehicles and breakdown recovery vehicles. There is also a high amount of interest in having various destination suggestions available to the driver. The survey  indicated to us that some features are already being executed well; most people find the directions given by their SatNav to be quite clear.
 % Link to survey responses?
 
-We also performed some research to find out exactly what kind of features are currently offered by SatNav systems.
-% Complete above paragraph
+We also performed some research to find out exactly what kind of features are currently offered by SatNav systems. As part of this research, we discovered that a lot of our brainstorming ideas are already in development by some companies. A lot of these concepts are being produced by Google: if you search for a location on Google, there is an option to send the location to the maps app on your phone; your movements are analysed by Google to determine favourite places and routes.
+% Probably more to say here...
+During this research, however, we could not find any current implementation nor professional research into our ideas for convoy driving. The closest concept to this we could find was the Garmin Tracker
+% Reference... not sure how we're doing references to external sources, yet. Also might be worth only referencing this lower down.
+which seems to have very limited functionality for tracking a person who owns a Garmin SatNav, for uses such as knowing when a family member should reach home. It also appears that this feature is only included with a limited subset of the Garmin models, which seem to have been discontinued. \cite{RefWorks:2} 
+% If we're going with Harvard referencing (must finish the reference if so)
+mentions the existence of this tracker, stating ``this could be useful if you are in a big group and you have more than one car travelling to the same destination'', but does not elaborate further, and we cannot find documentation from Garmin as to whether this is the exact use of this tracker.
+% Complete above paragraph? Might be finished now
 \begin{itemize}
   \item Questionnaires
   \item Researching latest technology
@@ -258,18 +257,32 @@ Some of the ideas that came from our brainstorm are: Convoy tracking using K-Mea
 
 \subsection{Tech background --- Lewis}\label{ssec:nav-tech}
 % Didn't realise how big this section might be, since there is a lot of technical detail in the slides for nav
-\subsubsection{Routing algorithm}
-The routing algorithm we use is bidirectional A* search.
-\subsubsection{Machine learning}
-\subsubsection{K-means clustering}
-One of the problems we encountered while designing the convoy feature was how to handle situations where a group is starting its journey separated, and quite widely spread. From our brainstorming sessions, we decided to implement k-means clustering as a method for grouping the members of a convoy together. As described in figure \ref{nav-kmeans}, any members of a convoy who wish to group together as quickly as possible to travel together on the main shared route will be grouped together through clustering. A number, $k$, (explained later) of ``means'' are randomly placed on the graph, and then two steps are repeated until the optimal positions for the means are found - determined by them not moving from the previous iteration. % k needs to be "explained later", don't forget
+\subsubsection{Routing algorithm}\label{sssec:nav-tech-routing}
+The routing algorithm we use is bidirectional A* search, performing a typical A* search from the start node to the destination, and the destination to the start node, in parallel. The heuristic used for this search will incorporate:
+route requirements;
+% What are route requirements?
+learnt user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver;
+roadwork and traffic information, gained from the APIs, which will apply a higher weight to roads based on their traffic levels.
 
-The first step is to create the clusters (step 2 of figure \ref{nav-kmeans}), associating each member of the convoy to their nearest mean. The second step moves each mean to the centroid of their corresponding cluster. When convergence is reached, the means are moved to the closest suitable waypoint on the underlying map, and each cluster of convoy members is routed to this waypoint in their cluster. When the entire group is starting within the same city, assuming the destination lies outside the city, this should be sufficient; however, as the convoy gets more spread, this algorithm becomes less efficient, since members may be travelling very far individually before they reach their cluster waypoint. The solution here is to iterate the algorithm multiple times, with the start nodes of each iteration being the cluster waypoints generated by the previous iteration. This way, for example, if a value o
+In order to ensure the route continues being efficient, the system polls the APIs every five minutes for updates to traffic conditions and roadworks. After this data has updated the graph, the search is re-run, with the start node being ahead of the current position in order to account for the latency in running the search. The search also re-runs when the driver leaves the current route, to make sure they are still travelling efficiently.
+\subsubsection{Machine learning}\label{sssec:nav-tech-machinelearning}
+% I think Matt did some research into this? If so, can he fill out this section?
+\subsubsection{K-means clustering}\label{sssec:nav-tech-kmeans}
+One of the problems we encountered while designing the convoy feature was how to handle situations where a group is starting its journey separated, and quite widely spread. From our brainstorming sessions, we decided to implement k-means clustering as a method for grouping the members of a convoy together. As described in figure \ref{nav-kmeans}, any members of a convoy who wish to group together as quickly as possible to travel together on the main shared route will be grouped together through clustering. A number, $k$, (explained later) of ``means'' are randomly placed on the graph, and then two steps are repeated until the optimal positions for the means are found - determined by them not moving from the previous iteration. 
+
+The first step is to create the clusters (step 2 of figure \ref{nav-kmeans}), associating each member of the convoy to their nearest mean. The second step moves each mean to the centroid of their corresponding cluster. When convergence is reached, the means are moved to the closest suitable waypoint on the underlying map, and each cluster of convoy members is routed to this waypoint in their cluster. When the entire group is starting within the same city, assuming the destination lies outside the city, this should be sufficient; however, as the convoy gets more spread, this algorithm becomes less efficient, since members may be travelling very far individually before they reach their cluster waypoint. The solution here is to iterate the algorithm multiple times, with the start nodes of each iteration being the cluster waypoints generated by the previous iteration, reducing $k$.
+
+There are some further issues with this algorithm that need to be addressed. Firstly, a good value for $k$ should be chosen. This value represents how many clusters are created by the algorithm, and therefore the average number of people (or groups, if this is a later iteration) to be grouped together by a given iteration can also be determined from $k$. Therefore, $k$ should be chosen based on how many people should be grouped up during one iteration; the standard default will aim to group together 3 or 4
+% Requires a choice and justification
+people per iteration, meaning by default that $k=\frac{number\ of\ input\ nodes}{3}$. This may need to be changed or adapted based on the context, and can also be chosen by the convoy leader, where they can specify how many should group up per iteration; the leader can also specify to not use clustering, allowing each driver to decide how they reach the destination.
+
+The second issue arises when this algorithm would introduce a large inconvenience for certain members. In figure \ref{nav-kmeans}, it can be seen that the topmost blue member of the convoy starts out close to the destination, but the algorithm forces them to travel in a different direction. When the algorithm detects that the clustering route is significantly longer than a standard individual route, it presents an option to that member to: accept the longer route, allowing them to group up with the others as quickly as possible; join directly into the full shared route, so they can still travel with the other members, but won't join up with them as quickly; or ignore the clustering, and follow an individual route, so they can reach the destination as quickly as possible while sacrificing the ability to travel in the main group.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{kmeanscluster}
   \caption{Demonstration of K-means convoy clustering.}\label{nav-kmeans}
 \end{figure}
+\subsubsection{Public Transport}
 \subsubsection{Plan --- \large\color{red} remove me later}
 \begin{itemize}
   \item Bidirectional A* search
@@ -294,9 +307,9 @@ Limited functionality of the convoys feature is available through the app. Users
 There are of course limitations to this feature. Convoys require an internet connection to update member locations. If any member fails to update their location, their icon will stay in place and fade away until a connection is regained and the location is updated once again.
 
 \subsection{Design choices \& argumentation --- Lewis}\label{ssec:nav-design}
-\subsubsection{General Design}
+\subsubsection{General Design}\label{sssec:nav-design-general}
 For a lot of features in our navigation section, we have utilised QOC as a method of deciding how to implement them. We have also used our survey responses as guidance for certain features.
-\subsubsection{Algorithm justifications}
+\subsubsection{Algorithm justifications}\label{sssec:nav-design-alg}
 % We don't really have much justification for k-means and we don't have much information in general about our machine learning
 We used QOC as well as experimentation to determine which routing algorithm to use for navigation.
 \begin{itemize}
@@ -330,13 +343,13 @@ We used QOC as well as experimentation to determine which routing algorithm to u
 
 \subsection{Research --- Matt}\label{ssec:app-research}
 Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar, BMW and Tesla already offer multi-platform mobile apps that compliment their automobiles. Each of the above boasts at least one of the features that we intended to integrate into our systems such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features.
-The research methods we used included a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines.
-\begin{itemize}
-  \item Existing apps that accompany a car
-  \item Current technology
-  \item How personas might want to interact with an app
-    % Link to a persona document in the appendix
-\end{itemize}
+The research methods we used included a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines. 
+
+While browsing the existing apps that manufacturers offer, we have come across some flaws that  we were determined to get right in our final product. For example, \textit{BMW Connected}, their take on an app to compliment their most recent cars, excels in features like learning driving habits over time and facilitating safe communication with friends and family while still requiring a wired connection for simple features like transferring a route from the phone to the cars' navigation system and having a restricted range for remote functions such as lock, beep horn and switch lights. Flaws of similar magnitude con be found in \textit{Jaguar In-Control apps} and \textit{Mercedes Me}, which is reviewed as unusable or useless by most users.
+
+We found that even where features are collectively good, they are often scattered over several apps, we intended for our customers to be able to download one app and be able to access all features from there while keeping it intuitive and user friendly.
+
+Part of the second iteration of research involved looking into how useful different types of people find different features. This was achieved by polling friends and family of each of us, and therefore diversifying ethnicity, background and locations. We have then attached each to each of our features discussed in the brainstorming session to some personas for whom it would be relevant and this helped us decide how to prioritise our ideas.
 
 \subsection{Brainstorming}\label{ssec:app-brainstorming} % Chris
 When brainstorming ideas for the accompanying app for our car system, we considered both functional and non-functional requirements. We opened up a Google Doc so that we would all be able to contribute and follow along quickly since we all knew we had a lot of ideas for app integration features. One of the reasons that we all had so many ideas already was because we had already suggested certain ideas while planning features for the car's system previously.
@@ -360,28 +373,15 @@ A section of our initial ideas brainstorming document can be seen in figure~\ref
 \end{figure}
 
 \subsection{Tech background --- Tyler}\label{ssec:app-tech}
+
 \begin{itemize}
-  \item Communication
-    \begin{itemize}
-      \item (See section 2.4?)
-      \item To and from car
-        \begin{itemize}
-          \item Initial connection with the car (Bluetooth/Wi-Fi/RFID)
-          \item Communicating remote control instructions
-          \item Other instructions (Media control, Controlling hardware)
-        \end{itemize}
-      \item To and from Cloud
-        \begin{itemize}
-          \item Authenticating User profiles
-          \item Syncing data
-          \item Feeds which are streamed (Camera feeds)
-          \item Information such as Car location
-        \end{itemize}
-    \end{itemize}
+  \item Data base
+  \item 
+  \item Communication -- mentioned in above section
 \end{itemize}
 % Repeating what is said in communication (2.4) ^^
 
-\subsection{Design choices \& argumentation --- Lewis (maybe)}\label{ssec:app-design}
+\subsection{Design choices \& argumentation --- (not) Lewis}\label{ssec:app-design}
 % While I put my name down for this, it's come to my attention that I'm probably not a great candidate for this section being that I wasn't present for a lot of the design choices for the app --- maybe this section is better written by somebody else -Lewis
 \begin{itemize}
   \item QOC (to be made)
@@ -401,9 +401,11 @@ A section of our initial ideas brainstorming document can be seen in figure~\ref
 \section{Other areas}\label{sec:other}
 
 Annotate slides on changes we would make going forwards
-\section{References}\label{sec:references}
 
 %\end{multicols}
+
+\bibliographystyle{agsm}
+\bibliography{references}
 
 \end{document}
 
