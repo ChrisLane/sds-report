@@ -25,6 +25,13 @@ For years car companies have invested relatively little into their car's informa
 We have created an attractive and modern solution for digital technology in a car that we hope to see in future modern cars in production. In Section~\ref{sec:system-design} we will give explain the technical elements of our system design that can be found ranging from navigation to safety features. In Section~\ref{sec:nav} we will go into detail on the design process of our navigation system. In Section~\ref{sec:app} we will go into detail on the design process of our accompanying smartphone app.
 
 \section{Overall system design}\label{sec:system-design}
+\subsection{General}
+\begin{itemize}
+  \item Operating system
+  \item How the system updates -- dual system architecture
+  \item separate auxillary system
+ 
+\end{itemize}
 \subsection{Algorithms}\label{ssec:algorithms}
 \begin{itemize}
   \item Bidirectional A* Algorithm
@@ -50,7 +57,12 @@ Our design has three places that data will be stored, some data being temporary 
 
 The cloud will be used for the majority of storage, it is where persistent data will be synchronised to from the phone app and car. Storage for most data such as user profiles will be kept in an encrypted Oracle database. The cloud will store user profiles that contain details such as saved routes, privileges, seat preferences, dashboard layout, contacts and driver stats. The cloud will also store details about convoy groups, containing data on members, member locations, group messages, routes etc. Since the cloud hosts the API used by the car and app, other miscellaneous data will also be stored here such as software updates.
 
-The car's internal SSD storage will be used for fast reading and writing of synchronised files and cached data primarily. Data queried from the cloud will be cached to grant a more seamless experience even when the car is not connected to the internet. Examples of cached data from the cloud include favourite routes, dashboard layout and seat positions. Since the centre console system is built around the Android platform, we have been able to easily allow certain apps from the Play Store. One example of an app that we would allow on the system is Spotify, for music playback. The Spotify app will be able to store all of its settings, cached data and offline playlists in the car's internal storage as well. Local music files synchronised from a home network will be stored in the car's internal storage. The dashcams will also record their video to the internal storage of the car, this will be limited to a default percentage of the drive's capacity (SSD can be upgraded) and recordings will overwrite old footage in order to reuse the assigned storage space. The basic version of the system will likely have a 120GB SSD, however, this could easily be upgraded by swapping out the drive from the glove box.
+The car's internal SSD storage will be used for fast reading and writing of synchronised files and cached data primarily. Data queried from the cloud will be cached to grant a more seamless experience even when the car is not connected to the internet. Examples of cached data from the cloud include favourite routes, dashboard layout and seat positions. Since the centre console system is built around the Android platform, we have been able to easily allow certain apps from the Play Store. One example of an app that we would allow on the system is Spotify, for music playback. The Spotify app will be able to store all of its settings, cached data and offline playlists in the car's internal storage as well. Local music files synchronised from a home network will be stored in the car's internal storage. The dashcams will also record their video to the internal storage of the car, this will be limited to a default percentage of the drive's capacity (SSD can be upgraded) and recordings will overwrite old footage in order to reuse the assigned storage space. The basic version of the system will likely have at least 120GB of SSD storage, however, this could easily be upgraded by swapping out the drive from the glove box.
+% * <frebib@gmail.com> 2017-03-22T12:19:33.906Z:
+% 
+% It's probably worth mentioning that the SSD can be user replaceable and as a result the system is stored on a separate disk(s) internally within the car to accommodate such feature
+% 
+% ^.
 
 The accompanying car smartphone app does not require much storage at all since it must be connected to the internet or car to make any changes. Data from the cloud, car and app will be cached so that it may still be accessible for short connectivity outages.
 
@@ -86,33 +98,20 @@ Each user will have one account that will be able to contain multiple car profil
 \subsection{Communications \& Data Flows --- Tyler}\label{ssec:communications-data}
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
 
-\subsubsection{Communication between car and cloud}
+\subsubsection{Communication between car and cloud}\label{sssec:car-cloud}
 The car and the cloud communicate with each other mainly to synchronise information. The car sends hashes and timestamps of its files to the server, which compares them with the latest versions. The files which are different are sent back to the car for synchronisation.
 
-There will be multiple streams of live data going between the cloud and the car continuously. This will consist of navigation updates, API calls and streaming of the cars camera feeds.
-During navigation in convoys, the cars location is sent to the cloud and the associated group member's locations are pulled down from the cloud. This is so the location of other group members is regularly updated on the navigation display.
-%Live streaming footage of the cars camera feeds are sent to the cloud over RTSP -- is this through the cloud or straight to phone?
+Since the car and the mobile app can both change user profile settings, there will be continuous syncs when user settings or preferences are changed. This is so the user can change their settings away from their car with their phone, and have them set up automatically the next time they enter their car.
 
-Since the car and the mobile app can both change user profile settings, this will 
+There will be multiple streams of live data going between the cloud and the car continuously. This will consist of navigation updates and API calls. The software within our car has standard API requests that will always have a response from our cloud, We decided that the cloud would have a general API request which would provide a link to the external APIs that we use. This is so that if the external APIs are unavailable we can always just update the cloud to provide a new link to a different external API. These services are mentioned in more detail in section \ref{sssec:devices-APIs}.
 
-All the system updates for the car's software will be downloaded through the cloud. These files will be verified using MD5/SHA1 hashes to ensure they are not corrupted.
-% We need to talk about the dual system architecture in relating to system updates.
+During navigation in convoys, the cars location is sent to the cloud and the associated group member's locations are pulled down from the cloud. This is so the location of other group members can be regularly updated on the navigation display. Other information such as group messages or navigation reroutes are also communicated between group members and the cloud.
 
-The cloud will always be listening for real time event data. For example if 
+All the system updates for the car's software will be downloaded through the cloud. These files will be verified using MD5/SHA1 hashes and comparing them to the hash provided by the cloud server. This is to ensure they are not corrupted or tampered with.
 
-\begin{itemize}
-  \item Hashes and timestamps are compared on the server to decide what to synchronise
-  \item Synchronisation with user profiles
-  \item System updates
-  \item Map updates
-  \begin{itemize}
-    \item Convoy information
-  \end{itemize}
-  \item Streaming camera feeds
-  \item API calls to the cloud
-  \item Real time event data, for example someone is breaking into your car, car stats (warning lights)
-\end{itemize}
-\subsubsection{Communication between car and phone}
+The cloud will always be listening for real time event data. This is the kind of events that would be happening live, such as if someone is breaking into your car or for some reason the car alarm has just gone off. Once in the cloud this information would be passed straight to the car owners phone via the app to alert them.
+
+\subsubsection{Communication between car and phone}\label{sssec:car-phone}
 Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password. There will also be the standard Bluetooth communication between the phone and the car such as sharing contacts and taking calls.
 
 Many features of the app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication.
@@ -128,7 +127,14 @@ If music is from Spotify, then associated actions for controlling the Spotify ac
 
 There is also the option to control the centre console Spotify account using Spotify's ``Spotify connect'' service. This allows you to control other Spotify devices on the same network. The Wi-Fi network of the car in this case.
 
+Users can also livestream the car cameras feed to their phones through our app. This communication will be dynamically encoded by the cars computing unit and then transmitted using RTSP. This is to make best use of the connection of the car by adjusting the bitrate of video based on the cars bandwidth.
+%Live streaming footage of the cars camera feeds are sent to the cloud over RTSP -- is this through the cloud or straight to phone?
+%I think we briefly touched on it being dynamically encoded by the car to make best use of the connection
+
 \subsubsection{Communication between phone and cloud}
+Files on the phone are synchronised with the cloud in the same way files on the car are synchronised. Which is mentioned above in section \ref{sssec:car-cloud}.
+
+
 
 \begin{itemize}
   \item Hashes and timestamps are compared on the server to decide what to synchronise
@@ -138,7 +144,8 @@ There is also the option to control the centre console Spotify account using Spo
   \item Car software updates from cloud (Gives ability to update car with phone)
   \item Real time event data from cloud eg someone breaking into your car, car stats (warning lights)
 \end{itemize}
-\subsubsection{Communication between car and external APIs}
+\subsubsection{Communication between devices and external APIs} \label{sssec:devices-APIs}
+The car system and the mobile app gather alot of information from external APIs. This information ranges from data required for navigation such as roadwork information to getting the latest weather forecasts.
 % Talk about how it connects to the cloud which provides a link to the APIs
 \begin{itemize}
   \item Roadworks
@@ -156,17 +163,17 @@ Every connection that is made in our ecosystem leverages the flexibility and sec
 
 This widespread usage of full transport encryption is viable due to the hardware-accelerated AES-NI and similar instruction sets built into most modern CPUs by manufacturers like Intel, AMD and ARM* (dependent on model and chip manufacturer). Without hardware support, encryption would be very expensive in terms of computation for every device: servers, cars and most importantly mobile devices such as smartphones and embedded devices.
 
-Performing AES or similar encryption purely in software is very slow and consumes a significant amount of CPU cycles and battery power resulting in a poor experience and making encryption on lower power and mobile devices not at all feasible.
+Performing AES or similar encryption purely in software is very slow and consumes a significant amount of CPU cycles and battery power resulting in a poor experience thus making encryption on lower power and mobile devices not at all feasible.
 
 Another advantage of using TLS is `Perfect Forward Secrecy' of data when the appropriate key-exchange protocol is used such as a Diffe-Hellman based exchange method. This provides the guarantee that any data that is intercepted in transport by a 3rd party cannot decrypt the data with a previously apprehended pre-shared key or certificate as the short-lived session token has been lost.
 
 \subsubsection{Data storage \& encryption}
 {\Large\color{red} Decide data storage encryption}
 
-\subsubsection{User authentication}
+\subsubsection{User Authentication}
+We leverage the implicit authentication flow from TLS backed by per-user certificates. Each instance of 
 
-
-\subsubsection{???}
+\subsubsection{Server and Car Authentication}
 \subsubsection{Profit}
 
 
@@ -231,25 +238,42 @@ A screen will be replacing the usual instrument cluster behind the steering whee
 As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various people. The first part of this research takes the form of a questionnaire we created to gain opinions on both current technology and some of our ideas. From this, we confirmed our beliefs that most people use their phone as their SatNav device; and are generally happy with current methods of controlling a SatNav, being touch screen and voice control. We also gained some insight into some design decisions to take, with a majority of survey participants being interested in seeing friends travelling with them; speed cameras; traffic; and road obstacles such as roadworks, accidents and breakdowns, on the map - while there was less interest in tracking emergency vehicles and breakdown recovery vehicles. There is also a high amount of interest in having various destination suggestions available to the driver. The survey  indicated to us that some features are already being executed well; most people find the directions given by their SatNav to be quite clear.
 % Link to survey responses?
 
-We also performed some 
+We also performed some research to find out exactly what kind of features are currently offered by SatNav systems.
+% Complete above paragraph
 \begin{itemize}
   \item Questionnaires
   \item Researching latest technology
 \end{itemize}
 
 \subsection{Brainstorming --- Matt}\label{ssec:nav-brainstorming}
-% Should we cite our initial ideas document?
+% Should we include our initial ideas document?
 In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down all the ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible, during this stage, all ideas were noted down and considered, no matter how far fetched. Following the initial stage, and an iteration of research, we went through the document and filtered it, as a group, for the concepts that we wanted to take forward in our design. During the second stage of brainstorming we created a new document, containing only the chosen ideas to expand and research them in more depth.
 
 An aid we found very useful was personas, a list of made-up personalities with realistic interests, jobs and attributes. During the brainstorming each of us tried to empathise with the different personas and think about their habits, things they enjoy, their mental states throughout different times of the day and from there, think of their needs, features they would enjoy and why.
+% The personas are mentioned here, do we introduce them somewhere? Should it be in a research section or expanded upon here? -Lewis
 
 Some of the ideas that came from our brainstorm are: Convoy tracking using K-Means clustering, public transport integration (including park and ride suggestions), route scheduling via either mobile app or in-car interfaces.
 
 \subsection{Tech background --- Lewis}\label{ssec:nav-tech}
-(Most of this seems like it would be algorithms again, so we plan to expand on the algorithms further than was detailed in section 2.1)
+% Didn't realise how big this section might be, since there is a lot of technical detail in the slides for nav
+\subsubsection{Routing algorithm}
+The routing algorithm we use is bidirectional A* search.
+\subsubsection{Machine learning}
+\subsubsection{K-means clustering}
+One of the problems we encountered while designing the convoy feature was how to handle situations where a group is starting its journey separated, and quite widely spread. From our brainstorming sessions, we decided to implement k-means clustering as a method for grouping the members of a convoy together. As described in figure \ref{nav-kmeans}, any members of a convoy who wish to group together as quickly as possible to travel together on the main shared route will be grouped together through clustering. A number, $k$, (explained later) of ``means'' are randomly placed on the graph, and then two steps are repeated until the optimal positions for the means are found - determined by them not moving from the previous iteration. % k needs to be "explained later", don't forget
+
+The first step is to create the clusters (step 2 of figure \ref{nav-kmeans}), associating each member of the convoy to their nearest mean. The second step moves each mean to the centroid of their corresponding cluster. When convergence is reached, the means are moved to the closest suitable waypoint on the underlying map, and each cluster of convoy members is routed to this waypoint in their cluster. When the entire group is starting within the same city, assuming the destination lies outside the city, this should be sufficient; however, as the convoy gets more spread, this algorithm becomes less efficient, since members may be travelling very far individually before they reach their cluster waypoint. The solution here is to iterate the algorithm multiple times, with the start nodes of each iteration being the cluster waypoints generated by the previous iteration. This way, for example, 
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{kmeanscluster}
+  \caption{Demonstration of K-means convoy clustering.}\label{nav-kmeans}
+\end{figure}
+\subsubsection{Plan --- \large\color{red} remove me later}
 \begin{itemize}
   \item Bidirectional A* search
   \item K-means clustering
+  \item Machine Learning --- Contextually aware routing
+  \item A ton of other things from the slides...
 \end{itemize}
 
 \subsection{Convoy}\label{ssec:nav-convoy} % Chris
@@ -268,13 +292,18 @@ Limited functionality of the convoys feature is available through the app. Users
 There are of course limitations to this feature. Convoys require an internet connection to update member locations. If any member fails to update their location, their icon will stay in place and fade away until a connection is regained and the location is updated once again.
 
 \subsection{Design choices \& argumentation --- Lewis}\label{ssec:nav-design}
+\subsubsection{General Design}
+For a lot of features in our navigation section, we have utilised QOC as a method of deciding how to implement them. We have also used our survey responses as guidance for certain features.
+\subsubsection{Algorithm justifications}
+% We don't really have much justification for k-means and we don't have much information in general about our machine learning
+We used QOC as well as experimentation to determine which routing algorithm to use for navigation.
 \begin{itemize}
-  \item QOC
+  \item QOC % Some of the QOC matrices are incomplete or have incorrect scores
   \item Justification for algorithms
-    % Would this be better placed in the previous section?
     \begin{itemize}
       \item Routing
       \item Clustering
+      \item Contextually aware routing
     \end{itemize}
 \end{itemize}
 
@@ -351,6 +380,7 @@ A section of our initial ideas brainstorming document can be seen in figure~\ref
 % Repeating what is said in communication (2.4) ^^
 
 \subsection{Design choices \& argumentation --- Lewis (maybe)}\label{ssec:app-design}
+% While I put my name down for this, it's come to my attention that I'm probably not a great candidate for this section being that I wasn't present for a lot of the design choices for the app --- maybe this section is better written by somebody else -Lewis
 \begin{itemize}
   \item QOC (to be made)
 \end{itemize}
