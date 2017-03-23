@@ -7,6 +7,9 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{natbib}
+\usepackage{hyperref}
+%\usepackage[hidelinks]{hyperref} % Use this to hide boxes around links/refs
+\usepackage{pdfpages}
 \graphicspath{{images/navigation/}{images/app/}{images/overview/}}
 
 \title{Software Design Study Report}
@@ -98,7 +101,7 @@ Each user will have one account that will be able to contain multiple car profil
 \end{figure}
 
 
-\subsection{Communications \& Data Flows --- Tyler}\label{ssec:communications-data}
+\subsection{Communications \& Data Flows}\label{ssec:communications-data} %Tyler
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
 
 \subsubsection{Communication between devices and cloud}\label{sssec:car-cloud}
@@ -117,43 +120,19 @@ The cloud will always be listening for real time event data. This is the kind of
 \subsubsection{Communication between car and phone}\label{sssec:car-phone}
 Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password. There will also be the standard Bluetooth communication between the phone and the car such as sharing contacts and taking calls.
 
-Many features of the app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication.
-
-Firstly, instructions such as turn the heating on or toggling headlights will be a be on an on/off basis. For example setting the temperature to 20 degrees will keep it at that until it has changed.
-
-Secondly, instruction-critical tasks such as remote controlling the car with the phone app, rapidly send instructions to the car to ensure the car is performing actions safely and as the user expects. For example, if a user is holding the steering wheel at a 45 degree angle, the associated instruction will be sent constantly and processed by the central computing unit until the user changes the rotation. If the phone would happen to lose connection and the instructions stop being received by the car, the car is stopped.
-
-Features for controlling music within the car are communicated over Wi-Fi and Bluetooth. The local music library of the car is synced with the phone, and also there is a Spotify account linked to the drivers user profile. Which is logged in on the centre console.
-
-All messages regarding the control of music with the app, are encapsulated within a JSON object. These messages will hold instructions such as play, pause and song requests. Song requests will contain music file names and the library they are stored in.
-If music is from Spotify, then associated actions for controlling the Spotify account, which is logged in on the centre console are embedded within the message.
-
-There is also the option to control the centre console Spotify account using Spotify's ``Spotify connect'' service. This allows you to control other Spotify devices on the same network. The Wi-Fi network of the car in this case.
-
-Users can also livestream the car cameras feed to their phones through our app. This communication will be dynamically encoded by the cars computing unit and then transmitted using RTSP. This is to make best use of the connection of the car by adjusting the bitrate of video based on the cars bandwidth.
-%Live streaming footage of the cars camera feeds are sent to the cloud over RTSP -- is this through the cloud or straight to phone?
-%I think we briefly touched on it being dynamically encoded by the car to make best use of the connection
+Many features of the app communicate with the car, these features are described in Section \ref{ssec:app-tech} [\nameref{ssec:app-tech}]
 
 \subsubsection{Communication between devices and external APIs} \label{sssec:devices-APIs}
 Many sections of our system gather a lot of information from external APIs. This information ranges from data required for navigation to getting the latest weather forecasts.
 
 While using navigation, the car will automatically get the latest information on roadworks, current traffic conditions and information on public transport. This information will be based on the location of the car and is used to add displays to the map. For example showing roadworks in locations where roadwork is occurring.
 
-Our dashboard can contain widgets to display simple information like weather which would be updated regularly.
+Our dashboard can contain widgets to display simple information like weather which would be pulled down from the cloud and updated regularly.
 
-% Talk about how it connects to the cloud which provides a link to the APIs
-\begin{itemize}
-  \item Roadworks
-  \item Traffic
-  \item Weather
-  \item Public Transport
-  \item Note: All API calls are relative to the country the car is located in.
-\end{itemize}
+\subsection{Information Security}\label{ssec:information-security} % Joe
+A major focus for any internet connected technology is security, and with our car systems it is no different- the last thing a customer would want is to have their car stolen by it being driven into the distance by a remote thief. We employ a model of `encryption everywhere' to ensure maximum data security, paired with very strong authentication to prevent unauthorised access or control. Security is a primary focus in every aspect of the car system, the following non-exhaustive list are some of our main focuses
 
-\subsection{Information Security --- Joe}\label{ssec:information-security}
-A major focus for any internet connected technology is security, and with our car systems it is no different- the last thing a customer would want is to have their car stolen by it being driven into the distance by a remote thief. We employ a model of `encryption everywhere' to ensure maximum data security. Security is a primary focus in every aspect of the car system, the following non-exhaustive list are some of our main focuses
-
-\subsubsection{Data communication}
+\subsubsection{Data Communication}
 Every connection that is made in our ecosystem leverages the flexibility and security of TLS for both encryption and authentication. TLS provides a strong suite of ciphers cross-compatible with any device. Industry standard hardening techniques are employed at both client and server end to ensure the strongest connection possible such as only using strong mutually-agreed cipher suites and key exchanges.
 
 This widespread usage of full transport encryption is viable due to the hardware-accelerated AES-NI and similar instruction sets built into most modern CPUs by manufacturers like Intel, AMD and ARM* (dependent on model and chip manufacturer). Without hardware support, encryption would be very expensive in terms of computation for every device: servers, cars and most importantly mobile devices such as smartphones and embedded devices.
@@ -166,12 +145,30 @@ Another advantage of using TLS is `Perfect Forward Secrecy' of data when the app
 {\Large\color{red} Decide data storage encryption}
 
 \subsubsection{User Authentication}
-We leverage the implicit authentication flow from TLS backed by per-user certificates. Each instance of 
+We leverage the implicit authentication flow from TLS backed by per-user certificates (specification defined at \url{https://tools.ietf.org/html/rfc5246#appendix-F.1.1}) which is a security advantage to the cloud provider  as it is more secure authentication method than using a password and presents a cleaner user experience as it requires no input from the user whereas a password would do.
+
+Everywhere a persistent login is used, it is replaced with a client certificate authorised to access the account without a password. The primary use for these certificates is automatic authorisation of the mobile app on smartphones and embedded devices with the cloud servers and the car. The certificate must be present for communications with a car and is preferred for authenticating with cloud servers as it provides significantly better security than a password and requires less interaction from the user.
+
+For each additional device that a user adds to their account, a unique certificate is generated and stored on the device therefore allowing each user device to be tracked individually, linking the device to the specific user. 
+
+Further discussed in Section \ref{ssec:app-security} [\nameref{ssec:app-security}] are additional security features used specifically within the mobile application for extra convenience and protection.
 
 \subsubsection{Server and Car Authentication}
-\subsubsection{Profit}
+Similarly to user authentication with certificates, each car system has an in-built signed certificate from the car manufacturer to prove it's authenticity. The matching private key for the certificate is installed in a hardware keystore within the car computer to improve it's robustness against attacks and is communicated with over a standard bus built into the car computer system.
 
+Unlike the mobile app, the car must always use it's certificate when communicating with any external service and can only communicate over the encrypted and authenticated HTTPS protocol. This is to ensure no future attacks are developed by exploiting the availability of unencrypted communications.
+The car system will only handshake successfully with services that it recognises immediately, or those which have been signed by a recognised authority, as any HTTPS connection should.
+Any system in the car that is not directly tied to critical or sensitive services may continue to use a standard CA (certificate authority) list; it is only internal services used directly by the car that require the manufacturer-trusted CA store.
 
+The situation is very similar for the security implementation in the cloud. Each server is provisioned with a certificate/key pair, signed by the cloud provider and governing body, which are used to handshake every connection to the car and mobile app.
+It is important that all endpoints communicating with these services ensure they check the validity and authenticity of the TLS certificates to prevent unwanted data leakage or MITM (man-in-the-middle) attacks where some critical authentication or identifying information could potentially be stolen. Any attacker posing as a rogue cloud server could forge certificates and assuming the client (whether that be an app, web client etc) doesn't verify it is signed by the correct authorities then the attacker can read all data passed to it unencrypted, as it was originally sent.
+
+\subsubsection{Device Certificate Revocation}
+Certificates can be revoked individually, on a per-device basis; this allows a user to instantaneously prevent any unauthorised access to the car(s) in the case a phone/laptop is lost or stolen. 
+
+A user can revoke a certificate from their account at any time via the web portal or by calling the manufacturer's helpline, both of which are critical high-availability services as the security of vehicle control is paramount. Upon revocation, repeated push calls are made to every device on the account, including the car, to advise of the updated access  control. This is important as while many services are always authenticated through the cloud services like `remote access' of the vehicle (where revocation would immediately apply), some processes such as local unlocking via NFC or accessing the in-car computer only authenticate locally for speed and would have to be wait for the revocation update to be received. \textit{It should be very clearly noted that car ignition requires sufficient cloud authentication so the car cannot be started with any revoked certificate, ever.}
+
+\subsubsection{}
 
 \begin{itemize}
   \item Database encryption in the cloud
@@ -184,7 +181,6 @@ We leverage the implicit authentication flow from TLS backed by per-user certifi
     % ^.
   \item HTTPS for all internet communications
   \item WPA2-PSK with AES for Wi-Fi hotspot login
-  \item X.509 certificate for the car
 \end{itemize}
 
 \subsection{Interaction Design --- Matt}\label{ssec:interaction-design}
@@ -206,7 +202,7 @@ Each of the rear door cards will be fitted with a 5 inch touch screen device tha
 An effort was made to follow current styling standards used in industry to give the user a familiar experience, therefore flat designs were used where possible. Also characterising our design are large icons and avoidance of large swathes of text.
 
 \subsubsection{Dashboard cluster screen}\label{sssec:cluster-screen}
-A screen will be replacing the usual instrument cluster behind the steering wheel. This will display information relative to speed, engine revolutions, fuel levels as it has been doing for the past decades but with the twist
+A screen will be replacing the usual instrument cluster behind the steering wheel. This will display information relative to speed, engine revolutions, fuel levels as it has been doing for the past decades but with the difference of being fully customisable in layout, content and colour. These features will result in improved user experience for individuals with poor vision and colour blindness since font sizes and colour schemes can be altered easily in the settings. More generally, as suggested by our questionnaire research, the majority of users will enjoy having the ability of selecting what they will see behind the steering wheel themselves. The LCD panel in question will not be a touch screen since access would be restricted by the wheel and the customisation will be managed on the centre console screen instead.
 
 %%%%%%%%%%%%%%%%%%%%%
 %	PLAN
@@ -241,10 +237,6 @@ which seems to have very limited functionality for tracking a person who owns a 
 % If we're going with Harvard referencing (must finish the reference if so)
 mentions the existence of this tracker, stating ``this could be useful if you are in a big group and you have more than one car travelling to the same destination'', but does not elaborate further, and we cannot find documentation from Garmin as to whether this is the exact use of this tracker.
 % Complete above paragraph? Might be finished now
-\begin{itemize}
-  \item Questionnaires
-  \item Researching latest technology
-\end{itemize}
 
 \subsection{Brainstorming --- Matt}\label{ssec:nav-brainstorming}
 % Should we include our initial ideas document?
@@ -266,30 +258,30 @@ roadwork and traffic information, gained from the APIs, which will apply a highe
 
 In order to ensure the route continues being efficient, the system polls the APIs every five minutes for updates to traffic conditions and roadworks. After this data has updated the graph, the search is re-run, with the start node being ahead of the current position in order to account for the latency in running the search. The search also re-runs when the driver leaves the current route, to make sure they are still travelling efficiently.
 \subsubsection{Machine learning}\label{sssec:nav-tech-machinelearning}
+%
 % I think Matt did some research into this? If so, can he fill out this section?
+%
 \subsubsection{K-means clustering}\label{sssec:nav-tech-kmeans}
 One of the problems we encountered while designing the convoy feature was how to handle situations where a group is starting its journey separated, and quite widely spread. From our brainstorming sessions, we decided to implement k-means clustering as a method for grouping the members of a convoy together. As described in figure \ref{nav-kmeans}, any members of a convoy who wish to group together as quickly as possible to travel together on the main shared route will be grouped together through clustering. A number, $k$, (explained later) of ``means'' are randomly placed on the graph, and then two steps are repeated until the optimal positions for the means are found - determined by them not moving from the previous iteration. 
 
 The first step is to create the clusters (step 2 of figure \ref{nav-kmeans}), associating each member of the convoy to their nearest mean. The second step moves each mean to the centroid of their corresponding cluster. When convergence is reached, the means are moved to the closest suitable waypoint on the underlying map, and each cluster of convoy members is routed to this waypoint in their cluster. When the entire group is starting within the same city, assuming the destination lies outside the city, this should be sufficient; however, as the convoy gets more spread, this algorithm becomes less efficient, since members may be travelling very far individually before they reach their cluster waypoint. The solution here is to iterate the algorithm multiple times, with the start nodes of each iteration being the cluster waypoints generated by the previous iteration, reducing $k$.
 
 There are some further issues with this algorithm that need to be addressed. Firstly, a good value for $k$ should be chosen. This value represents how many clusters are created by the algorithm, and therefore the average number of people (or groups, if this is a later iteration) to be grouped together by a given iteration can also be determined from $k$. Therefore, $k$ should be chosen based on how many people should be grouped up during one iteration; the standard default will aim to group together 3 or 4
+%
 % Requires a choice and justification
+%
 people per iteration, meaning by default that $k=\frac{number\ of\ input\ nodes}{3}$. This may need to be changed or adapted based on the context, and can also be chosen by the convoy leader, where they can specify how many should group up per iteration; the leader can also specify to not use clustering, allowing each driver to decide how they reach the destination.
 
 The second issue arises when this algorithm would introduce a large inconvenience for certain members. In figure \ref{nav-kmeans}, it can be seen that the topmost blue member of the convoy starts out close to the destination, but the algorithm forces them to travel in a different direction. When the algorithm detects that the clustering route is significantly longer than a standard individual route, it presents an option to that member to: accept the longer route, allowing them to group up with the others as quickly as possible; join directly into the full shared route, so they can still travel with the other members, but won't join up with them as quickly; or ignore the clustering, and follow an individual route, so they can reach the destination as quickly as possible while sacrificing the ability to travel in the main group.
+
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{kmeanscluster}
   \caption{Demonstration of K-means convoy clustering.}\label{nav-kmeans}
 \end{figure}
+
 \subsubsection{Public Transport}
-\subsubsection{Plan --- \large\color{red} remove me later}
-\begin{itemize}
-  \item Bidirectional A* search
-  \item K-means clustering
-  \item Machine Learning --- Contextually aware routing
-  \item A ton of other things from the slides...
-\end{itemize}
+
 
 \subsection{Convoy}\label{ssec:nav-convoy} % Chris
 Convoys are a feature in our system, designed to allow a party to all route to the same destination, tracking members and having functionality for scheduled stops, rerouting and group calls. From the navigation menu, the user can select to either set up or join a convoy. The user that chooses to set up a convoy is given a six-digit code that they can then share via social media or any other way. Users that choose to join the convoy must enter the six digit code they were given by the convoy creator. The convoy creator is able to set the route destination, any stop off points and optionally give the convoy a name.
@@ -309,9 +301,41 @@ There are of course limitations to this feature. Convoys require an internet con
 \subsection{Design choices \& argumentation --- Lewis}\label{ssec:nav-design}
 \subsubsection{General Design}\label{sssec:nav-design-general}
 For a lot of features in our navigation section, we have utilised QOC as a method of deciding how to implement them. We have also used our survey responses as guidance for certain features.
+
+We have employed a scoring system in the QOC in order to rank the options, which uses the importance levels of the criteria to determine how the options compare to each other.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{qoc-nav-instruction}
+  \caption{QOC discussing how to direct the driver}\label{qoc-instructions}
+\end{figure}
+
+Figure \ref{qoc-instructions} asks how directions can be given to the driver. As can be seen, an augmented reality approach appears to be a strongly decisive victor among these options, however, we had already discussed the ideas of augmented reality and head up display during the dashboard section of the design process, where we dismissed pursuing augmented reality for various reasons. For example, experiments conducted by %\cite{RefWorks:3} 
+conclude that 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{qoc-nav-input}
+  \caption{QOC discussing how to input a destination}\label{qoc-input}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{qoc-nav-map}
+  \caption{QOC discussing how to display the map}\label{qoc-map}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{qoc-convoy}
+  \caption{QOC discussing how to display others in a convoy group}\label{qoc-convoy}
+\end{figure}
+
 \subsubsection{Algorithm justifications}\label{sssec:nav-design-alg}
 % We don't really have much justification for k-means and we don't have much information in general about our machine learning
 We used QOC as well as experimentation to determine which routing algorithm to use for navigation.
+
+
 \begin{itemize}
   \item QOC % Some of the QOC matrices are incomplete or have incorrect scores
   \item Justification for algorithms
@@ -330,8 +354,6 @@ We used QOC as well as experimentation to determine which routing algorithm to u
 \subsection{Final design}\label{ssec:nav-final-design}
 
 \subsection{Evaluation \& how it fits into whole system}\label{ssec:nav-evaluation}
-
-
 
 
 %%%%%%%%%%%%%%
@@ -372,16 +394,26 @@ A section of our initial ideas brainstorming document can be seen in figure~\ref
   \caption{Refined ideas document.}\label{refined-ideas}
 \end{figure}
 
-\subsection{Tech background --- Tyler}\label{ssec:app-tech}
+\subsection{Tech background}\label{ssec:app-tech} %Tyler
+Many features of the app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication.
 
+Firstly, instructions such as turn the heating on or toggling headlights will be a be on an on/off basis. For example setting the temperature to 20 degrees will keep it at that until it has changed.
+
+Secondly, instruction-critical tasks such as remote controlling the car with the phone app, rapidly send instructions to the car to ensure the car is performing actions safely and as the user expects. For example, if a user is holding the steering wheel at a 45 degree angle, the associated instruction will be sent constantly and processed by the central computing unit until the user changes the rotation. If the phone would happen to lose connection and the instructions stop being received by the car, the car is stopped.
+
+Features for controlling music within the car are communicated over Wi-Fi and Bluetooth. The local music library of the car is synced with the phone, and also there is a Spotify account linked to the drivers user profile. Which is logged in on the centre console.
+
+All messages regarding the control of music with the app, are encapsulated within a JSON object. These messages will hold instructions such as play, pause and song requests. Song requests will contain music file names and the library they are stored in.
+If music is from Spotify, then associated actions for controlling the Spotify account, which is logged in on the centre console are embedded within the message.
+
+There is also the option to control the centre console Spotify account using Spotify's ``Spotify connect'' service. This allows you to control other Spotify devices on the same network. The Wi-Fi network of the car in this case.
+
+Users can also view the car cameras live video feed on their phones through our app. This video stream will be dynamically re-encoded by the cars computing unit and then transmitted over RTSP (Real Time Streaming Protocol). This is to make best use of the connection of the car by adjusting the bitrate of video based on the available bandwidth from the car and to the client, whether they are connected via Wi-Fi or slow mobile data.
 \begin{itemize}
   \item Data base
-  \item 
-  \item Communication -- mentioned in above section
 \end{itemize}
-% Repeating what is said in communication (2.4) ^^
 
-\subsection{Design choices \& argumentation --- (not) Lewis}\label{ssec:app-design}
+\subsection{Design choices \& argumentation}\label{ssec:app-design}
 % While I put my name down for this, it's come to my attention that I'm probably not a great candidate for this section being that I wasn't present for a lot of the design choices for the app --- maybe this section is better written by somebody else -Lewis
 \begin{itemize}
   \item QOC (to be made)
@@ -394,13 +426,20 @@ A section of our initial ideas brainstorming document can be seen in figure~\ref
   \caption{Hi-Fi prototype of app main menu.}\label{main-menu}
 \end{figure}
 
+\subsection{App Security}\label{ssec:app-security}
+% Authentication via a phone built-in method as additional security 
+% 2FA
+
 \subsection{Final design}\label{ssec:app-final-design}
 
 \subsection{Evaluation \& how it fits into whole system}\label{ssec:app-evaluation}
 
 \section{Other areas}\label{sec:other}
-
 Annotate slides on changes we would make going forwards
+
+\includepdf[pages=1]{slides}
+\includepdf[pages=2]{slides-annotated}
+\includepdf[pages=6]{slides-annotated}
 
 %\end{multicols}
 
