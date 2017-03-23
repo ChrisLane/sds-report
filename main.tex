@@ -312,7 +312,7 @@ We have employed a scoring system in the QOC in order to rank the options, which
 \end{figure}
 
 Figure \ref{qoc-instructions} asks how directions can be given to the driver. As can be seen, an augmented reality approach appears to be a strongly decisive victor among these options, however, we had already discussed the ideas of augmented reality and head up display during the dashboard section of the design process, where we dismissed pursuing augmented reality for various reasons. For example, experiments conducted by \cite{RefWorks:3} 
-conclude that "the driver's attention to the road and traffic is likely to be compromised" when HUD information is shown on the windshield. After some internal discussions we also feel that: 
+conclude that "the driver's attention to the road and traffic is likely to be compromised" when HUD information is shown on the windshield. After some internal discussions we also feel that: it would be difficult to ensure it works in bright daylight and during nighttime; it would likely be expensive to implement and maintain, due to the high computational requirements as well as the cost of replacing projector bulbs
 
 \begin{figure}[H]
   \centering
@@ -350,12 +350,19 @@ We used QOC as well as experimentation to determine which routing algorithm to u
 \subsection{Prototypes \& user testing}\label{ssec:nav-prototypes-testing}
 \begin{itemize}
   \item Lo-Fi and Hi-Fi prototypes of Navigation and Convoy
-  \begin{figure}[H]
+\end{itemize}
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{convoy-lofi}
   \caption{Lo-Fi design for travelling different routes in a convoy}\label{prototype-lofi-convoy}
 \end{figure}
-\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{convoy-map}
+  \caption{Hi-Fi final design for navigation}\label{prototype-lofi-convoy}
+\end{figure}
+
 
 \subsection{Final design}\label{ssec:nav-final-design}
 
