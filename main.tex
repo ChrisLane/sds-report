@@ -36,7 +36,7 @@ We have created an attractive and modern solution for digital technology in a ca
   \item Operating system
   \item How the system updates -- dual system architecture
   \item separate auxiliary system
- 
+
 \end{itemize}
 \subsection{Algorithms}\label{ssec:algorithms}
 \begin{itemize}
@@ -65,9 +65,9 @@ The cloud will be used for the majority of storage, it is where persistent data 
 
 The car's internal SSD storage will be used for fast reading and writing of synchronised files and cached data primarily. Data queried from the cloud will be cached to grant a more seamless experience even when the car is not connected to the internet. Examples of cached data from the cloud include favourite routes, dashboard layout and seat positions. Since the centre console system is built around the Android platform, we have been able to easily allow certain apps from the Play Store. One example of an app that we would allow on the system is Spotify, for music playback. The Spotify app will be able to store all of its settings, cached data and offline playlists in the car's internal storage as well. Local music files synchronised from a home network will be stored in the car's internal storage. The dashcams will also record their video to the internal storage of the car, this will be limited to a default percentage of the drive's capacity (SSD can be upgraded) and recordings will overwrite old footage in order to reuse the assigned storage space. The basic version of the system will likely have at least 120GB of SSD storage, however, this could easily be upgraded by swapping out the drive from the glove box.
 % * <frebib@gmail.com> 2017-03-22T12:19:33.906Z:
-% 
+%
 % It's probably worth mentioning that the SSD can be user replaceable and as a result the system is stored on a separate disk(s) internally within the car to accommodate such feature
-% 
+%
 % ^.
 
 The accompanying car smartphone app does not require much storage at all since it must be connected to the internet or car to make any changes. Data from the cloud, car and app will be cached so that it may still be accessible for short connectivity outages.
@@ -149,7 +149,7 @@ We leverage the implicit authentication flow from TLS backed by per-user certifi
 
 Everywhere a persistent login is used, it is replaced with a client certificate authorised to access the account without a password. The primary use for these certificates is automatic authorisation of the mobile app on smartphones and embedded devices with the cloud servers and the car. The certificate must be present for communications with a car and is preferred for authenticating with cloud servers as it provides significantly better security than a password and requires less interaction from the user.
 
-For each additional device that a user adds to their account, a unique certificate is generated and stored on the device therefore allowing each user device to be tracked individually, linking the device to the specific user. 
+For each additional device that a user adds to their account, a unique certificate is generated and stored on the device therefore allowing each user device to be tracked individually, linking the device to the specific user.
 
 Further discussed in Section \ref{ssec:app-security} [\nameref{ssec:app-security}] are additional security features used specifically within the mobile application for extra convenience and protection.
 
@@ -164,7 +164,7 @@ The situation is very similar for the security implementation in the cloud. Each
 It is important that all endpoints communicating with these services ensure they check the validity and authenticity of the TLS certificates to prevent unwanted data leakage or MITM (man-in-the-middle) attacks where some critical authentication or identifying information could potentially be stolen. Any attacker posing as a rogue cloud server could forge certificates and assuming the client (whether that be an app, web client etc) doesn't verify it is signed by the correct authorities then the attacker can read all data passed to it unencrypted, as it was originally sent.
 
 \subsubsection{Device Certificate Revocation}
-Certificates can be revoked individually, on a per-device basis; this allows a user to instantaneously prevent any unauthorised access to the car(s) in the case a phone/laptop is lost or stolen. 
+Certificates can be revoked individually, on a per-device basis; this allows a user to instantaneously prevent any unauthorised access to the car(s) in the case a phone/laptop is lost or stolen.
 
 A user can revoke a certificate from their account at any time via the web portal or by calling the manufacturer's helpline, both of which are critical high-availability services as the security of vehicle control is paramount. Upon revocation, repeated push calls are made to every device on the account, including the car, to advise of the updated access  control. This is important as while many services are always authenticated through the cloud services like `remote access' of the vehicle (where revocation would immediately apply), some processes such as local unlocking via NFC or accessing the in-car computer only authenticate locally for speed and would have to be wait for the revocation update to be received. \textit{It should be very clearly noted that car ignition requires sufficient cloud authentication so the car cannot be started with any revoked certificate, ever.}
 
@@ -234,7 +234,7 @@ We also performed some research to find out exactly what kind of features are cu
 % Probably more to say here...
 During this research, however, we could not find any current implementation nor professional research into our ideas for convoy driving. The closest concept to this we could find was the Garmin Tracker
 % Reference... not sure how we're doing references to external sources, yet. Also might be worth only referencing this lower down.
-which seems to have very limited functionality for tracking a person who owns a Garmin SatNav, for uses such as knowing when a family member should reach home. It also appears that this feature is only included with a limited subset of the Garmin models, which seem to have been discontinued. \cite{RefWorks:2} 
+which seems to have very limited functionality for tracking a person who owns a Garmin SatNav, for uses such as knowing when a family member should reach home. It also appears that this feature is only included with a limited subset of the Garmin models, which seem to have been discontinued. \cite{RefWorks:2}
 % If we're going with Harvard referencing (must finish the reference if so)
 mentions the existence of this tracker, stating ``this could be useful if you are in a big group and you have more than one car travelling to the same destination'', but does not elaborate further, and we cannot find documentation from Garmin as to whether this is the exact use of this tracker.
 % Complete above paragraph? Might be finished now
@@ -263,7 +263,7 @@ In order to ensure the route continues being efficient, the system polls the API
 % I think Matt did some research into this? If so, can he fill out this section?
 %
 \subsubsection{K-means clustering}\label{sssec:nav-tech-kmeans}
-One of the problems we encountered while designing the convoy feature was how to handle situations where a group is starting its journey separated, and quite widely spread. From our brainstorming sessions, we decided to implement k-means clustering as a method for grouping the members of a convoy together. As described in figure \ref{nav-kmeans}, any members of a convoy who wish to group together as quickly as possible to travel together on the main shared route will be grouped together through clustering. A number, $k$, (explained later) of ``means'' are randomly placed on the graph, and then two steps are repeated until the optimal positions for the means are found - determined by them not moving from the previous iteration. 
+One of the problems we encountered while designing the convoy feature was how to handle situations where a group is starting its journey separated, and quite widely spread. From our brainstorming sessions, we decided to implement k-means clustering as a method for grouping the members of a convoy together. As described in figure \ref{nav-kmeans}, any members of a convoy who wish to group together as quickly as possible to travel together on the main shared route will be grouped together through clustering. A number, $k$, (explained later) of ``means'' are randomly placed on the graph, and then two steps are repeated until the optimal positions for the means are found - determined by them not moving from the previous iteration.
 
 The first step is to create the clusters (step 2 of figure \ref{nav-kmeans}), associating each member of the convoy to their nearest mean. The second step moves each mean to the centroid of their corresponding cluster. When convergence is reached, the means are moved to the closest suitable waypoint on the underlying map, and each cluster of convoy members is routed to this waypoint in their cluster. When the entire group is starting within the same city, assuming the destination lies outside the city, this should be sufficient; however, as the convoy gets more spread, this algorithm becomes less efficient, since members may be travelling very far individually before they reach their cluster waypoint. The solution here is to iterate the algorithm multiple times, with the start nodes of each iteration being the cluster waypoints generated by the previous iteration, reducing $k$.
 
@@ -311,7 +311,7 @@ We have employed a scoring system in the QOC in order to rank the options, which
   \caption{QOC discussing how to direct the driver}\label{qoc-instructions}
 \end{figure}
 
-Figure \ref{qoc-instructions} asks how directions can be given to the driver. As can be seen, an augmented reality approach appears to be a strongly decisive victor among these options, however, we had already discussed the ideas of augmented reality and head up display during the dashboard section of the design process, where we dismissed pursuing augmented reality for various reasons. For example, experiments conducted by \cite{RefWorks:3} 
+Figure \ref{qoc-instructions} asks how directions can be given to the driver. As can be seen, an augmented reality approach appears to be a strongly decisive victor among these options, however, we had already discussed the ideas of augmented reality and head up display during the dashboard section of the design process, where we dismissed pursuing augmented reality for various reasons. For example, experiments conducted by \cite{RefWorks:3}
 conclude that "the driver's attention to the road and traffic is likely to be compromised" when HUD information is shown on the windshield. After some internal discussions we also feel that: it would be difficult to ensure it works in bright daylight and during nighttime; it would likely be expensive to implement and maintain, due to the high computational requirements as well as the cost of replacing projector bulbs; it may be difficult to reliably ensure the image lines up correctly to the drivers perspective, due to differences in head height or position; but we do not have substantial evidence supporting these claims.
 
 As a result of dismissing the use of augmented reality for our final designs, the two currently popular methods of direction delivery become the top choices from the QOC, and sticking with these choices seems to be a good idea since our questionnaire responders felt their SatNav devices were sufficiently clear already.
@@ -380,7 +380,7 @@ We used QOC as well as experimentation to determine which routing algorithm to u
 
 \subsection{Research --- Matt}\label{ssec:app-research}
 Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar, BMW and Tesla already offer multi-platform mobile apps that compliment their automobiles. Each of the above boasts at least one of the features that we intended to integrate into our systems such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features.
-The research methods we used included a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines. 
+The research methods we used included a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines.
 
 While browsing the existing apps that manufacturers offer, we have come across some flaws that  we were determined to get right in our final product. For example, \textit{BMW Connected}, their take on an app to compliment their most recent cars, excels in features like learning driving habits over time and facilitating safe communication with friends and family while still requiring a wired connection for simple features like transferring a route from the phone to the cars' navigation system and having a restricted range for remote functions such as lock, beep horn and switch lights. Flaws of similar magnitude con be found in \textit{Jaguar In-Control apps} and \textit{Mercedes Me}, which is reviewed as unusable or useless by most users.
 
@@ -442,7 +442,7 @@ Users can also view the car cameras live video feed on their phones through our 
 \end{figure}
 
 \subsection{App Security}\label{ssec:app-security}
-% Authentication via a phone built-in method as additional security 
+% Authentication via a phone built-in method as additional security
 % 2FA
 
 \subsection{Final design}\label{ssec:app-final-design}
