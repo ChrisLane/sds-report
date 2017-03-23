@@ -30,8 +30,11 @@ We have created an attractive and modern solution for digital technology in a ca
 
 \section{Overall system design}\label{sec:system-design}
 \subsection{General}
+Our system consists of many components, these are the centre console, the dashboard, rear back door screens, and a navigation screen. And of course the phone application which will be installed on user mobile devices.
 
+The centre console will be 10" screen located in the front of the car on the dash between the front two seats of the car. This centre console is the central computing unit for the car and has an android operating system. This will have a dual system architecture. The reason for this is because both systems will be flashed with the same image before a software update. This will allow one of the systems to be written with the new system image and have the previous image as bootable backup in case the new system is corrupted.
 
+The dashboard 
 \begin{itemize}
   \item Operating system
   \item How the system updates --- dual system architecture
@@ -39,7 +42,6 @@ We have created an attractive and modern solution for digital technology in a ca
 
 \end{itemize}
 \subsection{Algorithms}\label{ssec:algorithms}
-The algorithms w
 \begin{itemize}
   \item Bidirectional A* Algorithm
     \begin{itemize}
@@ -206,19 +208,9 @@ An effort was made to follow current styling standards used in industry to give 
 A screen will be replacing the usual instrument cluster behind the steering wheel. This will display information relative to speed, engine revolutions, fuel levels as it has been doing for the past decades but with the difference of being fully customisable in layout, content and colour. These features will result in improved user experience for individuals with poor vision and colour blindness since font sizes and colour schemes can be altered easily in the settings. More generally, as suggested by our questionnaire research, the majority of users will enjoy having the ability of selecting what they will see behind the steering wheel themselves. The LCD panel in question will not be a touch screen since access would be restricted by the wheel and the customisation will be managed on the centre console screen instead.
 
 \subsubsection{Centre console}\label{sssec:centre-console-aestethics}
-
-
-%%%%%%%%%%%%%%%%%%%%%
-%	PLAN
-%%%%%%%%%%%%%%%%%%%%%
-\begin{itemize}
-  \item Mobile phone
-  \item Rear side door device
-    % Justifications of why we have chosen these designs
-\end{itemize}
-
-
-
+The design on this interface is simple and intuitive, its main menu is made up of large square buttons that are labelled with text of adjustable size. Since this is intended to be the main point of contact between the user and the cars' infotainment system, different types of information are displayed on it ranging from navigation menus to engine management information. While opening new activities on similar devices is usually simple, switching between them isn't always as intuitive and that is why our interface has a virtual button in the top left corner labelled with the name of the previous activity so that the user can 
+\subsubsection{App}\label{sssec:app-aestethics}
+\subsubsection{Rear side door}\label{sssec:rear-door-device-aestethics}
 
 %%%%%%%%%%%%%%
 %
@@ -314,13 +306,21 @@ We have employed a scoring system in the QOC in order to rank the options, which
 
 Figure~\ref{qoc-instructions} asks how directions can be given to the driver. As can be seen, an augmented reality approach appears to be a strongly decisive victor among these options, however, we had already discussed the ideas of augmented reality and head up display during the dashboard section of the design process, where we dismissed pursuing augmented reality for various reasons. For example, experiments conducted by~\cite{RefWorks:3} conclude that ``the driver's attention to the road and traffic is likely to be compromised'' when HUD information is shown on the windshield. After some internal discussions we also feel that: it would be difficult to ensure it works in bright daylight and during nighttime; it would likely be expensive to implement and maintain, due to the high computational requirements as well as the cost of replacing projector bulbs; it may be difficult to reliably ensure the image lines up correctly to the drivers perspective, due to differences in head height or position; but we do not have substantial evidence supporting these claims.
 
-As a result of dismissing the use of augmented reality for our final designs, the two currently popular methods of direction delivery become the top choices from the QOC, and sticking with these choices seems to be a good idea since our questionnaire responders felt their SatNav devices were sufficiently clear already.
+As a result of dismissing the use of augmented reality for our final designs, the two currently popular methods of direction delivery become the top choices from the QOC, and sticking with these choices seems to be a good idea since most of our questionnaire responders felt their SatNav devices were sufficiently clear already.
 
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{qoc-nav-input}
   \caption{QOC discussing how to input a destination}\label{qoc-input}
 \end{figure}
+
+Figure~\ref{qoc-input} asks how the driver should be able to input destinations to their SatNav. As expected, the current standard forms of input score the most highly, being voice and touchscreen keyboard, along with the ability to transfer from external devices. We also considered having a physical keyboard connected to the SatNav device, which also scored highly, but we decided that having a usable keyboard like this would be far too clunky to include. 
+
+Our final design features the ability to use all three of these input methods, allowing users to control the destination using the voice assistant 
+%
+% Have we mentioned the existence of this?
+%
+in the car; a touchscreen keyboard which is displayed on the centre console; or via the phone app, which is explained further in 
 
 \begin{figure}[H]
   \centering
@@ -362,7 +362,7 @@ We used QOC as well as experimentation to determine which routing algorithm to u
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.3]{convoy-map}
-  \caption{Hi-Fi final design for navigation including convoy members}\label{convoy-map}
+  \caption{Hi-Fi final design for navigation including convoy members. Please note that this design shows a static map, whereas the map in the final design will rotate to keep the user facing forward}\label{convoy-map}
 \end{figure}
 
 
@@ -412,7 +412,7 @@ A section of our initial ideas brainstorming document can be seen in figure~\ref
 \subsection{Tech background}\label{ssec:app-tech} %Tyler
 Many features of the app rely on communication with the car in order for them to work. These messages are sent between the phone to the car's central computing unit to be processed. Features which send instructions to the car to control the car's hardware have two different types of communication.
 
-Firstly, instructions such as turn the heating on or toggling headlights will be a be on an on/off basis. For example setting the temperature to 20 degrees will keep it at that until it has changed.
+Firstly, instructions such as turn the heating on or toggling headlights will be on an on/off basis. For example setting the temperature to 20 degrees will keep it at that until it has changed.
 
 Secondly, instruction-critical tasks such as remote controlling the car with the phone app, rapidly send instructions to the car to ensure the car is performing actions safely and as the user expects. For example, if a user is holding the steering wheel at a 45 degree angle, the associated instruction will be sent constantly and processed by the central computing unit until the user changes the rotation. If the phone would happen to lose connection and the instructions stop being received by the car, the car is stopped.
 
