@@ -30,17 +30,12 @@ We have created an attractive and modern solution for digital technology in a ca
 
 \section{Overall system design}\label{sec:system-design}
 \subsection{General}
-Our system consists of many components, these are the centre console, the dashboard, rear back door screens, and a navigation screen. And of course the phone application which will be installed on user mobile devices.
+Our system consists of many components, these are the centre console, the instrument cluster, rear back door screens, and a navigation screen. There is also of course the phone application which will be installed on user mobile devices.
 
 The centre console will be 10" screen located in the front of the car on the dash between the front two seats of the car. This centre console is the central computing unit for the car and has an android operating system. This will have a dual system architecture. The reason for this is because both systems will be flashed with the same image before a software update. This will allow one of the systems to be written with the new system image and have the previous image as bootable backup in case the new system is corrupted.
 
-The dashboard 
-\begin{itemize}
-  \item Operating system
-  \item How the system updates --- dual system architecture
-  \item separate auxiliary system
+The instrument cluster, rear back door screens and navigation screen are connected to the centre console via a network of serial cables. Data is sent between these devices. It consists of data for the console to process and what to display on the devices screens.
 
-\end{itemize}
 \subsection{Algorithms}\label{ssec:algorithms}
 \begin{itemize}
   \item Bidirectional A* Algorithm
@@ -112,7 +107,7 @@ The car and mobile app communicate with the cloud mainly to synchronise informat
 
 Since the car and the mobile app can both change user profile settings, there will be continuous syncs when user settings or preferences are changed. This is so the user can change their settings away from their car with their phone, and have them set up automatically the next time they enter their car.
 
-The software within our car has standard API requests that will always have a response from our cloud, we decided that the cloud would have a general API service, which would provide a link to the external APIs that we use. This is so we can provide the best API for a given location, and there is no unnecessary traffic going through our cloud. Also if external APIs are unavailable unexpectedly, we can always just update the cloud to provide a new link to a different external API\@. These services are mentioned in more detail in Section\ref{sssec:devices-APIs}.
+The software within our car has standard API requests that will always have a response from our cloud, we decided that the cloud would have a general API service, which would provide a link to the external APIs that we use. This is so we can provide the best API for a given location, and there is no unnecessary traffic going through our cloud. Also if external APIs are unavailable unexpectedly, we can always just update the cloud to provide a new link to a different external API\@. These services are mentioned in more detail in Section~\ref{sssec:devices-APIs}~\nameref{sssec:devices-APIs}.
 
 During navigation in convoys, the cars location is sent to the cloud and the associated group member's locations are pulled down from the cloud. This is so the location of other group members can be regularly updated on the navigation display. Other information such as group messages or navigation reroutes are also communicated between group members and the cloud.
 
@@ -120,6 +115,7 @@ All the system updates for the car's software will be downloaded through the clo
 
 The cloud will always be listening for real time event data. This is the kind of events that would be happening live, such as if someone is breaking into your car or for some reason the car alarm has just gone off. Once in the cloud this information would be passed straight to the car owners phone via the app to alert them.
 
+%% NEED TO MENTION HOW PHONE TELLS CAR 
 \subsubsection{Communication between car and phone}\label{sssec:car-phone}
 Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password. There will also be the standard Bluetooth communication between the phone and the car such as sharing contacts and taking calls.
 
@@ -204,12 +200,14 @@ Each of the rear door cards will be fitted with a 5 inch touch screen device tha
 % User Interfaces of the above devices
 An effort was made to follow current styling standards used in industry to give the user a familiar experience, therefore flat designs were used where possible. Also characterising our design are large icons and avoidance of large swathes of text.
 
-\subsubsection{Dashboard cluster screen}\label{sssec:cluster-screen}
+\subsubsection{Instrument cluster screen}\label{sssec:cluster-screen}
 A screen will be replacing the usual instrument cluster behind the steering wheel. This will display information relative to speed, engine revolutions, fuel levels as it has been doing for the past decades but with the difference of being fully customisable in layout, content and colour. These features will result in improved user experience for individuals with poor vision and colour blindness since font sizes and colour schemes can be altered easily in the settings. More generally, as suggested by our questionnaire research, the majority of users will enjoy having the ability of selecting what they will see behind the steering wheel themselves. The LCD panel in question will not be a touch screen since access would be restricted by the wheel and the customisation will be managed on the centre console screen instead.
 
 \subsubsection{Centre console}\label{sssec:centre-console-aestethics}
-The design on this interface is simple and intuitive, its main menu is made up of large square buttons that are labelled with text of adjustable size. Since this is intended to be the main point of contact between the user and the cars' infotainment system, different types of information are displayed on it ranging from navigation menus to engine management information. While opening new activities on similar devices is usually simple, switching between them isn't always as intuitive and that is why our interface has a virtual button in the top left corner labelled with the name of the previous activity so that the user can eas
+The design on this interface is simple and intuitive, its main menu is made up of large square buttons that are labelled with text of adjustable size. Since this is intended to be the main point of contact between the user and the cars' infotainment system, different types of information are displayed on it ranging from navigation menus to engine management information. While opening new activities on similar devices is usually simple, switching between them isn't always as intuitive and that is why our interface has a virtual button in the top left corner labelled with the name of the previous activity so that the user can easily switch to the previous one. The backgrounds are static to prevent causing unnecessary distractions, however the colour scheme is fully customisable by the user and is carried through to all of the interfaces in the car. 
+
 \subsubsection{App}\label{sssec:app-aestethics}
+The design choices for our mobile app are detailed in section \ref{ssec:app-design}[\nameref{ssec:app-design}].
 \subsubsection{Rear side door}\label{sssec:rear-door-device-aestethics}
 
 %%%%%%%%%%%%%%
@@ -241,7 +239,7 @@ An aid we found very useful was personas, a list of made-up personalities with r
 
 Some of the ideas that came from our brainstorm are: Convoy tracking using K-Means clustering, public transport integration (including park and ride suggestions), route scheduling via either mobile app or in-car interfaces.
 
-\subsection{Tech background --- Lewis}\label{ssec:nav-tech}
+\subsection{Tech background}\label{ssec:nav-tech}
 % Didn't realise how big this section might be, since there is a lot of technical detail in the slides for nav
 \subsubsection{Routing algorithm}\label{sssec:nav-tech-routing}
 The routing algorithm we use is bidirectional A* search, performing a typical A* search from the start node to the destination, and the destination to the start node, in parallel. The heuristic used for this search will incorporate:
@@ -249,6 +247,9 @@ route requirements;
 % What are route requirements?
 learnt user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver;
 roadwork and traffic information, gained from the APIs, which will apply a higher weight to roads based on their traffic levels.
+%
+% More details on the heuristic
+%
 
 In order to ensure the route continues being efficient, the system polls the APIs every five minutes for updates to traffic conditions and roadworks. After this data has updated the graph, the search is re-run, with the start node being ahead of the current position in order to account for the latency in running the search. The search also re-runs when the driver leaves the current route, to make sure they are still travelling efficiently.
 \subsubsection{Machine learning}\label{sssec:nav-tech-machinelearning}
@@ -260,7 +261,7 @@ One of the problems we encountered while designing the convoy feature was how to
 
 The first step is to create the clusters (step 2 of figure~\ref{nav-kmeans}), associating each member of the convoy to their nearest mean. The second step moves each mean to the centroid of their corresponding cluster. When convergence is reached, the means are moved to the closest suitable waypoint on the underlying map, and each cluster of convoy members is routed to this waypoint in their cluster. When the entire group is starting within the same city, assuming the destination lies outside the city, this should be sufficient; however, as the convoy gets more spread, this algorithm becomes less efficient, since members may be travelling very far individually before they reach their cluster waypoint. The solution here is to iterate the algorithm multiple times, with the start nodes of each iteration being the cluster waypoints generated by the previous iteration, reducing $k$.
 
-There are some further issues with this algorithm that need to be addressed. Firstly, a good value for $k$ should be chosen. This value represents how many clusters are created by the algorithm, and therefore the average number of people (or groups, if this is a later iteration) to be grouped together by a given iteration can also be determined from $k$. Therefore, $k$ should be chosen based on how many people should be grouped up during one iteration; the standard default will aim to group together 3 or 4
+There are some further issues with this algorithm that need to be addressed. Firstly, a good value for $k$ should be chosen. This value represents how many clusters are created by the algorithm, and therefore the average number of people (or groups, if this is a later iteration) to be grouped together by a given iteration can also be determined from $k$. Therefore, $k$ should be chosen based on how many people should be grouped up during one iteration; the standard default will aim to group together 3
 %
 % Requires a choice and justification
 %
@@ -270,7 +271,7 @@ The second issue arises when this algorithm would introduce a large inconvenienc
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.5]{kmeanscluster}
+  \includegraphics[scale=0.55]{kmeanscluster}
   \caption{Demonstration of K-means convoy clustering.}\label{nav-kmeans}
 \end{figure}
 
@@ -318,15 +319,17 @@ Figure~\ref{qoc-input} asks how the driver should be able to input destinations 
 
 Our final design features the ability to use all three of these input methods, allowing users to control the destination using the voice assistant 
 %
-% Have we mentioned the existence of this?
+% We need to mention the existence of this elsewhere
 %
-in the car; a touchscreen keyboard which is displayed on the centre console; or via the phone app, which is explained further in 
+in the car; a touchscreen keyboard which is displayed on the centre console; or sent to the car via the phone app, which is explained further in section~\ref{sssec:car-cloud}~\nameref{sssec:car-cloud}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{qoc-nav-map}
   \caption{QOC discussing how to display the map}\label{qoc-map}
 \end{figure}
+
+Figure~\ref{qoc-map} asks how the map can be displayed on the navigation screen. 
 
 \begin{figure}[H]
   \centering
@@ -395,7 +398,7 @@ We didn't rule out any ideas at this stage since even the most ridiculous ideas 
 
 Once we couldn't come up with any more ideas for our initial brainstorm, we grouped each idea by features in a separate ``refined ideas'' document one by one after first discussing whether the idea was feasible and worth expanding upon. Once we had our completed refined and grouped ideas document, we were ready to start designing and researching technical details.
 
-A section of our initial ideas brainstorming document can be seen in figure~\ref{initial-ideas} and a secion of our refined ideas can be seen in figure~\ref{refined-ideas}.
+A section of our initial ideas brainstorming document can be seen in figure~\ref{initial-ideas} and a section of our refined ideas can be seen in figure~\ref{refined-ideas}.
 
 \begin{figure}[H]
   \centering
