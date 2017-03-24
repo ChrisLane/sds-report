@@ -265,7 +265,7 @@ The routing algorithm we use is bidirectional A* search, performing a typical A*
 To ensure the route continues being optimal, the system polls the APIs every five minutes for updates to traffic conditions and roadworks. After this data has updated the graph, the search is re-run, with the start node being ahead of the current position in order to account for the latency in running the search. The search also re-runs when the driver leaves the current route, to make sure they are still travelling efficiently.
 
 \subsubsection{Machine learning}\label{sssec:nav-tech-machinelearning}
-In order to suggest the optimal route for a specific user, the navigation system will make use of a Recommender System, which is a piece of software that uses a Machine Learning algorithm, and more specifically a Classification Tree, in order to guess a rating for a small set of routes based upon user habits. The 3 routes with the highest ratings will be shown to the user as a result of their search. Each tree represents a user profile created using the user’s preferences, extrapolated from the features of the routes they normally take, including how scenic a route is, type of roads (main or back roads), likelihood of heavy traffic and whether the driver is currently tired or not. All the possible features are placed in a binary vector, where each row corresponds to either of the features listed above. The rows of each vector that correspond to a specific feature of a route are marked with a one, while the rest is marked with a zero. Content-Based filtering is being used throughout this approach as we only use data relevant to the current user and do not compare data from different users as 
+In order to suggest the optimal route for a specific user, the navigation system will make use of a Recommender System, which is a piece of software that uses a Machine Learning algorithm, and more specifically a Classification Tree, in order to guess a rating for a small set of routes based upon user habits. The 3 routes with the highest ratings will be shown to the user as a result of their search. Each tree represents a user profile created using the user’s preferences, extrapolated from the features of the routes they normally take, including how scenic a route is, type of roads (main or back roads), likelihood of heavy traffic and whether the driver is currently tired or not. All the possible features are placed in a binary vector, where each row corresponds to either of the features listed above. The rows of each vector that correspond to a specific feature of a route are marked with a one, while the rest is marked with a zero. Content-Based filtering is being used throughout this approach as we only use data relevant to the current user and do not compare data from different users as collaborative or hybrid filtering would do. By taking into account 
 
 Another content based method for user profiling is the multilayer feedforward neural network. The hidden layers consist of sigmoidal units, while the output layer consists of linear units. A separate neural network is trained for each user using only the ratings of that user. The movie features used in the training process are genres, actors and directors. A neural network predicts a specific user’s movie rating using those features. The features are represented using a binary vector, similar to the regression tree described in the last
 paragraph. The training is done using the Levenberg-Maquardt modification of the backpropagation learning algorithm [2].
@@ -394,7 +394,7 @@ It was clear to us that public transport would be a valuable feature in our fina
   \caption{Lo-Fi design for travelling different routes in a convoy}\label{convoy-lofi}
 \end{figure}
 
-We had a lot of ideas surrounding the convoy functionality, so we created a Lo-Fi design to see how some of our ideas might look. Figure~\ref{convoy-lofi} presents a convoy with four drivers, 
+We had a lot of ideas surrounding the convoy functionality, so we created a Lo-Fi design to see how some of our ideas might look. Figure~\ref{convoy-lofi} presents a convoy with four drivers, investigating how certain situations would be displayed. Here, we see the purple car which is separated from 
 
 \subsubsection{Hi-Fi Prototypes}
 
@@ -513,7 +513,7 @@ Figure~\ref{qoc-app-remote} asks how frequently the phone should send instructio
 
 When designing a lo-fi prototype for the app's main screen, we already had a good idea of the features we would like to add to it. Mainly because we had pre-emptively thought there would be a task for designing an app. This made it easy to come up with a early design.
 
-These designs follow the design choices we came to a conclusion to in the previous section. In the home screen (left most image of Figure \ref{figure-app-lofi}) we have large buttons paired with labels giving a brief description of what the buttons do.  
+These designs follow the design choices we came to a conclusion to in the previous section. On the home screen interface (left most image of Figure \ref{figure-app-lofi}) we have large buttons paired with labels giving a brief description of what the buttons do.  
 
 \begin{figure}[H]
   \centering
