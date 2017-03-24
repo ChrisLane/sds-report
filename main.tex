@@ -425,7 +425,7 @@ In many countries road upgrades have been slow and so taking public transport in
 
 Possibly one of our favourite features in our car system are the convoys. We've not seen any meaningful convoy systems in existing navigation systems and believe that ours has been designed to be useful and easy to use. The system is featureful and flexible to handle a variety of different use cases.
 
-While we found that implementing our system using Google Maps APIs would be the easiest and likely most efficient way of implementing our routing systems, having our own custom algorithms and setup means that we have the flexibility to tweak algorithm heuristics to provide the best routes tailoured to the driver.
+While we found that implementing our system using Google Maps APIs would be the easiest and likely most efficient way of implementing our routing systems, having our own custom algorithms and setup means that we have the flexibility to tweak algorithm heuristics to provide the best routes tailored to the driver.
 
 Overall we are happy with the design of our navigation system, a lot of research and work has been put into the system and this shows from the level of detail that we have in both technical and visual designs.
 
@@ -440,7 +440,7 @@ Overall we are happy with the design of our navigation system, a lot of research
 Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar [\textcite{jaguar-ws}], BMW [\textcite{bmw-ws}] and Tesla[\textcite{tesla-ws}] already offer multi-platform mobile apps that compliment their automobiles. Each of the above boasts at least one of the features that we intended to integrate into our systems such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features.
 The research methods we used included a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines.
 
-While browsing the existing apps that manufacturers offer, we have come across some flaws that  we were determined to get right in our final product. For example, \textit{BMW Connected}, their take on an app to compliment their most recent cars, excels in features like learning driving habits over time and facilitating safe communication with friends and family while still requiring a wired connection for simple features like transferring a route from the phone to the cars' navigation system and having a restricted range for remote functions such as lock, beep horn and switch lights. Flaws of similar magnitude con be found in \textit{Jaguar In-Control apps} and \textit{Mercedes Me}, which is reviewed as unusable or useless by most users.
+While browsing the existing apps that manufacturers offer, we have come across some flaws that  we were determined to get right in our final product. For example, \textit{BMW Connected}, their take on an app to compliment their most recent cars, excels in features like learning driving habits over time and facilitating safe communication with friends and family while still requiring a wired connection for simple features like transferring a route from the phone to the cars' navigation system and having a restricted range of remote functions such as lock, beep horn and switch lights. Flaws of similar magnitude con be found in \textit{Jaguar In-Control apps} and \textit{Mercedes Me}, which is reviewed as unusable or useless by most users.
 
 We found that even where features are collectively good, they are often scattered over several apps, we intended for our customers to be able to download one app and be able to access all features from there while keeping it intuitive and user-friendly.
 
@@ -489,14 +489,14 @@ The app shares a lot of the same data structures for maps and caching, see Secti
 
 Our app is designed with a flat design. This aims to keep the interface minimalistic in the use of shading and colour gradients, keeping the elements looking flat against the background. Flat design is a standard in the mobile industry, so users are familiar with this design and it is proven to be a clear interface design.
 
-The colour scheme in the app is synchronised with the colour schemes of the centre console and the rear door screens, but can be overridden in the settings. This also aims to keep the user feeling in a familiar environment when using any part of the car system.
+The colour scheme in the app is synchronised with the colour schemes of the centre console and the rear door screens but can be overridden in the settings. This also aims to keep the user feeling in a familiar environment when using any part of the car system.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{qoc-app-menu}
   \caption{QOC discussing how to lay out the main menu}\label{qoc-app-menu}
 \end{figure}
-Figure~\ref{qoc-app-menu} asks how we can lay out the main menu. Since this is an aesthetic design choice, the criteria focus on ensuring ease of use and accessibility. As can be seen from the matrix, it is clear that there are multiple good options: grid of images and text, which adds clarity to possibly ambiguous images while making it more aesthetically pleasing than a grid of text; tabbed layout, which places all the features on the main screen and scrolls sideways between them; and a navigation drawer -- a vertical bar accessible at the side of the screen offering links to the different features.
+Figure~\ref{qoc-app-menu} asks how we can lay out the main menu. Since this is an aesthetic design choice, the criteria focus on ensuring ease of use and accessibility. As can be seen from the matrix, it is clear that there are multiple good options: a grid of images and text, which adds clarity to possibly ambiguous images while making it more aesthetically pleasing than a grid of text; tabbed layout, which places all the features on the main screen and scrolls sideways between them; and a navigation drawer -- a vertical bar accessible at the side of the screen offering links to the different features.
 
 We decided to utilise all three of these options, which can be seen in Section~\ref{ssec:app-prototypes-testing}~[\nameref{ssec:app-prototypes-testing}], having a main menu with a grid layout of buttons showing image and text, which aims to mitigate the unclear functionality of a grid of only images through use of a textual description as well as using easily identifiable icons; a tab layout on the main menu to switch between a feed screen and the main menu; and a navigation drawer to allow easy access to a main menu from anywhere in the app.
 
