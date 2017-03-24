@@ -366,7 +366,7 @@ Figure~\ref{qoc-map} asks how the map can be displayed on the navigation screen.
   \fbox{\includegraphics[width=\linewidth]{qoc-convoy}}
   \caption{QOC discussing how to display others in a convoy group}\label{qoc-convoy}
 \end{figure}
-Figure~\ref{qoc-convoy} asks how to represent other drivers in a convoy group on the map. We wanted the representation to distinguish between drivers who are moving and those who have stopped - and further, those who have made unexpected/unplanned stops - while also providing a suitable representation for if they are far away. We didn't have much to dispute with these QOC results, and all of the highest scoring options were taken through to the final design. As a mitigation for the profile picture being not easy to set up, we allow the user to sync their profile picture with social media, or to just use their initials. To allow further customisation, however, users may choose to have a basic coloured circle as their representation, since this may be desired especially in smaller groups.
+Figure~\ref{qoc-convoy} asks how to represent other drivers in a convoy group on the map. We wanted the representation to distinguish between drivers who are moving and those who have stopped --- and further, those who have made unexpected/unplanned stops --- while also providing a suitable representation for if they are far away. We didn't have much to dispute with these QOC results, and all of the highest scoring options were taken through to the final design. As a mitigation for the profile picture being not easy to set up, we allow the user to sync their profile picture with social media, or to just use their initials. To allow further customisation, however, users may choose to have a basic coloured circle as their representation, since this may be desired especially in smaller groups.
 
 \subsubsection{Algorithm Justifications}\label{sssec:nav-design-alg}
 We used QOC as well as experimentation to determine which routing algorithm to use for navigation.
@@ -496,7 +496,7 @@ The colour scheme in the app is synchronised with the colour schemes of the cent
   \includegraphics[width=\textwidth]{qoc-app-menu}
   \caption{QOC discussing how to lay out the main menu}\label{qoc-app-menu}
 \end{figure}
-Figure~\ref{qoc-app-menu} asks how we can lay out the main menu. Since this is an aesthetic design choice, the criteria focus on ensuring ease of use and accessibility. As can be seen from the matrix, it is clear that there are multiple good options: a grid of images and text, which adds clarity to possibly ambiguous images while making it more aesthetically pleasing than a grid of text; tabbed layout, which places all the features on the main screen and scrolls sideways between them; and a navigation drawer -- a vertical bar accessible at the side of the screen offering links to the different features.
+Figure~\ref{qoc-app-menu} asks how we can lay out the main menu. Since this is an aesthetic design choice, the criteria focus on ensuring ease of use and accessibility. As can be seen from the matrix, it is clear that there are multiple good options: a grid of images and text, which adds clarity to possibly ambiguous images while making it more aesthetically pleasing than a grid of text; tabbed layout, which places all the features on the main screen and scrolls sideways between them; and a navigation drawer --- a vertical bar accessible at the side of the screen offering links to the different features.
 
 We decided to utilise all three of these options, which can be seen in Section~\ref{ssec:app-prototypes-testing}~[\nameref{ssec:app-prototypes-testing}], having a main menu with a grid layout of buttons showing image and text, which aims to mitigate the unclear functionality of a grid of only images through the use of a textual description as well as using easily identifiable icons; a tab layout on the main menu to switch between a feed screen and the main menu; and a navigation drawer to allow easy access to the main menu from anywhere in the app.
 
@@ -507,7 +507,7 @@ We decided to utilise all three of these options, which can be seen in Section~\
 \end{figure}
 Figure~\ref{qoc-app-connect} asks how the phone should initially connect to the car. These options are fairly close to each other in suitability, so we allow the user to use any of these methods for initial connection. However, after this initial connection, Wi-Fi is automatically paired so that the initial connection is no longer required since this removes the restriction on the physical location of the device that RFID and USB suffer from (since both of these options require close proximity to a certain location in the car).
 
-Initially, we had intended for RFID to be the method for primary connection to the car, since we thought it would be the easiest to use. However, the QOC showed us that having wide device compatibility is a really important criterion for this, which is not true of RFID.
+Initially, we had intended for RFID to be the method for primary connection to the car, since we thought it would be the easiest to use. However, the QOC showed us that having wide device compatibility is a really important criterion for this, which is not true of RFID.\@
 
 \begin{figure}[H]
   \centering
@@ -559,7 +559,7 @@ Overall we are happy with the design that we have created for the car app. The a
 
 % \end{multicols}
 
-\printbibliography
+\printbibliography{}
 
 \section{Appendix}\label{sec:appendix}
 \subsection{Documents}\label{ssec:appendix-docs}
@@ -597,7 +597,7 @@ App prototype repository
 \subsection{Annotated Slide Decks --- appended to report}\label{ssec:appendix-other}
 
 % ALL ANNOTATED SLIDES
-\eject \pdfpagewidth=8.27in \pdfpageheight=6.2025in
+\eject{} \pdfpagewidth=8.27in \pdfpageheight=6.2025in
 \includepdf[pages=-]{slides-annotated}
 % ANNOTATED AND FULL-SIZE SLIDES
 
