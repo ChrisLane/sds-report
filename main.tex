@@ -20,11 +20,12 @@
 \author{A-Team\\Matthias Casula, Lewis Dawson, Joe Groocock, Chris Lane, Tyler Stopforth}
 
 \begin{document}
-\maketitle
 
-\pagebreak
 \tableofcontents
-\pagebreak
+\clearpage
+\setcounter{page}{1}
+
+\maketitle
 
 \begin{abstract}
   Cars are ubiquitous in our modern lifestyles, unfortunately, the software systems in them do not keep up with other computing systems that we use. In this report, we aim to show how we tackled the problems and areas for improvement that we found in current car systems. Five areas of a modern car's feature set were focused on weekly, these being; the dashboard, media, navigation, safety and an accompanying smartphone app.
@@ -33,7 +34,7 @@
 % \begin{multicols}{2}
 
 \section*{Introduction}
-For years car companies have invested relatively little into their car's information systems and technological abilities. Inbuilt satellite navigation systems are often hard to use and update, and are generally counter-intuitive. Since these companies are slow to adopt new technologies, even features that would have been possible many many years ago have not been widely adopted yet. For example, we still use the physical dials in the instrument cluster that we have used for years.
+For years car companies have invested relatively little into their car's information systems and technological abilities. Inbuilt satellite navigation systems are often hard to use and update and are generally counter-intuitive. Since these companies are slow to adopt new technologies, even features that would have been possible many many years ago have not been widely adopted yet. For example, we still use the physical dials in the instrument cluster that we have used for years.
 
 We have created an attractive and modern solution for digital technology in a car that we hope to see in future modern cars in production. In Section~\ref{sec:system-design} we will give explain the technical elements of our system design that can be found ranging from navigation to safety features. In Section~\ref{sec:nav} we will go into detail on the design process of our navigation system. In Section~\ref{sec:app} we will go into detail on the design process of our accompanying smartphone app.
 
@@ -43,28 +44,28 @@ Some further documentation is linked to in Section~\ref{sec:appendix}, which aim
 \subsection{General}\label{ssec:system-design-general}
 Our system is built of many separate components which together work seamlessly, these are the centre console, the instrument cluster, in-door screens, and a dashboard-mounted navigation screen. There is also, of course, the smartphone application that will be installed on user mobile devices which perfectly compliments the system.
 
-Our system integrates the voice assistants, Siri from iOS, Cortana from Windows Phone and GoogleAssistant from Android via the smartphone app as a `native' feature of the in-car experience. The assistant can be used to invoke and control any system in the car, managing media playback, performing and tweaking navigation, making calls and composing messages, all with voice. It should be used as the primary interaction with the car whilst driving as the assistant allows the driver to concentrate on where they're going by doing all of the hard work.
+Our system integrates the voice assistants, Siri from iOS, Cortana from Windows Phone and Google Assistant from Android via the smartphone app as a `native' feature of the in-car experience. The assistant can be used to invoke and control any system in the car, managing media playback, performing and tweaking navigation, making calls and composing messages, all with voice. It should be used as the primary interaction with the car whilst driving as the assistant allows the driver to concentrate on where they're going by doing all of the hard work.
 
 The instrument cluster is an LCD display located behind the steering wheel. This displays the usual car instrument information such as speed and fuel level. It is also customisable with widgets to display relevant information for example weather forecast for local and destined locations, currently playing media information and general vehicle health and status. 
 
-The door-mounted screens are dumb 5 inch touchscreen displays located in the arm rest of each rear door. These serve the purpose of allowing back seated passengers to control media playback by queueing and ordering songs of their choice either to the whole car or to their own headphones/speakers.
+The door-mounted screens are dumb 5-inch touchscreen displays located in the armrest of each rear door. These serve the purpose of allowing back seated passengers to control media playback by queueing and ordering songs of their choice either to the whole car or to their own headphones/speakers.
 
-The navigation screen is a 6 inch display located above the dashboard and it displays the street map and directions while driver is using navigation. We kept this display separate from the centre console to reduce the distance the driver has to look whilst driving and using navigation.
+The navigation screen is a 6-inch display located above the dashboard and it displays the street map and directions while the driver is using navigation. We kept this display separate from the centre console to reduce the distance the driver has to look whilst driving and using navigation.
 
 The instrument cluster, rear back door screens and navigation screen are connected to the centre console via a network of serial cables. Data is sent between these devices and it consists of information for the console to process and what to display on the devices screens.
 
-This centre console is the central computing unit for the car which runs on an Android based operating system. The backing system for this, and all dumb interfaces in the car, uses a feature originating in modern Android phones which provide a dual-system architecture. Initially, both systems are flashed with the same image; as updates are installed, the other system image is written to then booted into as the new primary system after a successful install. This leaves the other system as a complete bootable image in the case of corruption or other fatal disasters rendering the updated system unusable. This alternating behaviour of `ping-pong' between the two partitions is used for every update to ensure a more reliable and stable system.
+This centre console is the central computing unit for the car which runs on an Android-based operating system. The backing system for this and all dumb interfaces in the car use a feature originating in modern Android phones which provide a dual-system architecture. Initially, both systems are flashed with the same image; as updates are installed, the other system image is written to then booted into as the new primary system after a successful install. This leaves the other system as a complete bootable image in the case of corruption or other fatal disasters rendering the updated system unusable. This alternating behaviour of `ping-pong' between the two partitions is used for every update to ensure a more reliable and stable system.
 
-Finally there is an auxiliary system separate from the centre console which processes all sensor data collected from the myriad of sensors and cameras all around the interior and exterior of the car, and hosts and runs the safety systems. Separation of these two computers is deliberate to keep computation of critical safety systems unhindered from the general user-facing computation of the central computing unit such as navigation and media consumption.
+Finally, there is an auxiliary system separate from the centre console which processes all sensor data collected from the myriad of sensors and cameras all around the interior and exterior of the car, and hosts and runs the safety systems. Separation of these two computers is deliberate to keep computation of critical safety systems unhindered from the general user-facing computation of the central computing unit such as navigation and media consumption.
 
 \subsection{Algorithms}\label{ssec:algorithms}
-To perform the route calculation for the navigation system we are using Bi-directional A* search to create routes from a start position to a destination. This will with include custom heuristics based on the users history and various other relevant sources. This is explained in more detail in Section~\ref{sssec:nav-tech-routing}~[\nameref{sssec:nav-tech-routing}].
+To perform the route calculation for the navigation system we are using Bi-directional A* search to create routes from a start position to a destination. This will with include custom heuristics based on the user's history and various other relevant sources. This is explained in more detail in Section~\ref{sssec:nav-tech-routing}~[\nameref{sssec:nav-tech-routing}].
 
 We take advantage of K-means clustering at the start of a convoy routing to group together convoy members before they begin their journey. This will guide drivers to a central location based on each member's location in the group. This is discussed in more detail in Section~\ref{sssec:nav-tech-kmeans}~[\nameref{sssec:nav-tech-kmeans}].
 
-As a safety feature we detect if drivers are distracted by tracking their face pose. We have a camera for tracking the drivers face in the driver-side pillar directed at the seat, and we process this feed using ASM landmarks. This reliably gives us information on where the driver is looking, according to the conclusion~\textcite{head-pose} made comparing ASM with other head pose detection methods. With this information we can make an informed decision and ultimately conclude if the driver is distracted and act accordingly.
+As a safety feature, we detect if drivers are distracted by tracking their face pose. We have a camera for tracking the drivers face in the driver-side pillar directed at the seat, and we process this feed using ASM landmarks. This reliably gives us information on where the driver is looking, according to the conclusion~\textcite{head-pose} made comparing ASM with other head pose detection methods. With this information, we can make an informed decision and ultimately conclude if the driver is distracted and act accordingly.
 
-We also keep a brief history of head poses exhibited by the driver, to analyse as part of tiredness detection. If the drivers eyes are closing for extended periods of time or their head is lowering frequently, we trigger tiredness alleviation responses such as turning on air conditioning and suggesting that they are re-routed to a service station.
+We also keep a brief history of head poses exhibited by the driver, to analyse as part of tiredness detection. If the driver's eyes are closing for extended periods of time or their head is lowering frequently, we trigger tiredness alleviation responses such as turning on air conditioning and suggesting that they are re-routed to a service station.
 
 % \begin{itemize}
 %   \item Learning algorithm --- user preferences, Contextually Aware Routing etc
@@ -110,7 +111,7 @@ The smartphone app for the car system will use the same data structure for maps 
 Something that we found is lacking across intelligent car systems in the market is the use of portable user profiles. By this we mean profiles that can be used across several cars, applying user settings and preferences where applicable.
 These user profiles are shared from car to car by syncing user information files from the cloud. This is only done when the user has logged into the car and authenticated themselves with the cloud.
 \subsubsection{Storage and Transport}
-The method we found most suitable for doing this works by storing the data relative to each user profile in an local SQLite database. Information is then served directly to the car or mobile phone when a user logs in on the device. This is only if the login is verified by the cloud. The data is cached on the phone and car, as applicable, to allow access to user profile information even when internet access is limited or not available.
+The method we found most suitable for doing this works by storing the data relative to each user profile in a local SQLite database. Information is then served directly to the car or mobile phone when a user logs in on the device. This is only if the login is verified by the cloud. The data is cached on the phone and car, as applicable, to allow access to user profile information even when internet access is limited or not available.
 \subsubsection{Cardinality of Accounts, Vehicles and Shared Data}
 Each user will have one account that will be able to contain multiple car profiles. Car profiles can share generic information, such as preferences regarding routing, music, favourite temperatures, speed dial contacts, etcetera if the user specifies so. Information specific to the car make and model, such as steering rack height, seat adjustments, wing mirror adjustments shall stay bonded to each car profile.
 \begin{figure}[H]
@@ -162,14 +163,14 @@ Performing AES or similar encryption purely in software is very slow and consume
 Another advantage of using TLS is `Perfect Forward Secrecy' of data when the appropriate key-exchange protocol is used such as a Diffie-Hellman based exchange method. This provides the guarantee that any data that is intercepted in transport by a 3rd party cannot decrypt the data with a previously apprehended pre-shared key or certificate as the short-lived session token has been lost.
 
 \subsubsection{Data Storage \& Encryption}
-Wherever sensitive account or user data is stored, regardless of device is is advised that storage encryption is used at some level to provide some protection against data loss or theft. Most preferably a TPM or other hardware cryptographic device is present in the system to perform disk or filesystem level encryption. Many devices such as laptop \& desktop computers and many modern smartphones provide such functionality covering a wide majority of use cases. Otherwise an alternative storage method can be used where all stored or cached data is encapsulated in a single container or image and encrypted with a simple AES pass using a key stored in user account on a cloud server so it can always be accessed.
+Wherever sensitive account or user data is stored, regardless of device is advised that storage encryption is used at some level to provide some protection against data loss or theft. Most preferably a TPM or other hardware cryptographic device is present in the system to perform disk or filesystem level encryption. Many devices such as laptop \& desktop computers and many modern smartphones provide such functionality covering a wide majority of use cases. Otherwise, an alternative storage method can be used where all stored or cached data is encapsulated in a single container or image and encrypted with a simple AES pass using a key stored in the user account on a cloud server so it can always be accessed.
 
 \subsubsection{User Authentication}
 We leverage the implicit authentication flow from TLS backed by per-user certificates (specification as defined by~\textcite{rfc5246},~\citetitle{rfc5246}) which is a security advantage to the cloud provider  as it is more secure authentication method than using a password and presents a cleaner user experience as it requires no input from the user whereas a password would do.
 
 Everywhere a persistent login is used, it is replaced with a client certificate authorised to access the account without a password. The primary use of these certificates is the automatic authorization of the mobile app on smartphones and embedded devices with the cloud servers and the car. The certificate must be present for communications with a car and is preferred for authenticating with cloud servers as it provides significantly better security than a password and requires less interaction from the user.
 
-For each additional device that a user adds to their account, a unique certificate is generated and stored on the device therefore allowing each user device to be tracked individually, linking the device to the specific user.
+For each additional device that a user adds to their account, a unique certificate is generated and stored on the device, therefore, allowing each user device to be tracked individually, linking the device to the specific user.
 
 Further discussed in Section~\ref{ssec:app-security}~[\nameref{ssec:app-security}] are additional security features used specifically within the mobile application for extra convenience and protection.
 
@@ -189,15 +190,15 @@ Certificates can be revoked individually, on a per-device basis; this allows a u
 A user can revoke a certificate from their account at any time via the web portal or by calling the manufacturer's helpline, both of which are critical high-availability services as the security of vehicle control is paramount. Upon revocation, repeated push calls are made to every device on the account, including the car, to advise of the updated access  control. This is important as while many services are always authenticated through the cloud services like `remote access' of the vehicle (where revocation would immediately apply), some processes such as local unlocking via NFC or accessing the in-car computer only authenticate locally for speed and would have to wait for the revocation update to be received. \textit{It should be very clearly noted that car ignition requires sufficient cloud authentication so the car cannot be started with any revoked certificate, ever.}
 
 \subsubsection{Wi-Fi Hotspot}
-Every car is required to provide a 802.11ac Wi-Fi (or faster) access point to the passengers within and nearby the car to provide internet access via the in-car mobile data connection, as well as access to internal services in the car such as media controls and data transfer.
+Every car is required to provide an 802.11ac Wi-Fi (or faster) access point to the passengers within and nearby the car to provide internet access via the in-car mobile data connection, as well as access to internal services in the car such as media controls and data transfer.
 
 Adhering to modern standards, in-car Wi-Fi only uses the most recent WPA2 specification for encrypting wireless traffic. This standard enforces the use of AES which is hardware backed in most processors and is the industry standard for general data encryption. Two options are presented to users for authentication:
 \begin{itemize}
   \item `Pre-Shared Key (PSK)' Mode: This is the most commonly used method of Wi-Fi authentication using a single static key that which is entered on every device that connects to the network. The key can be customised in the `Settings' app in the car
-  \item `Extensible Authentication Protocol (EAP)' Mode: Business and education establishment networks are the primary users for this authentication method however it provides a much more secure approach to authenticating users against the network. It works with a username \& password combination unique to that user which is validated externally of the wireless network; in this case it is validated on the cloud servers using the login of the user account for the person logging in.
+  \item `Extensible Authentication Protocol (EAP)' Mode: Business and education establishment networks are the primary users of this authentication method however it provides a much more secure approach to authenticating users against the network. It works with a username \& password combination unique to that user which is validated externally of the wireless network; in this case, it is validated on the cloud servers using the login of the user account for the person logging in.
 \end{itemize}
 
-\noindent It is advised that most people use EAP for Wi-Fi connectivity as it provides better security benefits, but it can also be desirable to run an WPA2-PSK network alongside the primary EAP for guest users who don't have an account or devices that do not support WPA2-EAP authentication.
+\noindent It is advised that most people use EAP for Wi-Fi connectivity as it provides better security benefits, but it can also be desirable to run a WPA2-PSK network alongside the primary EAP for guest users who don't have an account or devices that do not support WPA2-EAP authentication.
 
 \subsubsection{Two Factor Authentication}
 To promote good security habits, users are advised to enable `2 Factor Authentication' on their accounts via the standard method specified by~\textcite{rfc6238},~\citetitle{rfc6238}. 2FA is a security tool which requires a second factor of authentication in the form of a 6 digit number, generated based on a seed provided by the cloud server which can either be generated from within any `authenticator' app or from within the phone app if the user is logged in.
@@ -207,15 +208,15 @@ When a login attempt is generated, a notification is sent to any device that the
 \subsection{Interaction Design}\label{ssec:interaction-design} % Matt + is this done?
 The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses. Our product requires three main interactive interfaces for users to effectively communicate with the in-car system:
 
-\subsubsection{Centre console}\label{sssec:centre-console}
+\subsubsection{Centre Console}\label{sssec:centre-console}
 This is a 10-inch touchscreen located in the middle section of the dashboard. Its purpose is that of displaying most of the information that flows through the car that may be of interest to the user and for the user to interact with it. For instance, destination input for the navigation system, joining and managing convoys, customising the instrument cluster, querying the system for detailed engine data and many more interactions will be performed on this device.
 
 We found that in the recent years the integration of touch screens on dashboards has become a recurrent trend amongst major manufacturers and believe that it is an essential feature for the cars of the future due to how visible, versatile and aesthetically pleasing they are.
 
-\subsubsection{Mobile app}\label{sssec:mobile-app}
+\subsubsection{Mobile App}\label{sssec:mobile-app}
 As usage of mobile apps is constantly increasing, more and more industry leading companies are adopting this as a new mean of interaction with their automobiles. We firmly believe that this will become and essential feature to all cars within a few year and therefore have designed and prototyped one. More detail can be found in Section~\ref{sec:app}~[\nameref{sec:app}].
 
-\subsubsection{Device on rear doors}\label{sssec:device-rear-doors}
+\subsubsection{Touchscreen in Rear Doors}\label{sssec:device-rear-doors}
 Each of the rear door cards will be fitted with a 5-inch touchscreen device that enables passengers in the rear of the car to search and add songs to the cars' shared music queue from different streaming services or a local library.
 
 \subsection{Aesthetics/Graphical Design}\label{ssec:aesthetics}
@@ -223,15 +224,15 @@ Each of the rear door cards will be fitted with a 5-inch touchscreen device that
 % User Interfaces of the above devices
 An effort was made to follow current styling standards used in industry to give the user a familiar experience, therefore flat designs were used where possible. Also characterising our design are large icons and avoidance of large swathes of text.
 
-\subsubsection{Instrument cluster screen}\label{sssec:cluster-screen}
+\subsubsection{Instrument Cluster Screen}\label{sssec:cluster-screen}
 A screen will be replacing the usual instrument cluster behind the steering wheel. This will display information relative to speed, engine revolutions, fuel levels as it has been doing for the past decades but with the difference of being fully customisable in layout, content and colour. These features will result in improved user experience for individuals with poor vision and colour blindness since font sizes and colour schemes can be altered easily in the settings. More generally, as suggested by our questionnaire research, the majority of users will enjoy having the ability to select what they will see behind the steering wheel themselves. The LCD panel in question will not be a touch screen since access would be restricted by the wheel and the customisation will be managed on the centre console screen instead.
 
-\subsubsection{Centre console}\label{sssec:centre-console-aestethics}
+\subsubsection{Centre Console}\label{sssec:centre-console-aestethics}
 The design of this interface is simple and intuitive, its main menu is made up of large square buttons that are labelled with text that have an adjustable size. Since this is intended to be the main point of contact between the user and the cars' infotainment system, different types of information are displayed on it ranging from navigation menus to engine management information. While opening new activities on similar devices is usually simple, switching between them isn't always as intuitive and that is why our interface has a virtual button in the top left corner labelled with the name of the previous activity so that the user can easily switch to the previous one. The backgrounds are static to prevent causing unnecessary distractions, however, the colour scheme is fully customisable by the user and is carried through to all of the interfaces in the car.
 
 \subsubsection{App}\label{sssec:app-aestethics}
 The design choices for our mobile app are detailed in Section~\ref{ssec:app-design}~[\nameref{ssec:app-design}].
-\subsubsection{Rear side door}\label{sssec:rear-door-device-aestethics}
+\subsubsection{Rear Side Door}\label{sssec:rear-door-device-aestethics}
 This interface has limited functionality, its purpose is that of enabling the passengers in the rear to contribute to the queue of songs being played on the car. Given this, its appearance is designed to be minimalist with a button per available library/streaming service.
 
 %%%%%%%%%%%%%%
@@ -242,7 +243,7 @@ This interface has limited functionality, its purpose is that of enabling the pa
 \section{Feature 1: Navigation}\label{sec:nav}
 
 \subsection{Research}\label{ssec:nav-research}
-As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various people. The first part of this research takes the form of a questionnaire we created to gather opinions on both current technology as well as some of our own ideas. From this, we confirmed our beliefs that most people use their phone as their navigation assistant; and are generally happy with current methods of controlling a SatNav, being touch screen and voice control.
+As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various people. The first part of this research takes the form of a questionnaire we created to gather opinions on both current technologies as well as some of our own ideas. From this, we confirmed our beliefs that most people use their phone as their navigation assistant; and are generally happy with current methods of controlling a SatNav, being touch screen and voice control.
 
 We also gained some insight into some design decisions we should take, with a majority of survey participants being interested in seeing friends travelling with them; speed cameras; traffic; and road obstacles such as roadworks, accidents and breakdowns, on the map --- while there was less interest in tracking emergency and breakdown recovery vehicles. There is also a greater interest in having various destination suggestions available to the driver. The survey indicated to us that some features are already being executed well in existing systems and most people find the directions given by their SatNav to be quite clear.
 
@@ -254,9 +255,9 @@ During this research, however, we could not find any recent implementation nor p
 
 \subsection{Brainstorming}\label{ssec:nav-brainstorming} % Matt
 % Should we include our initial ideas document?
-In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down any initial ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible  during this stage, all ideas were noted down and considered, no matter how far-fetched. Following this initial stage, and an iteration of research, we went through the document and filtered through it as a group, moving concepts that we wanted to bring forwards into our refined design. During the second stage of brainstorming, we created a new document, containing only the best of our ideas to expand and research them in more depth.
+In the first stage of our brainstorming, we created a Google document which allowed us to collaboratively write down any initial ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible  during this stage, all ideas were noted down and considered, no matter how far-fetched. Following this initial stage, and an iteration of research, we went through the document and filtered through it as a group, moving concepts that we wanted to bring forwards into our refined design. During the second stage of brainstorming, we created a new document, containing only the best of our ideas to expand and research them in more depth.
 
-An aid we found very useful was personas: a list of made-up personalities with realistic interests, jobs and attributes. During the brainstorming each of us tried to empathise with each of the different personas and think about their habits, things they may enjoy, their mental states throughout different times of the day and from there, consider their needs and features in a navigation system they may want and enjoy and why.
+An aid we found very useful was personas: a list of made-up personalities with realistic interests, jobs and attributes. During the brainstorming, each of us tried to empathise with each of the different personas and think about their habits, things they may enjoy, their mental states throughout different times of the day and from there, consider their needs and features in a navigation system they may want and enjoy and why.
 % The personas are mentioned here, do we introduce them somewhere? Should it be in a research section or expanded upon here? -Lewis
 Some of the ideas that came from our brainstorm are: 
 \begin{itemize}
@@ -266,21 +267,21 @@ Some of the ideas that came from our brainstorm are:
 \end{itemize}
 
 \subsection{Technical Background}\label{ssec:nav-tech}
-\subsubsection{Routing algorithm}\label{sssec:nav-tech-routing}
+\subsubsection{Routing Algorithm}\label{sssec:nav-tech-routing}
 The routing algorithm we use is bidirectional A* search, performing a typical A* search from the start node to the destination, and another from the destination to the start node, in parallel. The aim is to produce a complete path by using the central intersection of the two searches from either end. The heuristic used for this search will incorporate:
 \begin{itemize}
-  \item Learnt user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver as well as preference of `fastest route', `most direct route' or `shortest distance'
+  \item Learned user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver as well as the preference of `fastest route', `most direct route' or `shortest distance'
   \item Roadwork and traffic information, gained from the APIs, which will apply a higher weight to roads based on their traffic levels
   \item Traffic balancing using mass telemetry from other nearby vehicles, splitting traffic evenly across the possible routes to ease congestion on a larger scale. This option particularly is heavily weighted as to reliably keep traffic load split as evenly as possible
 \end{itemize}
 To ensure the route continues being optimal, the system polls the APIs every five minutes for updates to traffic conditions and roadworks. After this data has updated the graph, the search is re-run, with the start node being ahead of the current position in order to account for the latency in running the search. The search also re-runs when the driver leaves the current route, to make sure they are still travelling efficiently.
 
-\subsubsection{Machine learning}\label{sssec:nav-tech-machinelearning}
-In order to suggest the optimal route for a specific user, the navigation system will make use of a Recommender System, which is a piece of software that uses a Machine Learning algorithm, more specifically a Classification Tree (see Figure~\ref{decision-tree}) in order to guess a rating for a small set of routes based upon user habits. 
-The 3 routes with the highest ratings will be shown to the user as a result of their search. Each tree represents a user profile created using the user’s preferences, extrapolated from the features of the routes they normally take, including how scenic a route is, type of roads (main or back roads), likelihood of heavy traffic at the current time and whether the driver is currently tired or not. 
-All the possible features are placed in a binary vector, where each row corresponds to either of the features listed above. The rows of each vector that correspond to a specific feature of a route are marked with a one, while the rest is marked with a zero. Content-Based filtering is being used throughout this approach as we only use data relevant to the current user and do not compare data from different users as collaborative or hybrid filtering would do. By taking into account the current level of tiredness of the user we are not only producing a context-aware Recommender System but a Risk-Aware one that aims to recommend the safest option at all times. For example if the drivers are tired and the route results include motorway and non motorway options then the recommender would likely assign the latter a higher score.
+\subsubsection{Machine Learning}\label{sssec:nav-tech-machinelearning}
+In order to suggest the optimal route for a specific user, the navigation system will make use of a Recommender System, which is a piece of software that uses a Machine Learning algorithm, more specifically a Classification Tree (see Figure~\ref{decision-tree}) in order to guess a rating for a small set of routes based on user habits. 
+The 3 routes with the highest ratings will be shown to the user as a result of their search. Each tree represents a user profile created using the user’s preferences, extrapolated from the features of the routes they normally take, including how scenic a route is, type of roads (main or backroads), the likelihood of heavy traffic at the current time and whether the driver is currently tired or not. 
+All the possible features are placed in a binary vector, where each row corresponds to either of the features listed above. The rows of each vector that correspond to a specific feature of a route are marked with a one, while the rest is marked with a zero. Content-Based filtering is being used throughout this approach as we only use data relevant to the current user and do not compare data from different users as collaborative or hybrid filtering would do. By taking into account the current level of tiredness of the user we are not only producing a context-aware Recommender System but a Risk-Aware one that aims to recommend the safest option at all times. For example, if the drivers are tired and the route results include motorway and non-motorway options then the recommender would likely assign the latter a higher score.
 
-The choice of machine learning was inspired by research, the papers we found most helpful were inspired by research by \textcite{movie-predictions} and \textcite{reg-tree-construction}. The decision was then reinforced by the observations that decision trees of such depth require very little computational time and power. They are also easier to implement that other methods, such as neural networks, ensemble and matrix factorisation-based methods.
+The choice of machine learning was inspired by research, the papers we found most helpful were inspired by research by \textcite{movie-predictions} and \textcite{reg-tree-construction}. The decision was then reinforced by the observations that decision trees of such depth require very little computational time and power. They are also easier to implement than other methods, such as neural networks, ensemble and matrix factorisation-based methods.
 
 \begin{figure}[H]
   \centering
@@ -288,7 +289,7 @@ The choice of machine learning was inspired by research, the papers we found mos
   \caption{Classification tree induction schema}\label{decision-tree}
 \end{figure}
 
-\subsubsection{K-means clustering}\label{sssec:nav-tech-kmeans}
+\subsubsection{K-means Clustering}\label{sssec:nav-tech-kmeans}
 One of the problems we encountered while designing the convoy feature was how to handle situations where a group is starting its journey separated, and quite widely spread. From our brainstorming sessions, we decided to implement k-means clustering as a method for grouping the members of a convoy together. As described in Figure~\ref{nav-kmeans}, any members of a convoy who wish to group together as quickly as possible, to travel together on the main shared route will be grouped together through clustering. A number, $k$, (explained later) of ``means'' are randomly placed on the graph, and then two steps are repeated until the optimal positions for the means are found --- determined by them not moving from the previous iteration.
 
 The first step is to create the clusters (step 2 of Figure~\ref{nav-kmeans}), associating each member of the convoy to their nearest mean. The second step moves each mean to the centroid of their corresponding cluster. When convergence is reached, the means are moved to the closest suitable waypoint on the underlying map, and each cluster of convoy members is routed to this waypoint in their cluster. When the entire group is starting within the same city, assuming the destination lies outside the city, this should be sufficient; however, as the convoy gets more spread, this algorithm becomes less efficient. This is because members may be travelling very far individually before they reach their cluster waypoint. The solution here is to iterate the algorithm multiple times, with the start nodes of each iteration being the cluster waypoints generated by the previous iteration, reducing $k$.
@@ -308,7 +309,7 @@ The second issue arises when this algorithm would introduce a large inconvenienc
 \end{figure}
 
 \subsubsection{Public Transport}
-A lot of people use public transport in their daily commute and so it seems logical to provide public transport information when the system thinks/knows that the user is heading to some sort of public transport hub. For example, if someone lives in a town outside London, they might drive to the train station to get to London every week day. The navigation system knows from the knowledge from the machine learning algorithm that the driver is going to drive to the train station and so it can display train times for the estimated time of arrival. The machine learning will also have learnt if there is a specific time that the driver usually arrives at the station and so can inform the driver whether they are likely to be late or not.
+A lot of people use public transport on their daily commute and so it seems logical to provide public transport information when the system thinks/knows that the user is heading to some sort of public transport hub. For example, if someone lives in a town outside London, they might drive to the train station to get to London every weekday. The navigation system knows from the knowledge from the machine learning algorithm that the driver is going to drive to the train station and so it can display train times for the estimated time of arrival. The machine learning will also have learnt if there is a specific time that the driver usually arrives at the station and so can inform the driver whether they are likely to be late or not.
 
 Public transport information is pulled from an API chosen by the cloud to give the best information for the destination.
 
@@ -340,7 +341,7 @@ We have employed a scoring system in the QOC in order to rank the options, which
 \end{figure}
 Figure~\ref{qoc-instructions} asks how directions can be given to the driver. As can be seen, an augmented reality approach appears to be a strongly decisive victor among these options, however, we had already discussed the ideas of augmented reality and head up display during the dashboard section of the design process, where we dismissed pursuing augmented reality for various reasons. For example, experiments conducted by~\textcite{augmented-reality} conclude that ``the driver's attention to the road and traffic is likely to be compromised'' when HUD information is shown on the windshield. 
 
-After some internal discussions we also feel that: it would be difficult to ensure it works in bright daylight while also working during night time; it would likely be expensive to implement and maintain, due to the high computational requirements as well as the cost of replacing projector bulbs; it may be difficult to reliably ensure the image lines up correctly to the drivers perspective, due to differences in head height or position; but we do not have substantial evidence supporting these claims.
+After some internal discussions, we also feel that: it would be difficult to ensure it works in bright daylight while also working during night time; it would likely be expensive to implement and maintain, due to the high computational requirements as well as the cost of replacing projector bulbs; it may be difficult to reliably ensure the image lines up correctly to the drivers perspective, due to differences in head height or position; but we do not have substantial evidence supporting these claims.
 
 As a result of dismissing the use of augmented reality for our final designs, the two currently popular methods of direction, delivery become the top choices from the QOC, and sticking with these choices seems to be a good idea since most of our questionnaire responders felt their SatNav devices were sufficiently clear already.
 
@@ -372,12 +373,12 @@ We used QOC as well as experimentation to determine which routing algorithm to u
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{qoc-nav-routing}
+  \includegraphics[width=0.9\linewidth]{qoc-nav-routing}
   \caption{QOC discussing search algorithms to be used for navigation}\label{qoc-nav-routing}
 \end{figure}
-Figure~\ref{qoc-nav-routing} discusses the different approaches to routing that we found during research. The best option according to our scoring system here is to use Google maps, since we could give start and end locations to a Google maps API to ensure efficiency in both calculation time and route. This was, however, an early consideration in our design process, and we realised that there were some large limitations to using this approach: we could not adapt the underlying algorithm and heuristic to suit our needs, meaning we could not introduce the preferences of the driver into the generated route; we would be limited in design space, especially with the convoys, since it may be difficult correctly synchronising features like waypoints, as well as the generated route, across the convoy; we also wanted to ensure that the routing could be performed offline, since Internet connectivity is not something that can be guaranteed.
+Figure~\ref{qoc-nav-routing} discusses the different approaches to routing that we found during research. The best option according to our scoring system here is to use Google maps since we could give start and end locations to a Google maps API to ensure efficiency in both calculation time and route. This was, however, an early consideration in our design process, and we realised that there were some large limitations to using this approach: we could not adapt the underlying algorithm and heuristic to suit our needs, meaning we could not introduce the preferences of the driver into the generated route; we would be limited in design space, especially with the convoys, since it may be difficult correctly synchronising features like waypoints, as well as the generated route, across the convoy; we also wanted to ensure that the routing could be performed offline, since Internet connectivity is not something that can be guaranteed.
 
-Bi-directional A* is therefore the algorithm we decided to use. We have access to the heuristic which allows us to introduce driver preferences and convoy waypoints; it works offline, as long as an offline map is stored; and it will still generate an efficient route, though it may be less so than if generated by Google maps.\\
+Bi-directional A* is, therefore, the algorithm we decided to use. We have access to the heuristic which allows us to introduce driver preferences and convoy waypoints; it works offline, as long as an offline map is stored; and it will still generate an efficient route, though it may be less so than if generated by Google maps.\\
 
 We did not perform much research into clustering algorithms; we recalled k-means clustering from a previous University module and it worked well to do what we needed it for. Since this forms only a relatively small part of the overall system, and should only need to be used once per convoy route, there was very little to be gained from using a different algorithm for this.
 
@@ -394,7 +395,7 @@ We researched various machine learning algorithms to find some algorithms relati
   \includegraphics[scale=0.5]{train-widget}
   \caption{Lo-fi design for how public transport information could be integrated into navigation}\label{train-widget}
 \end{figure}
-It was clear to us that public transport would be a valuable feature in our final design, so we created a design to see how the feature would look. Figure~\ref{train-widget} shows a route with destination set to a train station. The next trains leaving the station within $\pm$15 minutes of the estimated arrival time are shown on a menu to the right of the map, as provided by the public transport API data.
+It was clear to us that public transport would be a valuable feature in our final design, so we created a design to see how the feature would look. Figure~\ref{train-widget} shows a route with the destination set to a train station. The next trains leaving the station within $\pm$15 minutes of the estimated arrival time are shown on a menu to the right of the map, as provided by the public transport API data.
 
 \begin{figure}[H]
   \centering
@@ -413,14 +414,12 @@ During navigation, this map design in Figure~\ref{convoy-map} represents what is
 
 Furthermore, a lot of convoy features are shown here: there is a waypoint by the yellow road, signifying a place that the group has already agreed to stop and meet at; the yellow car is too far away to be shown on the map, so is shown at the edge of the map with an indication of how far away they are; and also, the yellow car has made an unplanned stop, so is overlaid with a red cross.
 
-This prototype is expanded by means of an animation, which can be found at \url{http://imgur.com/a/xck0U}, which shows how the interface handles other cars losing connection; cars reaching an expected stop; and cars moving while still out of map range.
-
-%\subsection{Final design}\label{ssec:nav-final-design}
+This prototype is expanded by means of an animation, which can be found at \url{http://imgur.com/a/xck0U}, which shows how the interface handles other cars losing connection; cars reaching an expected stop, and cars moving while still out of map range.
 
 \subsection{Evaluation}\label{ssec:nav-evaluation}
-From our research we learnt a lot about what people find to be lacking in current navigation systems and so we learnt a lot about how to improve upon them in ours. We aimed for our designs to meet the criteria of being easy to use, reliable and feature complete for the expectations of the modern consumer.
+From our research, we learned a lot about what people find to be lacking in current navigation systems and so we learned a lot about how to improve upon them in ours. We aimed for our designs to meet the criteria of being easy to use, reliable and feature complete for the expectations of the modern consumer.
 
-Peoples lives are usually managed from their smartphone nowadays and so it seems reasonable for a person to be able to create a route on their phone and then access it in their car. With our system we have implemented this feature that won't be found on most modern cars to make planning a trip even easier.
+People's lives are usually managed from their smartphone nowadays and so it seems reasonable for a person to be able to create a route on their phone and then access it in their car. With our system, we have implemented this feature that won't be found on most modern cars to make planning a trip even easier.
 
 In many countries road upgrades have been slow and so taking public transport in the morning commute is the fastest way to get to work. We wanted to help people travelling to transport hubs be more aware of when their transport is leaving and if they'll be on time or not. We believe that the way we have designed this feature is informative while not being intrusive on the current screen, thus following the criteria that we set out to meet for our overall navigation system.
 
@@ -486,7 +485,7 @@ Users can also view the car cameras live video feed on their phones through our 
 
 The app shares a lot of the same data structures for maps and caching, see Section~\ref{ssec:data-structures}~[\nameref{ssec:data-structures}] for more details.
 
-\subsection{Design choices \& Argumentation}\label{ssec:app-design}
+\subsection{Design Choices \& Argumentation}\label{ssec:app-design}
 
 Our app is designed with a flat design. This aims to keep the interface minimalistic in the use of shading and colour gradients, keeping the elements looking flat against the background. Flat design is a standard in the mobile industry, so users are familiar with this design and it is proven to be a clear interface design.
 
@@ -520,7 +519,7 @@ Figure~\ref{qoc-app-remote} asks how frequently the phone should send instructio
 \subsection{Prototypes}\label{ssec:app-prototypes-testing}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{app-lofi}
+  \includegraphics[width=\textwidth]{app-lofi}
   \caption{Lo-Fi prototypes of app interfaces}\label{figure-app-lofi}
 \end{figure}
 
@@ -528,15 +527,11 @@ When designing a Lo-Fi prototype for the apps main screen, we already had a good
 
 These designs follow the design choices we came to concluded on in the previous section of this report. On the homescreen interface, (left most image of Figure~\ref{figure-app-lofi}) we have large image buttons paired with labels giving a brief description of what the buttons do, as our QOC in Figure~\ref{qoc-app-menu} suggests. This provides an easy to use method for the users to go to any feature in the app, which is exactly what we wanted to achieve.
 
-\vfill
-
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{app-hifi}
+  \includegraphics[width=\textwidth]{app-hifi}
   \caption{Hi-Fi prototypes of app interfaces.}\label{figure-app-hifi}
 \end{figure}
-
-\pagebreak
 
 \noindent Following our QOC decision we created a Hi-Fi version of our app interfaces which is our final design. This was built in Android Studio and the interfaces are navigable through the buttons on the navigation drawer.
 
@@ -553,8 +548,6 @@ On supported devices extra convenience methods for authenticating and unlocking 
   \item Facial recognition: Most commonly found on laptop computers with infrared cameras; this method of authentication isn't as secure as a biometric scanner as false-positive rates are typically higher however can identify and authenticate a user account in a similar way through the online portal or via a desktop app.
 \end{itemize}
 
-%\subsection{Final design}\label{ssec:app-final-design}
-
 \subsection{Evaluation \& How it Fits The System}\label{ssec:app-evaluation}
 When designing the car's accompanying app, we wanted to create an interface that is sleek, intuitive and easy to use. We believe that we have managed to create an appropriate, user-friendly app that meats the requirements that we set out during our brainstorming phase, by making the app interface familiar in design to today's standards. For example, the flat design and navigation sidebar are typically found in a majority of today's most popular Android apps.
 
@@ -562,11 +555,9 @@ We understand that not everyone has the latest smartphone and so we attempted to
 
 Safety and security was always a big concern while designing features for the app. Being able to access and control a car from a smartphone can raise a lot of security issues and have potential to be dangerous. We ensured that we researched the best ways to handle situations such as the phone disconnecting from the car while using the remote control feature and the security behind unlocking the car from the phone.
 
-Overall we are happy with the design that we have created for the car app. The app design meets our expectations and requirements that were noted down and even builds upon and exceeds the functionality that we had originally planned.
+Overall we are happy with the design that we have created for the car app. The app design meets our expectations and requirements that were noted and even builds upon and exceeds the functionality that we had originally planned.
 
 % \end{multicols}
-
-\pagebreak
 
 \printbibliography
 
@@ -601,10 +592,13 @@ App prototype repository
 
 \url{https://github.com/ChrisLane/car-control}
 
-\subsection{Annotated slide decks --- appended to report}\label{ssec:appendix-other}
+\vfill
+
+\subsection{Annotated Slide Decks --- appended to report}\label{ssec:appendix-other}
 
 % ALL ANNOTATED SLIDES
-%\includepdf{slides-annotated}
+\eject \pdfpagewidth=8.27in \pdfpageheight=6.2025in
+\includepdf[pages=-]{slides-annotated}
 % ANNOTATED AND FULL-SIZE SLIDES
 
 %\includepdf[pages=1-5]{slides}
