@@ -77,11 +77,11 @@ Our design has three places that data will be stored, some data being temporary 
 
 The cloud will be used for the majority of storage, it is where persistent data will be synchronised to from the phone app and car. Storage for most data such as user profiles will be kept in an encrypted Oracle database. The cloud will store user profiles that contain details such as saved routes, privileges, seat preferences, dashboard layout, contacts and driver stats. The cloud will also store details about convoy groups, containing data on members, member locations, group messages, routes etc. Since the cloud hosts the API used by the car and app, other miscellaneous data will also be stored here such as software updates.
 
-The car's internal SSD storage will be used for fast reading and writing of synchronised files and cached data primarily. Data queried from the cloud will be cached to grant a more seamless experience even when the car is not connected to the internet. Examples of cached data from the cloud include favourite routes, dashboard layout and seat positions. Since the centre console system is built around the Android platform, we have been able to easily allow certain apps from the Play Store. One example of an app that we would allow on the system is Spotify, for music playback. The Spotify app will be able to store all of its settings, cached data and offline playlists in the car's internal storage as well. Local music files synchronised from a home network will be stored in the car's internal storage. 
+The car's internal SSD storage will be used for fast reading and writing of synchronised files and cached data primarily. Data queried from the cloud will be cached to grant a more seamless experience even when the car is not connected to the internet. Examples of cached data from the cloud include favourite routes, dashboard layout and seat positions. Since the centre console system is built around the Android platform, we have been able to easily allow certain apps from the Play Store. One example of an app that we would allow on the system is Spotify, for music playback. The Spotify app will be able to store all of its settings, cached data and offline playlists in the car's internal storage as well. Local music files synchronised from a home network will be stored in the car's internal storage.
 
 The dashboard cameras will also record their video to the internal storage of the car, this will be limited to a default percentage of the drive capacity (the storage SSD can be upgraded) and recordings will overwrite old footage in order to reuse the assigned storage space. The basic version of the system will likely have at least 120GB of SSD storage, however, this could easily be upgraded by swapping out the drive from the glove box.
 
-The system files are stored on a separate disk elsewhere in the car with the redundant backup system (see Section~\ref{ssec:system-design-general}~[\nameref{ssec:system-design-general}]) to allow for hot-swapping of the storage drive. This system allows the storage drive to be upgraded, replaced or swapped at any time without affecting the running system. 
+The system files are stored on a separate disk elsewhere in the car with the redundant backup system (see Section~\ref{ssec:system-design-general}~[\nameref{ssec:system-design-general}]) to allow for hot-swapping of the storage drive. This system allows the storage drive to be upgraded, replaced or swapped at any time without affecting the running system.
 
 The accompanying car smartphone app does not require much storage at all since it must be connected to the internet or car to make any changes. Data from the cloud, car and app will be cached so that it may still be accessible for short connectivity outages.
 
@@ -187,8 +187,8 @@ Every car is required to provide a 802.11ac Wi-Fi (or faster) access point to th
 
 Adhering to modern standards, in-car Wi-Fi only uses the most recent WPA2 specification for encrypting wireless traffic. This standard enforces the use of AES which is hardware backed in most processors and is the industry standard for general data encryption. Two options are presented to users for authentication:
 \begin{itemize}
-	\item `Pre-Shared Key (PSK)' Mode: This is the most commonly used method of Wi-Fi authentication using a single static key that which is entered on every device that connects to the network. The key can be customised in the `Settings' app in the car
-	\item `Extensible Authentication Protocol (EAP)' Mode: Business and education establishment networks are the primary users for this authentication method however it provides a much more secure approach to authenticating users against the network. It works with a username \& password combination unique to that user which is validated externally of the wireless network; in this case it is validated on the cloud servers using the login of the user account for the person logging in.
+  \item `Pre-Shared Key (PSK)' Mode: This is the most commonly used method of Wi-Fi authentication using a single static key that which is entered on every device that connects to the network. The key can be customised in the `Settings' app in the car
+  \item `Extensible Authentication Protocol (EAP)' Mode: Business and education establishment networks are the primary users for this authentication method however it provides a much more secure approach to authenticating users against the network. It works with a username \& password combination unique to that user which is validated externally of the wireless network; in this case it is validated on the cloud servers using the login of the user account for the person logging in.
 \end{itemize}
 
 \noindent It is advised that most people use EAP for Wi-Fi connectivity as it provides better security benefits, but it can also be desirable to run an WPA2-PSK network alongside the primary EAP for guest users who don't have an account or devices that do not support WPA2-EAP authentication.
@@ -263,9 +263,9 @@ Some of the ideas that came from our brainstorm are: Convoy tracking using K-Mea
 \subsubsection{Routing algorithm}\label{sssec:nav-tech-routing}
 The routing algorithm we use is bidirectional A* search, performing a typical A* search from the start node to the destination, and another from the destination to the start node, in parallel. The aim is to produce a complete path by using the central intersection of the two searches from either end. The heuristic used for this search will incorporate:
 \begin{itemize}
-	\item Learnt user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver as well as preference of `fastest route', `most direct route' or `shortest distance'
-	\item Roadwork and traffic information, gained from the APIs, which will apply a higher weight to roads based on their traffic levels
-	\item Traffic balancing using mass telemetry from other nearby vehicles, splitting traffic evenly across the possible routes to ease congestion on a larger scale. This option particularly is heavily weighted as to reliably keep traffic load split as evenly as possible
+  \item Learnt user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver as well as preference of `fastest route', `most direct route' or `shortest distance'
+  \item Roadwork and traffic information, gained from the APIs, which will apply a higher weight to roads based on their traffic levels
+  \item Traffic balancing using mass telemetry from other nearby vehicles, splitting traffic evenly across the possible routes to ease congestion on a larger scale. This option particularly is heavily weighted as to reliably keep traffic load split as evenly as possible
 \end{itemize}
 To ensure the route continues being optimal, the system polls the APIs every five minutes for updates to traffic conditions and roadworks. After this data has updated the graph, the search is re-run, with the start node being ahead of the current position in order to account for the latency in running the search. The search also re-runs when the driver leaves the current route, to make sure they are still travelling efficiently.
 
@@ -385,9 +385,9 @@ We did not perform much research into clustering algorithms; we recalled k-means
 
 \subsubsection{Lo-Fi Prototypes}
 \begin{figure}[H]
-	\centering
-    \includegraphics[scale=0.5]{train-widget}
-    \caption{Lo-fi design for how public transport information could be integrated into navigation}\label{train-widget}
+  \centering
+  \includegraphics[scale=0.5]{train-widget}
+  \caption{Lo-fi design for how public transport information could be integrated into navigation}\label{train-widget}
 \end{figure}
 
 It was clear to us that public transport would be a valuable feature in our final design, so we created a design to see how the feature would look. Figure~\ref{train-widget} shows a route with destination set to a train station. The next trains leaving the station within $\pm$15 minutes of the estimated arrival time are shown on a menu to the right of the map, as provided by the public transport API data.
@@ -397,7 +397,7 @@ It was clear to us that public transport would be a valuable feature in our fina
   \caption{Lo-Fi design for travelling different routes in a convoy}\label{convoy-lofi}
 \end{figure}
 
-We had a lot of ideas surrounding the convoy functionality, so we created a Lo-Fi design to see how some of our ideas might look. Figure~\ref{convoy-lofi} presents a convoy with four drivers, investigating how certain situations would be displayed. Here, we see that the white car (representing the driver of the current car) and the blue car are following the same route, with purple following their own route; and each route being displayed slightly differently. The green car is too far away to be displayed on the map, so is shown at the edge with an arrow. 
+We had a lot of ideas surrounding the convoy functionality, so we created a Lo-Fi design to see how some of our ideas might look. Figure~\ref{convoy-lofi} presents a convoy with four drivers, investigating how certain situations would be displayed. Here, we see that the white car (representing the driver of the current car) and the blue car are following the same route, with purple following their own route; and each route being displayed slightly differently. The green car is too far away to be displayed on the map, so is shown at the edge with an arrow.
 
 \subsubsection{Hi-Fi Prototypes}
 
@@ -534,8 +534,8 @@ On the home screen (left most interface in Figure \ref{figure-app-hifi}) we have
 \subsection{App Security}\label{ssec:app-security}
 On supported devices extra convenience methods for authenticating and unlocking app functionality will be provided to the users, extending all of the strong encryption and authentication methods that are put in place by the cloud and car systems.
 \begin{itemize}
-	\item Fingerprint unlocking: Using the built-in hardware store for safely keeping the user password, a fingerprint can be used on supported devices to release the password, instead of prompting the user to type it in when loading the app.
-    \item Face recognition: Most commonly found on laptop computers with infrared cameras; this method of authentication isn't as secure as a biometric scanner as false-positive rates are typically higher however can identify and authenticate a user account in a similar way through the online portal or via a desktop app.
+  \item Fingerprint unlocking: Using the built-in hardware store for safely keeping the user password, a fingerprint can be used on supported devices to release the password, instead of prompting the user to type it in when loading the app.
+  \item Face recognition: Most commonly found on laptop computers with infrared cameras; this method of authentication isn't as secure as a biometric scanner as false-positive rates are typically higher however can identify and authenticate a user account in a similar way through the online portal or via a desktop app.
 \end{itemize}
 
 %\subsection{Final design}\label{ssec:app-final-design}
