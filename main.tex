@@ -498,16 +498,16 @@ The colour scheme in the app is synchronised with the colour schemes of the cent
 \end{figure}
 Figure~\ref{qoc-app-menu} asks how we can lay out the main menu. Since this is an aesthetic design choice, the criteria focus on ensuring ease of use and accessibility. As can be seen from the matrix, it is clear that there are multiple good options: a grid of images and text, which adds clarity to possibly ambiguous images while making it more aesthetically pleasing than a grid of text; tabbed layout, which places all the features on the main screen and scrolls sideways between them; and a navigation drawer -- a vertical bar accessible at the side of the screen offering links to the different features.
 
-We decided to utilise all three of these options, which can be seen in Section~\ref{ssec:app-prototypes-testing}~[\nameref{ssec:app-prototypes-testing}], having a main menu with a grid layout of buttons showing image and text, which aims to mitigate the unclear functionality of a grid of only images through use of a textual description as well as using easily identifiable icons; a tab layout on the main menu to switch between a feed screen and the main menu; and a navigation drawer to allow easy access to a main menu from anywhere in the app.
+We decided to utilise all three of these options, which can be seen in Section~\ref{ssec:app-prototypes-testing}~[\nameref{ssec:app-prototypes-testing}], having a main menu with a grid layout of buttons showing image and text, which aims to mitigate the unclear functionality of a grid of only images through the use of a textual description as well as using easily identifiable icons; a tab layout on the main menu to switch between a feed screen and the main menu; and a navigation drawer to allow easy access to the main menu from anywhere in the app.
 
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.8]{qoc-app-connect}
   \caption{QOC discussing how to initially pair the car with the phone}\label{qoc-app-connect}
 \end{figure}
-Figure~\ref{qoc-app-connect} asks how the phone should initially connect to the car. These options are fairly close to each other in suitability, so we allow the user to use any of these methods for initial connection. However, after this initial connection, Wi-Fi is automatically paired so that the initial connection is no longer required, since this removes the restriction on the physical location of the device that RFID and USB suffer from (since both of these options require close proximity to a certain location in the car).
+Figure~\ref{qoc-app-connect} asks how the phone should initially connect to the car. These options are fairly close to each other in suitability, so we allow the user to use any of these methods for initial connection. However, after this initial connection, Wi-Fi is automatically paired so that the initial connection is no longer required since this removes the restriction on the physical location of the device that RFID and USB suffer from (since both of these options require close proximity to a certain location in the car).
 
-Initially, we had intended for RFID to be the method for primary connection to the car, since we thought it would be the easiest to use. However, the QOC showed us that having wide device compatibility is a really important criteria for this, which is not true of RFID.
+Initially, we had intended for RFID to be the method for primary connection to the car, since we thought it would be the easiest to use. However, the QOC showed us that having wide device compatibility is a really important criterion for this, which is not true of RFID.
 
 \begin{figure}[H]
   \centering
@@ -525,7 +525,7 @@ Figure~\ref{qoc-app-remote} asks how frequently the phone should send instructio
 
 When designing a Lo-Fi prototype for the apps main screen, we already had a good mental picture of the features we would like to include mainly because we had pre-emptively planned to design and produce a companion app to complement the car systems which made it easier to produce an early design.
 
-These designs follow the design choices we came to concluded on in the previous section of this report. On the homescreen interface, (left most image of Figure~\ref{figure-app-lofi}) we have large image buttons paired with labels giving a brief description of what the buttons do, as our QOC in Figure~\ref{qoc-app-menu} suggests. This provides an easy to use method for the users to go to any feature in the app, which is exactly what we wanted to achieve.
+These designs follow the design choices we came to concluded on in the previous section of this report. On the homescreen interface, (leftmost image of Figure~\ref{figure-app-lofi}) we have large image buttons paired with labels giving a brief description of what the buttons do, as our QOC in Figure~\ref{qoc-app-menu} suggests. This provides an easy to use method for the users to go to any feature in the app, which is exactly what we wanted to achieve.
 
 \begin{figure}[H]
   \centering
@@ -537,23 +537,23 @@ These designs follow the design choices we came to concluded on in the previous 
 
 The user can access the navigation drawer from any page within the app. This ensures ease of use and accessibility which is what we desired in our design choices.
 
-On entering the app the user is prompted for to login or register an account. After successfully doing so they are presented with the feed interface (right most interface in Figure~\ref{figure-app-hifi}) which is intended to show information based on the users context and latest updates. For example if users are away from their car they will have feed items such as car location and access to their car's cameras. This is because those features are intended to be used while the car owner is not with their car.
+On entering the app the user is prompted for to login or register an account. After successfully doing so they are presented with the feed interface (rightmost interface in Figure~\ref{figure-app-hifi}) which is intended to show information based on the user's context and latest updates. For example, if users are away from their car they will have feed items such as car location and access to their car's cameras. This is because those features are intended to be used while the car owner is not with their car.
 
-On the home screen (left most interface in Figure~\ref{figure-app-hifi}) we have a simple list of functions, these are selectable buttons which have labels on them. This list is scrollable so more features can easily be added in the future. We successfully kept this design to follow the best QOC option that we found for laying out the main menu.
+On the home screen (leftmost interface in Figure~\ref{figure-app-hifi}) we have a simple list of functions, these are selectable buttons which have labels on them. This list is scrollable so more features can easily be added in the future. We successfully kept this design to follow the best QOC option that we found for laying out the main menu.
 
 \subsection{App Security}\label{ssec:app-security}
 On supported devices extra convenience methods for authenticating and unlocking app functionality will be provided to the users, extending all of the strong encryption and authentication methods that are put in place by the cloud and car systems.
 \begin{itemize}
   \item Fingerprint unlocking: Using the built-in hardware store for safely keeping the user password, a fingerprint can be used on supported devices to release the password, instead of prompting the user to type it in when loading the app.
-  \item Facial recognition: Most commonly found on laptop computers with infrared cameras; this method of authentication isn't as secure as a biometric scanner as false-positive rates are typically higher however can identify and authenticate a user account in a similar way through the online portal or via a desktop app.
+  \item Facial recognition: Most commonly found on laptop computers with infrared cameras; this method of authentication isn't as secure as a biometric scanner as false-positive rates are typically higher, however, can identify and authenticate a user account in a similar way through the online portal or via a desktop app.
 \end{itemize}
 
 \subsection{Evaluation \& How it Fits The System}\label{ssec:app-evaluation}
-When designing the car's accompanying app, we wanted to create an interface that is sleek, intuitive and easy to use. We believe that we have managed to create an appropriate, user-friendly app that meats the requirements that we set out during our brainstorming phase, by making the app interface familiar in design to today's standards. For example, the flat design and navigation sidebar are typically found in a majority of today's most popular Android apps.
+When designing the car's accompanying app, we wanted to create an interface that is sleek, intuitive and easy to use. We believe that we have managed to create an appropriate, user-friendly app that meets the requirements that we set out during our brainstorming phase, by making the app interface familiar in design to today's standards. For example, the flat design and navigation sidebar are typically found in a majority of today's most popular Android apps.
 
 We understand that not everyone has the latest smartphone and so we attempted to keep compatibility in mind while deciding what the best way to pair devices with a car would be. Creating a QOC matrix helped us identify that while RFID may be the easiest and quickest way to pair a phone, not all smartphones have this functionality yet and so other methods should be available.
 
-Safety and security was always a big concern while designing features for the app. Being able to access and control a car from a smartphone can raise a lot of security issues and have potential to be dangerous. We ensured that we researched the best ways to handle situations such as the phone disconnecting from the car while using the remote control feature and the security behind unlocking the car from the phone.
+Safety and security were always a big concern while designing features for the app. Being able to access and control a car from a smartphone can raise a lot of security issues and have potential to be dangerous. We ensured that we researched the best ways to handle situations such as the phone disconnecting from the car while using the remote control feature and the security behind unlocking the car from the phone.
 
 Overall we are happy with the design that we have created for the car app. The app design meets our expectations and requirements that were noted and even builds upon and exceeds the functionality that we had originally planned.
 
