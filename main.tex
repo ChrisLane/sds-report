@@ -41,9 +41,11 @@ Some further documentation is linked to in Section~\ref{sec:appendix}, which aim
 \subsection{General}\label{ssec:system-design-general}
 Our system is built of many separate components which together work seamlessly, these are the centre console, the instrument cluster, in-door screens, and a dashboard-mounted navigation screen. There is also, of course, the smartphone application that will be installed on user mobile devices which perfectly compliments the system.
 
+Our system integrates the voice assistants, Siri from iOS, Cortana from WindowsPhone and GoogleAssistant from Android via the smartphone app as a `native' feature of the in-car experience. The assistant can be used to invoke and control any system in the car, managing media playback, performing and tweaking navigation, making calls and composing messages, all with voice. It should be used as the primary interaction with the car whilst driving as the assistant allows the driver to concentrate on where they're going by doing all of the hard work.
+
 The instrument cluster is an LCD display located behind the steering wheel. This displays the usual car instrument information such as speed and fuel level. It is also customisable with widgets to display relevant information for example weather forecast for local and destined locations, currently playing media information and general vehicle health and status. 
 
-The door-mounted screens are dumb 5-inch touchscreen displays located in the arm rest of each rear door. These serve the purpose of allowing back seated passengers to control media playback by queueing and ordering songs of their choice either to the whole car or to their own headphones/speakers.
+The door-mounted screens are dumb 5 inch touchscreen displays located in the arm rest of each rear door. These serve the purpose of allowing back seated passengers to control media playback by queueing and ordering songs of their choice either to the whole car or to their own headphones/speakers.
 
 The navigation screen is a 6 inch display located above the dashboard and it displays the street map and directions while driver is using navigation. We kept this display separate from the centre console to reduce the distance the driver has to look whilst driving and using navigation.
 
@@ -58,21 +60,21 @@ To perform the route calculation for the navigation system we are using Bi-direc
 
 We take advantage of K-means clustering at the start of a convoy routing to group together convoy members before they begin their journey. This will guide drivers to a central location based on each member's location in the group. This is discussed in more detail in Section~\ref{sssec:nav-tech-kmeans}~[\nameref{sssec:nav-tech-kmeans}].
 
-As a safety feature we detect if drivers are distracted by tracking their face pose. We have a camera for tracking the drivers face in the driver-side pillar directed at the seat, and we process this feed using ASM landmarks. This reliably gives us information on where the driver is looking, according to the conclusion~\cite{head-pose} made comparing ASM with other head pose detection methods. With this information we can make an informed decision and ultimately conclude if the driver is distracted and act accordingly.
+As a safety feature we detect if drivers are distracted by tracking their face pose. We have a camera for tracking the drivers face in the driver-side pillar directed at the seat, and we process this feed using ASM landmarks. This reliably gives us information on where the driver is looking, according to the conclusion~\textcite{head-pose} made comparing ASM with other head pose detection methods. With this information we can make an informed decision and ultimately conclude if the driver is distracted and act accordingly.
 
 We also keep a brief history of head poses exhibited by the driver, to analyse as part of tiredness detection. If the drivers eyes are closing for extended periods of time or their head is lowering frequently, we trigger tiredness alleviation responses such as turning on air conditioning and suggesting that they are re-routed to a service station.
 
-\begin{itemize}
-  \item Learning algorithm --- user preferences, Contextually Aware Routing etc
-    % FIND A LEARNING ALGORITHM
-  \item Safety Detection algorithms
-    \begin{itemize}
-      \item Tesla radar system?
-      \item Recognising bikes --- trained from training images which are bikes with riders
-        % This is if we are detecting bikes using this method of detecting bikes (we mentioned using the 360 degree vision from the cameras for seeing bikes)
-    \end{itemize}
-  \item Something for tiredness detection
-\end{itemize}
+% \begin{itemize}
+%   \item Learning algorithm --- user preferences, Contextually Aware Routing etc
+%     % FIND A LEARNING ALGORITHM
+%   \item Safety Detection algorithms
+%     \begin{itemize}
+%       \item Tesla radar system?
+%       \item Recognising bikes --- trained from training images which are bikes with riders
+%         % This is if we are detecting bikes using this method of detecting bikes (we mentioned using the 360 degree vision from the cameras for seeing bikes)
+%     \end{itemize}
+%   \item Something for tiredness detection
+% \end{itemize}
 
 \subsection{Storage}\label{ssec:storage} % Chris
 Our design has three places that data will be stored, some data being temporary and some persistent. We will store information in the cloud, in the car's local SSD storage and on the smartphones belonging to the users of the app.
@@ -161,7 +163,7 @@ Another advantage of using TLS is `Perfect Forward Secrecy' of data when the app
 Wherever sensitive account or user data is stored, regardless of device is is advised that storage encryption is used at some level to provide some protection against data loss or theft. Most preferably a TPM or other hardware cryptographic device is present in the system to perform disk or filesystem level encryption. Many devices such as laptop \& desktop computers and many modern smartphones provide such functionality covering a wide majority of use cases. Otherwise an alternative storage method can be used where all stored or cached data is encapsulated in a single container or image and encrypted with a simple AES pass using a key stored in user account on a cloud server so it can always be accessed.
 
 \subsubsection{User Authentication}
-We leverage the implicit authentication flow from TLS backed by per-user certificates (specification as defined by \url{https://tools.ietf.org/html/rfc5246#appendix-F.1.1}) which is a security advantage to the cloud provider  as it is more secure authentication method than using a password and presents a cleaner user experience as it requires no input from the user whereas a password would do.
+We leverage the implicit authentication flow from TLS backed by per-user certificates (specification as defined by~\textcite{rfc5246},~\citetitle{rfc5246}) which is a security advantage to the cloud provider  as it is more secure authentication method than using a password and presents a cleaner user experience as it requires no input from the user whereas a password would do.
 
 Everywhere a persistent login is used, it is replaced with a client certificate authorised to access the account without a password. The primary use of these certificates is the automatic authorization of the mobile app on smartphones and embedded devices with the cloud servers and the car. The certificate must be present for communications with a car and is preferred for authenticating with cloud servers as it provides significantly better security than a password and requires less interaction from the user.
 
@@ -241,11 +243,12 @@ This interface has limited functionality, its purpose is that of enabling the pa
 As part of the brainstorming process, we investigated current technology to see how the current navigation systems were perceived by various people. The first part of this research takes the form of a questionnaire we created to gather opinions on both current technology as well as some of our own ideas. From this, we confirmed our beliefs that most people use their phone as their navigation assistant; and are generally happy with current methods of controlling a SatNav, being touch screen and voice control.
 
 We also gained some insight into some design decisions we should take, with a majority of survey participants being interested in seeing friends travelling with them; speed cameras; traffic; and road obstacles such as roadworks, accidents and breakdowns, on the map --- while there was less interest in tracking emergency and breakdown recovery vehicles. There is also a greater interest in having various destination suggestions available to the driver. The survey indicated to us that some features are already being executed well in existing systems and most people find the directions given by their SatNav to be quite clear.
-% Link to survey responses?
+
+Responses to the surveys are linked in Section~\ref{sec:appendix}~[\nameref{sec:appendix}] at the end of the document.
 
 We also performed some research to find out exactly what kind of features are currently offered by SatNav systems. As part of this research, we discovered that a lot of our brainstorming ideas are already in active development by some companies. A lot of these concepts are being produced by Google into usable products already: if you search for a location on Google Maps, there is an option to send the location to the Maps app on your phone; your movements are analysed by Google to determine favourite places and routes. Google uses the data collected from your location and search history to better provide suggestions for future searches. They also infer useful information based on frequent and popularly visited destinations to generate smartphone notifications suggesting users where to visit.  
 
-During this research, however, we could not find any recent implementation nor professional research into our ideas for the concept of `convoy driving'. The closest concept to this we could find was the `Garmin Tracker' which seems to have very limited functionality for tracking a person who owns a Garmin branded SatNav, for purposes such as knowing when a family member should arrive home. It also appears that this feature is only included in a limited subset of the Garmin models, which seem to have been discontinued. \cite{garmin-tracker}~mentions the existence of this tracker, stating ``this could be useful if you are in a big group and you have more than one car travelling to the same destination'', but does not elaborate further, and we cannot find documentation from Garmin as to whether this is the exact use of this tracker.
+During this research, however, we could not find any recent implementation nor professional research into our ideas for the concept of `convoy driving'. The closest concept to this we could find was the `Garmin Tracker' which seems to have very limited functionality for tracking a person who owns a Garmin branded SatNav, for purposes such as knowing when a family member should arrive home. It also appears that this feature is only included in a limited subset of the Garmin models, which seem to have been discontinued. \textcite{garmin-tracker}~mentions the existence of this tracker, stating ``this could be useful if you are in a big group and you have more than one car travelling to the same destination'', but does not elaborate further, and we cannot find documentation from Garmin as to whether this is the exact use of this tracker.
 
 \subsection{Brainstorming}\label{ssec:nav-brainstorming} % Matt
 % Should we include our initial ideas document?
@@ -275,7 +278,7 @@ In order to suggest the optimal route for a specific user, the navigation system
 The 3 routes with the highest ratings will be shown to the user as a result of their search. Each tree represents a user profile created using the user’s preferences, extrapolated from the features of the routes they normally take, including how scenic a route is, type of roads (main or back roads), likelihood of heavy traffic at the current time and whether the driver is currently tired or not. 
 All the possible features are placed in a binary vector, where each row corresponds to either of the features listed above. The rows of each vector that correspond to a specific feature of a route are marked with a one, while the rest is marked with a zero. Content-Based filtering is being used throughout this approach as we only use data relevant to the current user and do not compare data from different users as collaborative or hybrid filtering would do. By taking into account the current level of tiredness of the user we are not only producing a context-aware Recommender System but a Risk-Aware one that aims to recommend the safest option at all times. For example if the drivers are tired and the route results include motorway and non motorway options then the recommender would likely assign the latter a higher score.
 
-The choice of machine learning was inspired by research, the papers we found most helpful were inspired by research by \cite{movie-predictions} and \cite{reg-tree-construction}. The decision was then reinforced by the observations that decision trees of such depth require very little computational time and power. They are also easier to implement that other methods, such as neural networks, ensemble and matrix factorisation-based methods.
+The choice of machine learning was inspired by research, the papers we found most helpful were inspired by research by \textcite{movie-predictions} and \textcite{reg-tree-construction}. The decision was then reinforced by the observations that decision trees of such depth require very little computational time and power. They are also easier to implement that other methods, such as neural networks, ensemble and matrix factorisation-based methods.
 
 \begin{figure}[H]
   \centering
@@ -286,7 +289,7 @@ The choice of machine learning was inspired by research, the papers we found mos
 \subsubsection{K-means clustering}\label{sssec:nav-tech-kmeans}
 One of the problems we encountered while designing the convoy feature was how to handle situations where a group is starting its journey separated, and quite widely spread. From our brainstorming sessions, we decided to implement k-means clustering as a method for grouping the members of a convoy together. As described in Figure~\ref{nav-kmeans}, any members of a convoy who wish to group together as quickly as possible, to travel together on the main shared route will be grouped together through clustering. A number, $k$, (explained later) of ``means'' are randomly placed on the graph, and then two steps are repeated until the optimal positions for the means are found --- determined by them not moving from the previous iteration.
 
-The first step is to create the clusters (step 2 of Figure~\ref{nav-kmeans}), associating each member of the convoy to their nearest mean. The second step moves each mean to the centroid of their corresponding cluster. When convergence is reached, the means are moved to the closest suitable waypoint on the underlying map, and each cluster of convoy members is routed to this waypoint in their cluster. When the entire group is starting within the same city, assuming the destination lies outside the city, this should be sufficient; however, as the convoy gets more spread, this algorithm becomes less efficient, since members may be travelling very far individually before they reach their cluster waypoint. The solution here is to iterate the algorithm multiple times, with the start nodes of each iteration being the cluster waypoints generated by the previous iteration, reducing $k$.
+The first step is to create the clusters (step 2 of Figure~\ref{nav-kmeans}), associating each member of the convoy to their nearest mean. The second step moves each mean to the centroid of their corresponding cluster. When convergence is reached, the means are moved to the closest suitable waypoint on the underlying map, and each cluster of convoy members is routed to this waypoint in their cluster. When the entire group is starting within the same city, assuming the destination lies outside the city, this should be sufficient; however, as the convoy gets more spread, this algorithm becomes less efficient. This is because members may be travelling very far individually before they reach their cluster waypoint. The solution here is to iterate the algorithm multiple times, with the start nodes of each iteration being the cluster waypoints generated by the previous iteration, reducing $k$.
 
 There are some further issues with this algorithm that need to be addressed. Firstly, a good value for $k$ should be chosen. This value represents how many clusters are created by the algorithm, and therefore the average number of people (or groups, if this is a later iteration) to be grouped together by a given iteration can also be determined from $k$. Therefore, $k$ should be chosen based on how many people should be grouped up during one iteration; the standard default will aim to group together 3
 %
@@ -333,8 +336,9 @@ We have employed a scoring system in the QOC in order to rank the options, which
   \includegraphics[width=\linewidth]{qoc-nav-instruction}
   \caption{QOC discussing how to direct the driver}\label{qoc-instructions}
 \end{figure}
+Figure~\ref{qoc-instructions} asks how directions can be given to the driver. As can be seen, an augmented reality approach appears to be a strongly decisive victor among these options, however, we had already discussed the ideas of augmented reality and head up display during the dashboard section of the design process, where we dismissed pursuing augmented reality for various reasons. For example, experiments conducted by~\textcite{augmented-reality} conclude that ``the driver's attention to the road and traffic is likely to be compromised'' when HUD information is shown on the windshield. 
 
-Figure~\ref{qoc-instructions} asks how directions can be given to the driver. As can be seen, an augmented reality approach appears to be a strongly decisive victor among these options, however, we had already discussed the ideas of augmented reality and head up display during the dashboard section of the design process, where we dismissed pursuing augmented reality for various reasons. For example, experiments conducted by~\cite{augmented-reality} conclude that ``the driver's attention to the road and traffic is likely to be compromised'' when HUD information is shown on the windshield. After some internal discussions we also feel that: it would be difficult to ensure it works in bright daylight while also working during night time; it would likely be expensive to implement and maintain, due to the high computational requirements as well as the cost of replacing projector bulbs; it may be difficult to reliably ensure the image lines up correctly to the drivers perspective, due to differences in head height or position; but we do not have substantial evidence supporting these claims.
+After some internal discussions we also feel that: it would be difficult to ensure it works in bright daylight while also working during night time; it would likely be expensive to implement and maintain, due to the high computational requirements as well as the cost of replacing projector bulbs; it may be difficult to reliably ensure the image lines up correctly to the drivers perspective, due to differences in head height or position; but we do not have substantial evidence supporting these claims.
 
 As a result of dismissing the use of augmented reality for our final designs, the two currently popular methods of direction, delivery become the top choices from the QOC, and sticking with these choices seems to be a good idea since most of our questionnaire responders felt their SatNav devices were sufficiently clear already.
 
@@ -343,14 +347,9 @@ As a result of dismissing the use of augmented reality for our final designs, th
   \includegraphics[width=\linewidth]{qoc-nav-input}
   \caption{QOC discussing how to input a destination}\label{qoc-input}
 \end{figure}
-
 Figure~\ref{qoc-input} asks how the driver should be able to input destinations to their SatNav. As expected, the current standard forms of input score the most highly, being voice and touchscreen keyboard, along with the ability to transfer from external devices. We also considered having a physical keyboard connected to the SatNav device, which also scored highly, but we decided that having a usable keyboard like this would be far too clunky to include.
 
-Our final design features the ability to use all three of these input methods, allowing users to control the destination using the voice assistant
-%
-% We need to mention the existence of this elsewhere. (mentioned on trello)
-%
-in the car; a touchscreen keyboard which is displayed on the centre console; or sent to the car via the phone app, which is explained further in Section~\ref{sssec:car-cloud}~[\nameref{sssec:car-cloud}].
+Our final design features the ability to use all three of these input methods, allowing users to control the destination using the voice assistant in the car; a touchscreen keyboard which is displayed on the centre console; or sent to the car via the phone app, which is explained further in Section~\ref{sssec:car-cloud}~[\nameref{sssec:car-cloud}].
 
 \begin{figure}[H]
   \centering
@@ -364,7 +363,6 @@ Figure~\ref{qoc-map} asks how the map can be displayed on the navigation screen.
   \fbox{\includegraphics[width=\linewidth]{qoc-convoy}}
   \caption{QOC discussing how to display others in a convoy group}\label{qoc-convoy}
 \end{figure}
-
 Figure~\ref{qoc-convoy} asks how to represent other drivers in a convoy group on the map. We wanted the representation to distinguish between drivers who are moving and those who have stopped - and further, those who have made unexpected/unplanned stops - while also providing a suitable representation for if they are far away. We didn't have much to dispute with these QOC results, and all of the highest scoring options were taken through to the final design. As a mitigation for the profile picture being not easy to set up, we allow the user to sync their profile picture with social media, or to just use their initials. To allow further customisation, however, users may choose to have a basic coloured circle as their representation, since this may be desired especially in smaller groups.
 
 \subsubsection{Algorithm Justifications}\label{sssec:nav-design-alg}
@@ -375,7 +373,6 @@ We used QOC as well as experimentation to determine which routing algorithm to u
   \includegraphics[width=\linewidth]{qoc-nav-routing}
   \caption{QOC discussing search algorithms to be used for navigation}\label{qoc-nav-routing}
 \end{figure}
-
 Figure~\ref{qoc-nav-routing} discusses the different approaches to routing that we found during research. The best option according to our scoring system here is to use Google maps, since we could give start and end locations to a Google maps API to ensure efficiency in both calculation time and route. This was, however, an early consideration in our design process, and we realised that there were some large limitations to using this approach: we could not adapt the underlying algorithm and heuristic to suit our needs, meaning we could not introduce the preferences of the driver into the generated route; we would be limited in design space, especially with the convoys, since it may be difficult correctly synchronising features like waypoints, as well as the generated route, across the convoy; we also wanted to ensure that the routing could be performed offline, since Internet connectivity is not something that can be guaranteed.
 
 Bi-directional A* is therefore the algorithm we decided to use. We have access to the heuristic which allows us to introduce driver preferences and convoy waypoints; it works offline, as long as an offline map is stored; and it will still generate an efficient route, though it may be less so than if generated by Google maps.\\
@@ -387,7 +384,7 @@ We researched various machine learning algorithms to find some algorithms relati
 % Machine learning!
 %
 
-\subsection{Prototypes \& user testing}\label{ssec:nav-prototypes-testing}
+\subsection{Prototypes}\label{ssec:nav-prototypes-testing}
 
 \subsubsection{Lo-Fi Prototypes}
 \begin{figure}[H]
@@ -395,21 +392,19 @@ We researched various machine learning algorithms to find some algorithms relati
   \includegraphics[scale=0.5]{train-widget}
   \caption{Lo-fi design for how public transport information could be integrated into navigation}\label{train-widget}
 \end{figure}
-
 It was clear to us that public transport would be a valuable feature in our final design, so we created a design to see how the feature would look. Figure~\ref{train-widget} shows a route with destination set to a train station. The next trains leaving the station within $\pm$15 minutes of the estimated arrival time are shown on a menu to the right of the map, as provided by the public transport API data.
+
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{convoy-lofi}
   \caption{Lo-Fi design for travelling different routes in a convoy}\label{convoy-lofi}
 \end{figure}
-
 We had a lot of ideas surrounding the convoy functionality, so we created a Lo-Fi design to see how some of our ideas might look. Figure~\ref{convoy-lofi} presents a convoy with four drivers, investigating how certain situations would be displayed. Here, we see that the white car (representing the driver of the current car) and the blue car are following the same route, with purple following their own route; and each route being displayed slightly differently. The green car is too far away to be displayed on the map, so is shown at the edge with an arrow.
 
 \subsubsection{Hi-Fi Prototypes}
-
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.3]{convoy-map}
+  \includegraphics[width=\linewidth]{convoy-map}
   \caption{Hi-Fi final design for navigation including convoy members. Please note that this design shows a static map, whereas the map in the final design will rotate to keep the user facing forward}\label{convoy-map}
 \end{figure}
 During navigation, this map design in Figure~\ref{convoy-map} represents what is shown on the dedicated navigation screen (only, with a rotating map). We created this design to show off a lot of features at the same time: an instruction window in the top left describes the movement to take, a distance, and a preview of the junction; the current speed limit is shown in the top right, for the current road the driver is on.
@@ -445,7 +440,7 @@ Overall we are happy with the design of our navigation system, a lot of research
 \section{Feature 2: App}\label{sec:app}
 
 \subsection{Research}\label{ssec:app-research}
-Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar [\cite{jaguar-ws}], BMW [\cite{bmw-ws}] and Tesla[\cite{tesla-ws}] already offer multi-platform mobile apps that compliment their automobiles. Each of the above boasts at least one of the features that we intended to integrate into our systems such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features.
+Research and brainstorming were conducted in a cyclic manner to ensure that the latest technologies relevant to this sector of the automotive industry were taken into consideration. Extensive research revealed that most leading companies such as Jaguar [\textcite{jaguar-ws}], BMW [\textcite{bmw-ws}] and Tesla[\textcite{tesla-ws}] already offer multi-platform mobile apps that compliment their automobiles. Each of the above boasts at least one of the features that we intended to integrate into our systems such as remote control and seamless route porting from smartphone to car. From brainstorming through to coding the prototype, our focus was directed on how to improve on existing products and also integrate our novel features.
 The research methods we used included a questionnaire, installing and using manufacturers apps on our mobile devices, browsing their websites and reading through papers and articles found through numerous searches on search engines.
 
 While browsing the existing apps that manufacturers offer, we have come across some flaws that  we were determined to get right in our final product. For example, \textit{BMW Connected}, their take on an app to compliment their most recent cars, excels in features like learning driving habits over time and facilitating safe communication with friends and family while still requiring a wired connection for simple features like transferring a route from the phone to the cars' navigation system and having a restricted range for remote functions such as lock, beep horn and switch lights. Flaws of similar magnitude con be found in \textit{Jaguar In-Control apps} and \textit{Mercedes Me}, which is reviewed as unusable or useless by most users.
@@ -465,13 +460,13 @@ A section of our initial ideas brainstorming document can be seen in Figure~\ref
 
 \begin{figure}[H]
   \centering
-  \fbox{\includegraphics[scale=0.25]{initial-ideas}}
+  \fbox{\includegraphics[scale=0.27]{initial-ideas}}
   \caption{Initial ideas brainstorming document.}\label{initial-ideas}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \fbox{\includegraphics[scale=0.25]{refined-ideas}}
+  \fbox{\includegraphics[scale=0.23]{refined-ideas}}
   \caption{Refined ideas document.}\label{refined-ideas}
 \end{figure}
 
@@ -493,8 +488,7 @@ Users can also view the car cameras live video feed on their phones through our 
 
 The app shares a lot of the same data structures for maps and caching, see Section~\ref{ssec:data-structures}~[\nameref{ssec:data-structures}] for more details.
 
-\subsection{Design choices \& argumentation}\label{ssec:app-design}
-
+\subsection{Design choices \& Argumentation}\label{ssec:app-design}
 
 Our app is designed with a flat design. This aims to keep the interface minimalistic in the use of shading and colour gradients, keeping the elements looking flat against the background. Flat design is a standard in the mobile industry, so users are familiar with this design and it is proven to be a clear interface design.
 
@@ -502,11 +496,10 @@ The colour scheme in the app is synchronised with the colour schemes of the cent
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.6]{qoc-app-menu}
+  \includegraphics[width=\textwidth]{qoc-app-menu}
   \caption{QOC discussing how to lay out the main menu}\label{qoc-app-menu}
 \end{figure}
-
-Figure~\ref{qoc-app-menu} asks how we can lay out the main menu. Since this is an aesthetic design choice, the criteria focus on ensuring ease of use and accessibility. As can be seen from the matrix, it is clear that there are multiple good options: grid of images and text, which adds clarity to possibly ambiguous images while making it more aesthetically pleasing than a grid of text; tabbed layout, which places all the features on the main screen and scrolls sideways between them; and a navigation drawer - a vertical bar accessible at the side of the screen offering links to the different features.
+Figure~\ref{qoc-app-menu} asks how we can lay out the main menu. Since this is an aesthetic design choice, the criteria focus on ensuring ease of use and accessibility. As can be seen from the matrix, it is clear that there are multiple good options: grid of images and text, which adds clarity to possibly ambiguous images while making it more aesthetically pleasing than a grid of text; tabbed layout, which places all the features on the main screen and scrolls sideways between them; and a navigation drawer -- a vertical bar accessible at the side of the screen offering links to the different features.
 
 We decided to utilise all three of these options, which can be seen in Section~\ref{ssec:app-prototypes-testing}~[\nameref{ssec:app-prototypes-testing}], having a main menu with a grid layout of buttons showing image and text, which aims to mitigate the unclear functionality of a grid of only images through use of a textual description as well as using easily identifiable icons; a tab layout on the main menu to switch between a feed screen and the main menu; and a navigation drawer to allow easy access to a main menu from anywhere in the app.
 
@@ -515,7 +508,6 @@ We decided to utilise all three of these options, which can be seen in Section~\
   \includegraphics[scale=0.8]{qoc-app-connect}
   \caption{QOC discussing how to initially pair the car with the phone}\label{qoc-app-connect}
 \end{figure}
-
 Figure~\ref{qoc-app-connect} asks how the phone should initially connect to the car. These options are fairly close to each other in suitability, so we allow the user to use any of these methods for initial connection. However, after this initial connection, Wi-Fi is automatically paired so that the initial connection is no longer required, since this removes the restriction on the physical location of the device that RFID and USB suffer from (since both of these options require close proximity to a certain location in the car).
 
 Initially, we had intended for RFID to be the method for primary connection to the car, since we thought it would be the easiest to use. However, the QOC showed us that having wide device compatibility is a really important criteria for this, which is not true of RFID.
@@ -525,26 +517,30 @@ Initially, we had intended for RFID to be the method for primary connection to t
   \includegraphics[scale=0.8]{qoc-app-remote}
   \caption{QOC discussing how frequently to send remote control instructions}\label{qoc-app-remote}
 \end{figure}
-
 Figure~\ref{qoc-app-remote} asks how frequently the phone should send instructions to the car while operating the remote control feature. Remote controlling a car is a task where safety must be of paramount as we are dealing with heavy machinery. Since remote control is heavy relied on communication we tried to decide on how fast we should be sending messages. As you can see despite continuous streams of instructions  not being the best choice for processing messages efficiency wise, it is quick for responding to changes and detecting if the phone has disconnected. This is more important so that is why we decided to go with continuous streams of instructions.
 
-\subsection{Prototypes \& user testing}\label{ssec:app-prototypes-testing}
+\subsection{Prototypes}\label{ssec:app-prototypes-testing}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{app-lofi}
+  \includegraphics[width=0.9\textwidth]{app-lofi}
   \caption{Lo-Fi prototypes of app interfaces}\label{figure-app-lofi}
 \end{figure}
 
-When designing a lo-fi prototype for the app's main screen, we already had a good idea of the features we would like to add to it. Mainly because we had pre-emptively thought there would be a task for designing an app. This made it easy to come up with a early design.
+When designing a Lo-Fi prototype for the apps main screen, we already had a good mental picture of the features we would like to include mainly because we had pre-emptively planned to design and produce a companion app to complement the car systems which made it easier to produce an early design.
 
-These designs follow the design choices we came to a conclusion to in the previous section. On the home screen interface (left most image of Figure~\ref{figure-app-lofi}) we have large buttons paired with labels giving a brief description of what the buttons do. This provides an easy to use method for the users to go to any feature in the app, which is exactly what we wanted to achieve.
+These designs follow the design choices we came to concluded on in the previous section of this report. On the homescreen interface, (left most image of Figure~\ref{figure-app-lofi}) we have large image buttons paired with labels giving a brief description of what the buttons do, as our QOC in Figure~\ref{qoc-app-menu} suggests. This provides an easy to use method for the users to go to any feature in the app, which is exactly what we wanted to achieve.
+
+\vfill
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{app-hifi}
+  \includegraphics[width=0.9\textwidth]{app-hifi}
   \caption{Hi-Fi prototypes of app interfaces.}\label{figure-app-hifi}
 \end{figure}
-Following our QOC decision we created a Hi-Fi version of our app interfaces which is our final design. This was built in Android Studio and the interfaces are navigable through the buttons on the navigation drawer.
+
+\pagebreak
+
+\noindent Following our QOC decision we created a Hi-Fi version of our app interfaces which is our final design. This was built in Android Studio and the interfaces are navigable through the buttons on the navigation drawer.
 
 The user can access the navigation drawer from any page within the app. This ensures ease of use and accessibility which is what we desired in our design choices.
 
@@ -556,7 +552,7 @@ On the home screen (left most interface in Figure~\ref{figure-app-hifi}) we have
 On supported devices extra convenience methods for authenticating and unlocking app functionality will be provided to the users, extending all of the strong encryption and authentication methods that are put in place by the cloud and car systems.
 \begin{itemize}
   \item Fingerprint unlocking: Using the built-in hardware store for safely keeping the user password, a fingerprint can be used on supported devices to release the password, instead of prompting the user to type it in when loading the app.
-  \item Face recognition: Most commonly found on laptop computers with infrared cameras; this method of authentication isn't as secure as a biometric scanner as false-positive rates are typically higher however can identify and authenticate a user account in a similar way through the online portal or via a desktop app.
+  \item Facial recognition: Most commonly found on laptop computers with infrared cameras; this method of authentication isn't as secure as a biometric scanner as false-positive rates are typically higher however can identify and authenticate a user account in a similar way through the online portal or via a desktop app.
 \end{itemize}
 
 %\subsection{Final design}\label{ssec:app-final-design}
@@ -572,12 +568,42 @@ Overall we are happy with the design that we have created for the car app. The a
 
 % \end{multicols}
 
+\pagebreak
+
 \printbibliography
 
 \section{Appendix}\label{sec:appendix}
 \subsection{Documents}\label{ssec:appendix-docs}
+Personas
 
-\subsection{Other areas of the design}\label{ssec:appendix-other}
+\url{https://docs.google.com/document/d/1LDySjm3LuDSABpO4Sounv49cszN9n2q0DjQiKzdWrnM/edit?usp=sharing}
+
+\noindent
+Navigation brainstorm document
+
+\url{https://docs.google.com/document/d/1ZRNTIPmT3-DgfOZsJZwoyN8p2WKsqMHYNFpPFKdGmNk/edit?usp=sharing}
+
+\noindent
+Navigation questionnaire responses
+
+\url{https://docs.google.com/forms/d/1nlCkbIICjG3cHSXyHGH7QfTLfkrkmmEJt1Z9yLcikgg/viewanalytics}
+
+\noindent
+App initial ideas document
+
+\url{https://docs.google.com/document/d/1bB9Q5kqPYD5iPfVTCkZpWlosmrAipNHLLWczkGNvj3s/edit?usp=sharing}
+
+\noindent
+App refined ideas document
+
+\url{https://docs.google.com/document/d/1opFc4tHgJDN3p2_b-T6yrZMfR0FQB6YJaMbzN6N0c_k/edit?usp=sharing}
+
+\noindent
+App prototype repository
+
+\url{https://github.com/ChrisLane/car-control}
+
+\subsection{Annotated slide decks --- appended to report}\label{ssec:appendix-other}
 
 % ALL ANNOTATED SLIDES
 %\includepdf{slides-annotated}
