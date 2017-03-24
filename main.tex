@@ -35,7 +35,7 @@ For years car companies have invested relatively little into their car's informa
 We have created an attractive and modern solution for digital technology in a car that we hope to see in future modern cars in production. In Section~\ref{sec:system-design} we will give explain the technical elements of our system design that can be found ranging from navigation to safety features. In Section~\ref{sec:nav} we will go into detail on the design process of our navigation system. In Section~\ref{sec:app} we will go into detail on the design process of our accompanying smartphone app.
 
 \section{Overall system design}\label{sec:system-design}
-\subsection{General}
+\subsection{General}\label{ssec:system-design-general}
 Our system consists of many components, these are the centre console, the instrument cluster, rear back door screens, and a navigation screen. There is also, of course, the phone application that will be installed on user mobile devices.
 
 This centre console is the central computing unit for the car and has an android operating system. This will have a dual system architecture. The reason for this is because both systems will be flashed with the same image before a software update. This will allow one of the systems to be written with the new system image and have the previous image as a bootable backup in case the new system is corrupted.
@@ -74,12 +74,11 @@ Our design has three places that data will be stored, some data being temporary 
 
 The cloud will be used for the majority of storage, it is where persistent data will be synchronised to from the phone app and car. Storage for most data such as user profiles will be kept in an encrypted Oracle database. The cloud will store user profiles that contain details such as saved routes, privileges, seat preferences, dashboard layout, contacts and driver stats. The cloud will also store details about convoy groups, containing data on members, member locations, group messages, routes etc. Since the cloud hosts the API used by the car and app, other miscellaneous data will also be stored here such as software updates.
 
-The car's internal SSD storage will be used for fast reading and writing of synchronised files and cached data primarily. Data queried from the cloud will be cached to grant a more seamless experience even when the car is not connected to the internet. Examples of cached data from the cloud include favourite routes, dashboard layout and seat positions. Since the centre console system is built around the Android platform, we have been able to easily allow certain apps from the Play Store. One example of an app that we would allow on the system is Spotify, for music playback. The Spotify app will be able to store all of its settings, cached data and offline playlists in the car's internal storage as well. Local music files synchronised from a home network will be stored in the car's internal storage. The dashcams will also record their video to the internal storage of the car, this will be limited to a default percentage of the drive's capacity (SSD can be upgraded) and recordings will overwrite old footage in order to reuse the assigned storage space. The basic version of the system will likely have at least 120GB of SSD storage, however, this could easily be upgraded by swapping out the drive from the glove box.
-% * <frebib@gmail.com> 2017-03-22T12:19:33.906Z:
-%
-% It's probably worth mentioning that the SSD can be user replaceable and as a result the system is stored on a separate disk(s) internally within the car to accommodate such feature
-%
-% ^.
+The car's internal SSD storage will be used for fast reading and writing of synchronised files and cached data primarily. Data queried from the cloud will be cached to grant a more seamless experience even when the car is not connected to the internet. Examples of cached data from the cloud include favourite routes, dashboard layout and seat positions. Since the centre console system is built around the Android platform, we have been able to easily allow certain apps from the Play Store. One example of an app that we would allow on the system is Spotify, for music playback. The Spotify app will be able to store all of its settings, cached data and offline playlists in the car's internal storage as well. Local music files synchronised from a home network will be stored in the car's internal storage. 
+
+The dashboard cameras will also record their video to the internal storage of the car, this will be limited to a default percentage of the drive capacity (the storage SSD can be upgraded) and recordings will overwrite old footage in order to reuse the assigned storage space. The basic version of the system will likely have at least 120GB of SSD storage, however, this could easily be upgraded by swapping out the drive from the glove box.
+
+The system files are stored on a separate disk elsewhere in the car with the redundant backup system (see Section~\ref{ssec:system-design-general}~[\nameref{ssec:system-design-general}]) to allow for hot-swapping of the storage drive. This system allows the storage drive to be upgraded, replaced or swapped at any time without affecting the running system. 
 
 The accompanying car smartphone app does not require much storage at all since it must be connected to the internet or car to make any changes. Data from the cloud, car and app will be cached so that it may still be accessible for short connectivity outages.
 
@@ -194,7 +193,7 @@ Adhering to modern standards, in-car Wi-Fi only uses the most recent WPA2 specif
 \subsubsection{Two Factor Authentication}
 To promote good security habits, users are advised to enable `2 Factor Authentication' on their accounts via the standard method specified in RFC6238 `Time-Based One-Time Password Algorithm' \url{https://tools.ietf.org/html/rfc6238}. 2FA is a security tool which requires a second factor of authentication in the form of a 6 digit number, generated based on a seed provided by the cloud server which can either be generated from within any `authenticator' app or from within the phone app if the user is logged in.
 
-When a login attempt is generated, a notification is sent to any device that the user is logged in on asking to authenticate the request which after logging in and accepting will fulfil the request, bypassing the need to enter the code on the new device. 
+When a login attempt is generated, a notification is sent to any device that the user is logged in on asking to authenticate the request which after logging in and accepting will fulfil the request, bypassing the need to enter the code on the new device.crea
 
 \subsection{Interaction Design}\label{ssec:interaction-design} % Matt + is this done?
 The interaction designs used on our product's interfaces were designed loosely based on designs from industry leading companies but tailored to integrate our ideas and implement some recurrent suggestions found throughout our research, which has seen over 100 responses. Our product requires three main interactive interfaces for users to effectively communicate with the in-car system:
@@ -258,16 +257,18 @@ Some of the ideas that came from our brainstorm are: Convoy tracking using K-Mea
 \subsection{Technical Background}\label{ssec:nav-tech}
 \subsubsection{Routing algorithm}\label{sssec:nav-tech-routing}
 The routing algorithm we use is bidirectional A* search, performing a typical A* search from the start node to the destination, and another from the destination to the start node, in parallel. The aim is to produce a complete path by using the central intersection of the two searches from either end. The heuristic used for this search will incorporate:
-learnt user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver as well as preference of `fastest route' or `' ;
-roadwork and traffic information, gained from the APIs, which will apply a higher weight to roads based on their traffic levels.
-%
-% More details on the heuristic
-%
+\begin{itemize}
+	\item Learnt user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver as well as preference of `fastest route', `most direct route' or `shortest distance'
+	\item Roadwork and traffic information, gained from the APIs, which will apply a higher weight to roads based on their traffic levels
+	\item Traffic balancing using mass telemetry from other nearby vehicles, splitting traffic evenly across the possible routes to ease congestion on a larger scale. This option particularly is heavily weighted as to reliably keep traffic load split as evenly as possible
+\end{itemize}
+To ensure the route continues being optimal, the system polls the APIs every five minutes for updates to traffic conditions and roadworks. After this data has updated the graph, the search is re-run, with the start node being ahead of the current position in order to account for the latency in running the search. The search also re-runs when the driver leaves the current route, to make sure they are still travelling efficiently.
 
-In order to ensure the route continues being efficient, the system polls the APIs every five minutes for updates to traffic conditions and roadworks. After this data has updated the graph, the search is re-run, with the start node being ahead of the current position in order to account for the latency in running the search. The search also re-runs when the driver leaves the current route, to make sure they are still travelling efficiently.
 \subsubsection{Machine learning}\label{sssec:nav-tech-machinelearning}
-In order to suggest the optimal route for a specific user, the navigation system will make use of a Recommender System, which is a piece of software that uses a Machine Learning algorithm in order to guess a rating for a small set of routes based upon user habits. The 3 routes with the highest ratings will be 
-Reccommender system
+In order to suggest the optimal route for a specific user, the navigation system will make use of a Recommender System, which is a piece of software that uses a Machine Learning algorithm, and more specifically a Classification Tree, in order to guess a rating for a small set of routes based upon user habits. The 3 routes with the highest ratings will be shown to the user as a result of their search. Each tree represents a user profile created using the user’s preferences, extrapolated from the features of the routes they normally take, including how scenic a route is, type of roads (main or back roads), likelihood of heavy traffic and whether the driver is currently tired or not. All the possible features are placed in a binary vector, where each row corresponds to either of the features listed above. The rows of each vector that correspond to a specific feature of a route are marked with a one, while the rest is marked with a zero. Content-Based filtering is being used throughout this approach as we only use data relevant to the current user and do not compare data from different users as 
+
+Another content based method for user profiling is the multilayer feedforward neural network. The hidden layers consist of sigmoidal units, while the output layer consists of linear units. A separate neural network is trained for each user using only the ratings of that user. The movie features used in the training process are genres, actors and directors. A neural network predicts a specific user’s movie rating using those features. The features are represented using a binary vector, similar to the regression tree described in the last
+paragraph. The training is done using the Levenberg-Maquardt modification of the backpropagation learning algorithm [2].
 - Uses Context aware recommendations (time of day, traffic, etc)
     - Additionally Risk-Aware recommendations if the user is tired for example
 - Content-based filtering
@@ -385,11 +386,15 @@ We did not perform much research into clustering algorithms; we recalled k-means
     \includegraphics[scale=0.5]{train-widget}
     \caption{Lo-fi design for how public transport information could be integrated into navigation}\label{train-widget}
 \end{figure}
+
+It was clear to us that public transport would be a valuable feature in our final design, so we created a design to see how the feature would look. Figure~\ref{train-widget} shows a route with destination set to a train station. The next trains leaving the station within $\pm$15 minutes of the estimated arrival time are shown on a menu to the right of the map, as provided by the public transport API data.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{convoy-lofi}
   \caption{Lo-Fi design for travelling different routes in a convoy}\label{convoy-lofi}
 \end{figure}
+
+We had a lot of ideas surrounding the convoy functionality, so we created a Lo-Fi design to see how some of our ideas might look. Figure~\ref{convoy-lofi} presents a convoy with four drivers, 
 
 \subsubsection{Hi-Fi Prototypes}
 
@@ -506,11 +511,9 @@ Figure~\ref{qoc-app-remote} asks how frequently the phone should send instructio
   \caption{Lo-Fi prototypes of app interfaces}\label{figure-app-lofi}
 \end{figure}
 
--- Talk about how this prototype matches the design choice in previous section
-
 When designing a lo-fi prototype for the app's main screen, we already had a good idea of the features we would like to add to it. Mainly because we had pre-emptively thought there would be a task for designing an app. This made it easy to come up with a early design.
 
-We looked at popular android apps to decide on a layout which the user would be familiar with. This was deemed to be layouts with large buttons and text describing what the buttons do, which was confirmed the best by our QOC discussions.
+These designs follow the design choices we came to a conclusion to in the previous section. In the home screen (left most image of Figure \ref{figure-app-lofi}) we have large buttons paired with labels giving a brief description of what the buttons do.  
 
 \begin{figure}[H]
   \centering
@@ -519,11 +522,11 @@ We looked at popular android apps to decide on a layout which the user would be 
 \end{figure}
 Following our QOC decision we created a Hi-Fi version of our app interfaces which is our final design. This was built in Android Studio and the interfaces are navigable through the buttons on the navigation drawer.
 
-
+The user can access the navigation drawer from any page within the app. This ensures ease of use and accessibility which is what we desired in our design choices.
 
 On entering the app the user is prompted for to login or register an account. After successfully doing so they are presented with the feed interface (right most interface in Figure \ref{figure-app-hifi}) which is intended to show information based on the users context and latest updates. For example if users are away from their car they will have feed items such as car location and access to their car's cameras. This is because those features are intended to be used while the car owner is not with their car.
 
-On the home screen (left most interface in Figure \ref{figure-app-hifi}) we have a simple list of functions, these are selectable buttons which have labels on them. This list is scrollable so more features can easily be added in the future. We tried to keep this design to the best QOC option that we found for laying out the main menu.
+On the home screen (left most interface in Figure \ref{figure-app-hifi}) we have a simple list of functions, these are selectable buttons which have labels on them. This list is scrollable so more features can easily be added in the future. We successfully kept this design to follow the best QOC option that we found for laying out the main menu.
 
 
 
@@ -539,10 +542,15 @@ On supported devices extra convenience methods for authenticating and unlocking 
 
 \subsection{Evaluation \& How it Fits The System}\label{ssec:app-evaluation}
 
-\section{Other areas}\label{sec:other}
-Annotate slides on changes we would make going forwards
+
+% \end{multicols}
 
 \printbibliography
+
+\section{Appendix}\label{sec:appendix}
+\subsection{Documents}\label{ssec:appendix-docs}
+
+\subsection{Other areas of the design}\label{ssec:appendix-other}
 
 %\includepdf[pages=1-5]{slides}
 %\includepdf[pages=6]{slides-annotated}
@@ -579,8 +587,6 @@ Annotate slides on changes we would make going forwards
 %\includepdf[pages=80]{slides}
 %\includepdf[pages=81]{slides-annotated}
 %\includepdf[pages=82-83]{slides}
-
-% \end{multicols}
 
 \end{document}
 
