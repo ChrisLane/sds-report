@@ -102,9 +102,9 @@ The smartphone app for the car system will use the same data structure for maps 
 
 \subsection{User Accounts}\label{ssec:user-accounts} % Matt
 Something that we found is lacking across intelligent car systems in the market is the use of portable user profiles. By this we mean profiles that can be used across several cars, applying user settings and preferences where applicable.
-There are several ways in which such data can be encapsulated and moved from car to car, including serving a database from a server to the car, transport via Bluetooth directly from a smartphone, use of NFC tags and many others.
+These user profiles are shared from car to car by syncing user information files from the cloud. This is only done when the user has logged into the car and authenticated themselves with the cloud.
 \subsubsection{Storage and transport}
-The method we found most suitable for doing this works by storing the data relative to each user profile online in an SQLite database and then serving it either directly to the car when a user logs in from in-car interfaces or to a smartphone application. Following this, the user is able to transfer the data to the car via Bluetooth with the press of a button. The data is cached on the phone and car, as applicable, to allow access even when internet access is limited or not available.
+The method we found most suitable for doing this works by storing the data relative to each user profile in an local SQLite database. Information is then served directly to the car when a user logs in from in-car interfaces if the login is verified by the cloud. The data is cached on the phone and car, as applicable, to allow access even when internet access is limited or not available.
 \subsubsection{Cardinality of accounts, vehicles and shared data}
 Each user will have one account that will be able to contain multiple car profiles. Car profiles can share generic information, such as preferences regarding routing, music, favourite temperatures, speed dial contacts, etcetera if the user specifies so. Information specific to the car make and model, such as steering rack height, seat adjustments, wing mirror adjustments shall stay bonded to each car profile.
 \begin{figure}[H]
@@ -243,14 +243,11 @@ We also gained some insight into some design decisions we should take, with a ma
 
 We also performed some research to find out exactly what kind of features are currently offered by SatNav systems. As part of this research, we discovered that a lot of our brainstorming ideas are already in active development by some companies. A lot of these concepts are being produced by Google into usable products already: if you search for a location on Google Maps, there is an option to send the location to the Maps app on your phone; your movements are analysed by Google to determine favourite places and routes. The use the data collected from your location history and search history to better provide suggestions for future searches and infer useful information based on frequent and popularly visited destinations to provide smartphone notifications.  
 
-During this research, however, we could not find any recent implementation nor professional research into our ideas for the concept of `convoy driving'. The closest concept to this we could find was the `Garmin Tracker' which seems to have very limited functionality for tracking a person who owns a Garmin SatNav, for uses such as knowing when a family member should reach home. It also appears that this feature is only included in a limited subset of the Garmin models, which seem to have been discontinued.~\cite{garmin-tracker}
-% If we're going with Harvard referencing (must finish the reference if so)
-mentions the existence of this tracker, stating ``this could be useful if you are in a big group and you have more than one car travelling to the same destination'', but does not elaborate further, and we cannot find documentation from Garmin as to whether this is the exact use of this tracker.
-% Complete above paragraph? Might be finished now
+During this research, however, we could not find any recent implementation nor professional research into our ideas for the concept of `convoy driving'. The closest concept to this we could find was the `Garmin Tracker' which seems to have very limited functionality for tracking a person who owns a Garmin branded SatNav, for purposes such as knowing when a family member should arrive home. It also appears that this feature is only included in a limited subset of the Garmin models, which seem to have been discontinued. \cite{garmin-tracker}~mentions the existence of this tracker, stating ``this could be useful if you are in a big group and you have more than one car travelling to the same destination'', but does not elaborate further, and we cannot find documentation from Garmin as to whether this is the exact use of this tracker.
 
 \subsection{Brainstorming}\label{ssec:nav-brainstorming} % Matt
 % Should we include our initial ideas document?
-In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down all the ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible, during this stage, all ideas were noted down and considered, no matter how far-fetched. Following the initial stage, and an iteration of research, we went through the document and filtered it, as a group, for the concepts that we wanted to take forward in our design. During the second stage of brainstorming, we created a new document, containing only the chosen ideas to expand and research them in more depth.
+In the first stage of our brainstorming we created a Google document which allowed us to collaboratively write down any initial the ideas we could come up with. By discussing them within our group, new ideas kept being generated and even different variations of the ideas we already had. In order to keep the design space as open as possible, during this stage, all ideas were noted down and considered, no matter how far-fetched. Following the initial stage, and an iteration of research, we went through the document and filtered it, as a group, for the concepts that we wanted to take forward in our design. During the second stage of brainstorming, we created a new document, containing only the chosen ideas to expand and research them in more depth.
 
 An aid we found very useful was personas, a list of made-up personalities with realistic interests, jobs and attributes. During the brainstorming each of us tried to empathise with the different personas and think about their habits, things they enjoy, their mental states throughout different times of the day and from there, think of their needs, features they would enjoy and why.
 % The personas are mentioned here, do we introduce them somewhere? Should it be in a research section or expanded upon here? -Lewis
@@ -342,7 +339,7 @@ Figure~\ref{qoc-input} asks how the driver should be able to input destinations 
 
 Our final design features the ability to use all three of these input methods, allowing users to control the destination using the voice assistant
 %
-% We need to mention the existence of this elsewhere
+% We need to mention the existence of this elsewhere. (mentioned on trello)
 %
 in the car; a touchscreen keyboard which is displayed on the centre console; or sent to the car via the phone app, which is explained further in Section~\ref{sssec:car-cloud}~[\nameref{sssec:car-cloud}].
 
@@ -376,7 +373,7 @@ Bi-directional A* is therefore the algorithm we decided to use. We have access t
 
 We did not perform much research into clustering algorithms; we recalled k-means clustering from a previous University module and it worked well to do what we needed it for. Since this forms only a relatively small part of the overall system, and should only need to be used once per convoy route, there was very little to be gained from using a different algorithm for this.
 
-We researched various machine learning algorithms to find some algorithms relating to the learning of user preferences
+We researched various machine learning algorithms to find some algorithms relating to the learning of user preferences. The first that we found, as described in Section~\ref{nav-tech-machinelearning}~[\nameref{nav-tech-machinelearning}], fulfilled our requirements for this, meaning that other algorithms would provide negligible benefit over this algorithm.
 %
 % Machine learning!
 %
