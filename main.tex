@@ -109,9 +109,9 @@ The smartphone app for the car system will use the same data structure for maps 
 \subsection{User Accounts}\label{ssec:user-accounts} % Matt
 Something that we found is lacking across intelligent car systems in the market is the use of portable user profiles. By this we mean profiles that can be used across several cars, applying user settings and preferences where applicable.
 These user profiles are shared from car to car by syncing user information files from the cloud. This is only done when the user has logged into the car and authenticated themselves with the cloud.
-\subsubsection{Storage and transport}
+\subsubsection{Storage and Transport}
 The method we found most suitable for doing this works by storing the data relative to each user profile in an local SQLite database. Information is then served directly to the car or mobile phone when a user logs in on the device. This is only if the login is verified by the cloud. The data is cached on the phone and car, as applicable, to allow access to user profile information even when internet access is limited or not available.
-\subsubsection{Cardinality of accounts, vehicles and shared data}
+\subsubsection{Cardinality of Accounts, Vehicles and Shared Data}
 Each user will have one account that will be able to contain multiple car profiles. Car profiles can share generic information, such as preferences regarding routing, music, favourite temperatures, speed dial contacts, etcetera if the user specifies so. Information specific to the car make and model, such as steering rack height, seat adjustments, wing mirror adjustments shall stay bonded to each car profile.
 \begin{figure}[H]
   \centering
@@ -122,7 +122,7 @@ Each user will have one account that will be able to contain multiple car profil
 \subsection{Communications \& Data Flows}\label{ssec:communications-data} %Tyler
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
 
-\subsubsection{Communication between devices and cloud}\label{sssec:car-cloud}
+\subsubsection{Communication Between Devices and The Cloud}\label{sssec:car-cloud}
 The car and mobile app communicate with the cloud mainly to synchronise information. The device sends hashes and timestamps of their files to the server, which compares them with the latest versions. The files which are different are sent back to the devices for synchronisation.
 
 Since the car and the mobile app can both change user profile settings, there will be continuous syncs when user settings or preferences are changed. This is so the user can change their settings away from their car with their phone, and have them set up automatically the next time they enter their car.
@@ -420,19 +420,15 @@ This prototype is expanded by means of an animation, which can be found at \url{
 \subsection{Evaluation}\label{ssec:nav-evaluation}
 From our research we learnt a lot about what people find to be lacking in current navigation systems and so we learnt a lot about how to improve upon them in ours. We aimed for our designs to meet the criteria of being easy to use, reliable and feature complete for the expectations of the modern consumer.
 
-% Routes synchronised from the cloud, can be created from other devices first.
 Peoples lives are usually managed from their smartphone nowadays and so it seems reasonable for a person to be able to create a route on their phone and then access it in their car. With our system we have implemented this feature that won't be found on most modern cars to make planning a trip even easier.
 
-% Public transport for da modern mandem
 In many countries road upgrades have been slow and so taking public transport in the morning commute is the fastest way to get to work. We wanted to help people travelling to transport hubs be more aware of when their transport is leaving and if they'll be on time or not. We believe that the way we have designed this feature is informative while not being intrusive on the current screen, thus following the criteria that we set out to meet for our overall navigation system.
 
-% Convoys are cool
 Possibly one of our favourite features in our car system are the convoys. We've not seen any meaningful convoy systems in existing navigation systems and believe that ours has been designed to be useful and easy to use. The system is featureful and flexible to handle a variety of different use cases.
 
 While we found that implementing our system using Google Maps APIs would be the easiest and likely most efficient way of implementing our routing systems, having our own custom algorithms and setup means that we have the flexibility to tweak algorithm heuristics to provide the best routes tailoured to the driver.
 
 Overall we are happy with the design of our navigation system, a lot of research and work has been put into the system and this shows from the level of detail that we have in both technical and visual designs.
-
 
 %%%%%%%%%%%%%%
 %
