@@ -122,7 +122,7 @@ Each user will have one account that will be able to contain multiple car profil
 \subsection{Communications \& Data Flows}\label{ssec:communications-data} %Tyler
 Within our system, we have communications between the Mobile App, the Car and our Cloud, with links to external APIs.
 
-\subsubsection{Communication Between Devices and The Cloud}\label{sssec:car-cloud}
+\subsubsection{Communication Between Devices and Cloud}\label{sssec:car-cloud}
 The car and mobile app communicate with the cloud mainly to synchronise information. The device sends hashes and timestamps of their files to the server, which compares them with the latest versions. The files which are different are sent back to the devices for synchronisation.
 
 Since the car and the mobile app can both change user profile settings, there will be continuous syncs when user settings or preferences are changed. This is so the user can change their settings away from their car with their phone, and have them set up automatically the next time they enter their car.
@@ -137,7 +137,7 @@ All the system updates for the car's software will be downloaded from the cloud.
 
 The cloud will always be listening for real-time event data. This is the kind of events that would be happening live, such as if someone is breaking into your car or for some reason the car alarm has just gone off. Once in the cloud, this information would be passed straight to the car owners phone via the app to alert them.
 
-\subsubsection{Communication between car and phone}\label{sssec:car-phone}
+\subsubsection{Communication Between Car and phone}\label{sssec:car-phone}
 Communications between the car and the phone consist of initial connection, instructions and data transfer. Establishing a connection is done by pairing the phone to the car by means of NFC, this will authenticate the phone with the car for communications over Bluetooth and Wi-Fi. Authentication can also be achieved by typical manual methods such as typing in a password. There will also be the standard Bluetooth communication between the phone and the car such as sharing contacts and taking calls.
 
 Many features of the app communicate with the car, these features are described in Section~\ref{ssec:app-tech}~[\nameref{ssec:app-tech}]
