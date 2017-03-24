@@ -60,7 +60,7 @@ We take advantage of K-means clustering at the start of a convoy routing to grou
 
 As a safety feature we detect if drivers are distracted by tracking their face pose. We have a camera for tracking the drivers face in the driver-side pillar directed at the seat, and we process this feed using ASM landmarks. This reliably gives us information on where the driver is looking, according to the conclusion~\cite{head-pose} made comparing ASM with other head pose detection methods. With this information we can make an informed decision and ultimately conclude if the driver is distracted and act accordingly.
 
-We also keep a brief history of head poses exhibited by the driver, to analyse as part of tiredness detection. If the drivers eyes are closing for long periods of time or their head is lowering frequently, we trigger tiredness alleviation responses such as turning on air conditioning and suggesting that they are re-routed to a service station.
+We also keep a brief history of head poses exhibited by the driver, to analyse as part of tiredness detection. If the drivers eyes are closing for extended periods of time or their head is lowering frequently, we trigger tiredness alleviation responses such as turning on air conditioning and suggesting that they are re-routed to a service station.
 
 \begin{itemize}
   \item Learning algorithm --- user preferences, Contextually Aware Routing etc
