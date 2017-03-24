@@ -242,10 +242,8 @@ We also gained some insight into some design decisions we should take, with a ma
 % Link to survey responses?
 
 We also performed some research to find out exactly what kind of features are currently offered by SatNav systems. As part of this research, we discovered that a lot of our brainstorming ideas are already in active development by some companies. A lot of these concepts are being produced by Google into usable products already: if you search for a location on Google Maps, there is an option to send the location to the Maps app on your phone; your movements are analysed by Google to determine favourite places and routes. The use the data collected from your location history and search history to better provide suggestions for future searches and infer useful information based on frequent and popularly visited destinations to provide smartphone notifications.  
-% Probably more to say here...
-During this research, however, we could not find any current implementation nor professional research into our ideas for convoy driving. The closest concept to this we could find was the Garmin Tracker
-% Reference... not sure how we're doing references to external sources, yet. Also might be worth only referencing this lower down.
-which seems to have very limited functionality for tracking a person who owns a Garmin SatNav, for uses such as knowing when a family member should reach home. It also appears that this feature is only included in a limited subset of the Garmin models, which seem to have been discontinued.~\cite{garmin-tracker}
+
+During this research, however, we could not find any recent implementation nor professional research into our ideas for the concept of `convoy driving'. The closest concept to this we could find was the `Garmin Tracker' which seems to have very limited functionality for tracking a person who owns a Garmin SatNav, for uses such as knowing when a family member should reach home. It also appears that this feature is only included in a limited subset of the Garmin models, which seem to have been discontinued.~\cite{garmin-tracker}
 % If we're going with Harvard referencing (must finish the reference if so)
 mentions the existence of this tracker, stating ``this could be useful if you are in a big group and you have more than one car travelling to the same destination'', but does not elaborate further, and we cannot find documentation from Garmin as to whether this is the exact use of this tracker.
 % Complete above paragraph? Might be finished now
@@ -378,6 +376,7 @@ Bi-directional A* is therefore the algorithm we decided to use. We have access t
 
 We did not perform much research into clustering algorithms; we recalled k-means clustering from a previous University module and it worked well to do what we needed it for. Since this forms only a relatively small part of the overall system, and should only need to be used once per convoy route, there was very little to be gained from using a different algorithm for this.
 
+We researched various machine learning algorithms to find some algorithms relating to the learning of user preferences
 %
 % Machine learning!
 %
