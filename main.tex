@@ -258,7 +258,7 @@ Some of the ideas that came from our brainstorm are: Convoy tracking using K-Mea
 \subsection{Technical Background}\label{ssec:nav-tech}
 \subsubsection{Routing algorithm}\label{sssec:nav-tech-routing}
 The routing algorithm we use is bidirectional A* search, performing a typical A* search from the start node to the destination, and another from the destination to the start node, in parallel. The aim is to produce a complete path by using the central intersection of the two searches from either end. The heuristic used for this search will incorporate:
-learnt user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver as well as preference of `fastest route' or `' ;
+learnt user habits \& preferences, applying lower weight to road types preferred by the driver such as if they frequently divert through smaller roads, and applying a higher weight to road types that tend to be avoided by the driver as well as preference of `fastest route' or `shortest dis' ;
 roadwork and traffic information, gained from the APIs, which will apply a higher weight to roads based on their traffic levels.
 %
 % More details on the heuristic
@@ -385,6 +385,8 @@ We did not perform much research into clustering algorithms; we recalled k-means
     \includegraphics[scale=0.5]{train-widget}
     \caption{Lo-fi design for how public transport information could be integrated into navigation}\label{train-widget}
 \end{figure}
+
+\textit{}
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{convoy-lofi}
